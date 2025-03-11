@@ -66,9 +66,9 @@ extension ViewController: NSTableViewDelegate {
             textField.stringValue = zoneData(for: column, at: row)
         }
 
-//        if let imageView = cell.imageView {
-//            print("ImageViewFound")
-//        }
+        if let imageView = cell.imageView {
+            imageView.image = image(for: zoneData(for: .ZoneType, at: row))
+        }
 
         return cell
     }
@@ -87,6 +87,10 @@ extension ViewController: NSTableViewDelegate {
         case .ID: return dataManager.zones[index].id
         case .ZoneType: return dataManager.zones[index].type
         }
+    }
+
+    private func image(for type: String) -> NSImage? {
+        return type == "NATIVE" ? NSImage(systemSymbolName: "n.circle", accessibilityDescription: "") : NSImage(systemSymbolName: "s.circle", accessibilityDescription: "")
     }
 }
 
