@@ -8,15 +8,21 @@
 import Cocoa
 
 class ViewController: NSViewController {
-    @IBOutlet weak var outlineView: NSOutlineView!
-
+    @IBOutlet weak var zoneTableView: NSTableView!
+    @IBOutlet weak var detailTableView: NSTableView!
+    @IBOutlet var zoneNameLabel: NSTextField!
+    
     let dataManager = IONOSDataManager.shared
+    let detailDataManager = DNSRecordDataManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dataManager.delegate = self
-        outlineView.dataSource = self
-        outlineView.delegate = self
+        zoneTableView.dataSource = self
+        zoneTableView.delegate = self
+
+        detailTableView.dataSource = detailDataManager
+        detailTableView.delegate = detailDataManager
     }
 
     override var representedObject: Any? {
@@ -41,63 +47,51 @@ extension ViewController: IONOSDataManagerDelegate {
             toolbar.circularProgressView.startAnimation(nil)
         } else {
             toolbar.circularProgressView.stopAnimation(nil)
-            outlineView.reloadData()
+            zoneTableView.reloadData()
         }
     }
 }
 
-extension ViewController: NSOutlineViewDelegate {
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        guard
-            let tableColumn = tableColumn,
-            let column = Column(from: tableColumn.identifier)
-        else {
-            return nil
-        }
-
+extension ViewController: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        guard let column = Column(from: tableColumn?.identifier) else { return nil }
         let cellIdentifier = NSUserInterfaceItemIdentifier(column.cellIdentifier)
 
-        guard let cell = outlineView.makeView(
+        guard let cell = tableView.makeView(
             withIdentifier: cellIdentifier,
             owner: self) as? NSTableCellView
-        else {
-            return NSTableCellView()
-        }
+        else { return NSTableCellView() }
 
         if let textField = cell.textField {
-            switch column {
-            case .Zone: textField.stringValue = (item as? Zone)?.name ?? "NO DATA"
-            case .ID: textField.stringValue = (item as? Zone)?.id ?? "NO DATA"
-            case .ZoneType: textField.stringValue = (item as? Zone)?.type ?? "NO DATA"
-            }
+            textField.stringValue = zoneData(for: column, at: row)
         }
+
+//        if let imageView = cell.imageView {
+//            print("ImageViewFound")
+//        }
 
         return cell
     }
 
-    func outlineViewSelectionDidChange(_ notification: Notification) {
-        let selectionItem = outlineView.item(atRow: outlineView.selectedRow)
-        if let selectedZone = selectionItem as? Zone {
-            // Here is where we will load the tableview data manager
-            print(dataManager.zoneDetails[selectedZone.id])
-        }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        let selectedZone = dataManager.zones[zoneTableView.selectedRow]
+        zoneNameLabel.stringValue = selectedZone.name
+        detailDataManager.zoneDetails = dataManager.zoneDetails[selectedZone.id]
+        detailTableView.reloadData()
     }
 
-    func outlineView(_ outlineView: NSOutlineView, didClick tableColumn: NSTableColumn) {
-
+    private func zoneData(for column: Column, at index: Int) -> String {
+        switch column {
+        case .Zone: return dataManager.zones[index].name
+        case .ID: return dataManager.zones[index].id
+        case .ZoneType: return dataManager.zones[index].type
+        }
     }
 }
 
-extension ViewController: NSOutlineViewDataSource {
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+extension ViewController: NSTableViewDataSource {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return dataManager.zones.count
-    }
-
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        return dataManager.zones[index]
-    }
-
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        false
     }
 }

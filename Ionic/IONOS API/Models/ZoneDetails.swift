@@ -33,16 +33,16 @@ struct ZoneDetails: Codable {
     let name: String
     let type: String
     let records: [DNSRecord]
+}
 
-    struct DNSRecord: Codable {
-        let id: String
-        let name: String
-        let rootName: String
-        let type: String
-        let content: String
-        let changeDate: String
-        let ttl: Int
-        let prio: Int?
-        let disabled: Bool
-    }
+struct DNSRecord: Codable {
+    let id: String
+    let name: String
+    let rootName: String
+    let type: String
+    let content: String
+    let changeDate: String
+    let ttl: Int
+    let prio: Int?
+    let disabled: Bool
 }
