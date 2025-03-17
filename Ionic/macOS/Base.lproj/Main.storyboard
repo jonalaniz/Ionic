@@ -790,6 +790,44 @@
             </objects>
             <point key="canvasLocation" x="75" y="376"/>
         </scene>
+        <!--Window Controller-->
+        <scene sceneID="Gj3-Og-fNI">
+            <objects>
+                <windowController id="zIV-Kw-Yxt" sceneMemberID="viewController">
+                    <window key="window" title="Dynamic DNS" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="2ui-0w-pcP">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="270" y="345" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1800" height="1131"/>
+                        <view key="contentView" id="WDB-eT-Pgb">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="zIV-Kw-Yxt" id="QYl-6W-HRh"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="xYr-fR-H3U" kind="relationship" relationship="window.shadowedContentViewController" id="zjO-8s-ybZ"/>
+                    </connections>
+                </windowController>
+                <customObject id="wwt-pL-jit" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="918" y="264"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="4r1-kO-Us5">
+            <objects>
+                <viewController id="xYr-fR-H3U" sceneMemberID="viewController">
+                    <view key="view" id="bK3-ud-Nof">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="7xL-BV-RQT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1625" y="233"/>
+        </scene>
         <!--Split View Controller-->
         <scene sceneID="8T2-dJ-hXC">
             <objects>

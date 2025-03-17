@@ -17,9 +17,12 @@ class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource
 
     var zoneDetails: ZoneDetails? {
         didSet {
+            sortRecords()
             notifyDelegate()
         }
     }
+
+    var records = [DNSRecordResponse]()
 
     private override init() {}
 
@@ -28,12 +31,17 @@ class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        guard let record = zoneDetails?.records[row] else { return nil }
+        let record = records[row]
         let identifier = NSUserInterfaceItemIdentifier("RecordCell")
         guard let cell = tableView.makeView(withIdentifier: identifier, owner: self) as? RecordCell else { return nil }
 
         cell.record = record
         return cell
+    }
+
+    private func sortRecords() {
+        guard let unsortedRecords = zoneDetails?.records else { return }
+        records = unsortedRecords.sorted { $0.name < $1.name }
     }
 
     private func notifyDelegate() {
