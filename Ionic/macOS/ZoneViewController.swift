@@ -1,38 +1,27 @@
 //
-//  ViewController.swift
+//  ZoneView.swift
 //  Ionic
 //
-//  Created by Jon Alaniz on 3/8/25.
+//  Created by Jon Alaniz on 3/11/25.
 //
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ZoneViewController: NSViewController {
     @IBOutlet weak var zoneTableView: NSTableView!
-    @IBOutlet weak var detailTableView: NSTableView!
-    @IBOutlet var zoneNameLabel: NSTextField!
-    
+
     let dataManager = IONOSDataManager.shared
-    let detailDataManager = DNSRecordDataManager.shared
+    let recordDataManager = DNSRecordDataManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dataManager.delegate = self
         zoneTableView.dataSource = self
         zoneTableView.delegate = self
-
-        detailTableView.dataSource = detailDataManager
-        detailTableView.delegate = detailDataManager
-    }
-
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
     }
 }
 
-extension ViewController: IONOSDataManagerDelegate {
+extension ZoneViewController: IONOSDataManagerDelegate {
     func stateDidChange(_ state: DataManagerState) {
         switch state {
         case .uninitialized: break
@@ -52,7 +41,7 @@ extension ViewController: IONOSDataManagerDelegate {
     }
 }
 
-extension ViewController: NSTableViewDelegate {
+extension ZoneViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let column = Column(from: tableColumn?.identifier) else { return nil }
         let cellIdentifier = NSUserInterfaceItemIdentifier(column.cellIdentifier)
@@ -73,12 +62,9 @@ extension ViewController: NSTableViewDelegate {
         return cell
     }
 
-
     func tableViewSelectionDidChange(_ notification: Notification) {
         let selectedZone = dataManager.zones[zoneTableView.selectedRow]
-        zoneNameLabel.stringValue = selectedZone.name
-        detailDataManager.zoneDetails = dataManager.zoneDetails[selectedZone.id]
-        detailTableView.reloadData()
+        recordDataManager.zoneDetails = dataManager.zoneDetails[selectedZone.id]
     }
 
     private func zoneData(for column: Column, at index: Int) -> String {
@@ -94,7 +80,7 @@ extension ViewController: NSTableViewDelegate {
     }
 }
 
-extension ViewController: NSTableViewDataSource {
+extension ZoneViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return dataManager.zones.count
     }
