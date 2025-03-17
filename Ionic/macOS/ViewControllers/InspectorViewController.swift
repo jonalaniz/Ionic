@@ -10,7 +10,7 @@ import Cocoa
 class InspectorViewController: NSViewController {
     @IBOutlet weak var noSelectionLabel: NSTextField!
 
-    var dnsRecord: DNSRecord? {
+    var dnsRecord: DNSRecordResponse? {
         didSet {
             toggleInspector(itemIsSelected: true)
         }
@@ -22,7 +22,7 @@ class InspectorViewController: NSViewController {
     }
 
     func toggleInspector(itemIsSelected: Bool) {
-        noSelectionLabel.isHidden = !itemIsSelected
+        noSelectionLabel.isHidden = itemIsSelected
     }
 
 }

@@ -7,9 +7,19 @@
 
 import Cocoa
 
+protocol DNSRecordDataManagerDelegate: NSObject {
+    func recordWasUpdated(_ recordName: String)
+}
+
 class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource {
     static let shared = DNSRecordDataManager()
-    var zoneDetails: ZoneDetails?
+    weak var delegate: DNSRecordDataManagerDelegate?
+
+    var zoneDetails: ZoneDetails? {
+        didSet {
+            notifyDelegate()
+        }
+    }
 
     private override init() {}
 
@@ -24,5 +34,10 @@ class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource
 
         cell.record = record
         return cell
+    }
+
+    private func notifyDelegate() {
+        guard let name = zoneDetails?.name else { return }
+        delegate?.recordWasUpdated(name)
     }
 }

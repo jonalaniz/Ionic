@@ -12,6 +12,7 @@ class Toolbar: NSToolbar {
     @IBOutlet weak var privateKeyField: NSSecureTextField!
     @IBOutlet weak var connectButton: NSButton!
     @IBOutlet weak var circularProgressView: NSProgressIndicator!
+    @IBOutlet weak var window: NSWindow!
 
     let dataManager = IONOSDataManager.shared
 
@@ -27,5 +28,14 @@ class Toolbar: NSToolbar {
     @IBAction func connect(_ sender: NSButton) {
         guard publicKeyField.stringValue != "" && privateKeyField.stringValue != "" else { return }
         dataManager.setKeys(publicKey: publicKeyField.stringValue, privateKey: privateKeyField.stringValue)
+    }
+
+    @IBAction func toggleInspector(_ sender: NSButton) {
+        guard
+            let splitViewController = window?.contentViewController as? NSSplitViewController,
+            let splitViewItem = splitViewController.splitViewItems.last
+        else { return }
+
+        splitViewItem.animator().isCollapsed.toggle()
     }
 }

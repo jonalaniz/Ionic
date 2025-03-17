@@ -32,7 +32,7 @@ class RecordCell: NSTableCellView {
     @IBOutlet weak var changeDateLabel: NSTextField!
     @IBOutlet weak var ttlLabel: NSTextField!
     
-    var record: DNSRecord? {
+    var record: DNSRecordResponse? {
         didSet {
             updateCell()
         }
@@ -51,7 +51,7 @@ class RecordCell: NSTableCellView {
         guard let record = record else { return }
         idLabel.stringValue = "ID: \(record.id)"
         nameLabel.stringValue = record.name
-        typeLabel.stringValue = "Type: \(record.type)"
+        typeLabel.stringValue = "Type: \(record.type.rawValue)"
         contentLabel.stringValue = "Content: \(record.content)"
         changeDateLabel.stringValue = "Change Date: \(record.changeDate)"
         ttlLabel.stringValue = "TTL: \(record.ttl)"

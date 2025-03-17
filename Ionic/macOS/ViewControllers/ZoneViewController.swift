@@ -51,13 +51,8 @@ extension ZoneViewController: NSTableViewDelegate {
             owner: self) as? NSTableCellView
         else { return NSTableCellView() }
 
-        if let textField = cell.textField {
-            textField.stringValue = zoneData(for: column, at: row)
-        }
-
-        if let imageView = cell.imageView {
-            imageView.image = image(for: zoneData(for: .ZoneType, at: row))
-        }
+        cell.textField?.stringValue = dataManager.zones[row].name
+        cell.imageView?.image = image(for: dataManager.zones[row].type)
 
         return cell
     }
@@ -67,16 +62,8 @@ extension ZoneViewController: NSTableViewDelegate {
         recordDataManager.zoneDetails = dataManager.zoneDetails[selectedZone.id]
     }
 
-    private func zoneData(for column: Column, at index: Int) -> String {
-        switch column {
-        case .Zone: return dataManager.zones[index].name
-        case .ID: return dataManager.zones[index].id
-        case .ZoneType: return dataManager.zones[index].type
-        }
-    }
-
-    private func image(for type: String) -> NSImage? {
-        return type == "NATIVE" ? NSImage(systemSymbolName: "n.circle", accessibilityDescription: "") : NSImage(systemSymbolName: "s.circle", accessibilityDescription: "")
+    private func image(for type: ZoneType) -> NSImage? {
+        return NSImage(systemSymbolName: type.sfSymbolName, accessibilityDescription: "")
     }
 }
 

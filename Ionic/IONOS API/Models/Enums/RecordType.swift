@@ -5,8 +5,10 @@
 //  Created by Jon Alaniz on 3/15/25.
 //
 
-import Foundation
 // [ A, AAAA, CNAME, MX, NS, SOA, SRV, TXT, CAA, TLSA, SMIMEA, SSHFP, DS, HTTPS, SVCB, CERT, URI, RP, LOC, OPENPGPKEY ]
+
+import Foundation
+
 enum RecordType: String, Codable {
     case A = "A"
     case AAAA = "AAAA"
@@ -30,13 +32,13 @@ enum RecordType: String, Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let rawValue = try container.decode(String.self)
-        guard let recordType = RecordType(rawValue: rawValue) else {
+        let string = try container.decode(String.self)
+        guard let recordType = RecordType(rawValue: string) else {
             throw DecodingError.dataCorruptedError(
                 in: container,
-                debugDescription: "Invalid DNS record type: \(rawValue)"
-            )
+                debugDescription: "Invalid DNS record type: \(string)")
         }
+        
         self = recordType
     }
 }

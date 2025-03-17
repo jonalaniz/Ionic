@@ -10,5 +10,5 @@ import Foundation
 struct Zone: Codable {
     let id: String
     let name: String
-    let type: String
+    let type: ZoneType
 }
