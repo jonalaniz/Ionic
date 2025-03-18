@@ -8,10 +8,10 @@
 import Cocoa
 
 protocol DNSRecordDataManagerDelegate: NSObject {
-    func recordWasUpdated(_ recordName: String)
+    func recordWasUpdated(_ zoneName: String)
 }
 
-class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource {
+class DNSRecordDataManager: NSObject {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?
 
@@ -26,6 +26,18 @@ class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource
 
     private override init() {}
 
+    private func sortRecords() {
+        guard let unsortedRecords = zoneDetails?.records else { return }
+        records = unsortedRecords.sorted { $0.name < $1.name }
+    }
+
+    private func notifyDelegate() {
+        guard let name = zoneDetails?.name else { return }
+        delegate?.recordWasUpdated(name)
+    }
+}
+
+extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return zoneDetails?.records.count ?? 0
     }
@@ -37,15 +49,5 @@ class DNSRecordDataManager: NSObject, NSTableViewDelegate, NSTableViewDataSource
 
         cell.record = record
         return cell
-    }
-
-    private func sortRecords() {
-        guard let unsortedRecords = zoneDetails?.records else { return }
-        records = unsortedRecords.sorted { $0.name < $1.name }
-    }
-
-    private func notifyDelegate() {
-        guard let name = zoneDetails?.name else { return }
-        delegate?.recordWasUpdated(name)
     }
 }

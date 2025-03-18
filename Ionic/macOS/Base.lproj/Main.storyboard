@@ -2,7 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -695,10 +697,8 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="DeD-Cc-dN5"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="FQX-WT-S9c"/>
-                                <toolbarItem implicitItemIdentifier="3C9B28DC-AFC7-43BE-8D54-3EDBB942182B" label="Public Key Field" paletteLabel="Public Key Field" id="xfD-bz-9Hs">
+                                <toolbarItem implicitItemIdentifier="3C9B28DC-AFC7-43BE-8D54-3EDBB942182B" label="Public Key Field" paletteLabel="Public Key Field" sizingBehavior="auto" id="xfD-bz-9Hs">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="96" height="22"/>
-                                    <size key="maxSize" width="96" height="22"/>
                                     <textField key="view" focusRingType="none" verticalHuggingPriority="750" id="deF-Gi-me1">
                                         <rect key="frame" x="0.0" y="14" width="96" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -709,10 +709,8 @@
                                         </textFieldCell>
                                     </textField>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="441EEBC7-D761-4B61-8BE6-CEADCF0E4006" label="Private Key Field" paletteLabel="Private Key Field" id="fF7-lR-7gy">
+                                <toolbarItem implicitItemIdentifier="441EEBC7-D761-4B61-8BE6-CEADCF0E4006" label="Private Key Field" paletteLabel="Private Key Field" sizingBehavior="auto" id="fF7-lR-7gy">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="96" height="22"/>
-                                    <size key="maxSize" width="96" height="22"/>
                                     <secureTextField key="view" focusRingType="none" verticalHuggingPriority="750" id="fzf-e8-SwC">
                                         <rect key="frame" x="0.0" y="14" width="96" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -747,14 +745,16 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </progressIndicator>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="88D9028D-6242-4435-9852-A140ED7CFA34" label="Show Sidebar" paletteLabel="Show Sidebar" image="sidebar.right" catalog="system" sizingBehavior="auto" id="hlC-58-fHs">
+                                <toolbarItem implicitItemIdentifier="88D9028D-6242-4435-9852-A140ED7CFA34" label="Show Sidebar" paletteLabel="Show Sidebar" sizingBehavior="auto" id="hlC-58-fHs">
                                     <nil key="toolTip"/>
+                                    <imageReference key="image" image="sidebar.right" catalog="system" symbolScale="large"/>
                                     <button key="view" identifier="ToggleInspector" id="jqs-Xr-EcS">
-                                        <rect key="frame" x="31" y="14.5" width="18" height="14"/>
+                                        <rect key="frame" x="31" y="15.5" width="24.5" height="18"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="sidebar.right" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="3DG-EY-ONl">
+                                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="3DG-EY-ONl">
                                             <behavior key="behavior" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="sidebar.right" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="toggleInspector:" target="0lv-DR-EAw" id="6Xi-By-gvL"/>
@@ -768,6 +768,7 @@
                                 <toolbarItem reference="xfD-bz-9Hs"/>
                                 <toolbarItem reference="fF7-lR-7gy"/>
                                 <toolbarItem reference="3q6-82-lPQ"/>
+                                <toolbarItem reference="FQX-WT-S9c"/>
                                 <toolbarItem reference="hlC-58-fHs"/>
                             </defaultToolbarItems>
                             <connections>
@@ -813,20 +814,184 @@
                 </windowController>
                 <customObject id="wwt-pL-jit" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="918" y="264"/>
+            <point key="canvasLocation" x="73" y="2248"/>
         </scene>
-        <!--View Controller-->
+        <!--DynamicDNS View Controller-->
         <scene sceneID="4r1-kO-Us5">
             <objects>
-                <viewController id="xYr-fR-H3U" sceneMemberID="viewController">
+                <viewController id="xYr-fR-H3U" customClass="DynamicDNSViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="bK3-ud-Nof">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OoJ-MF-F39">
+                                <rect key="frame" x="18" y="234" width="444" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="zIC-zg-I3e"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Choose the DNS A Records to include in the Dynamic DNS Update URL." id="gIl-LV-0SW">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cL-SC-SeL">
+                                <rect key="frame" x="20" y="53" width="343" height="169"/>
+                                <clipView key="contentView" drawsBackground="NO" id="JiL-DM-23S">
+                                    <rect key="frame" x="1" y="1" width="341" height="167"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" autosaveColumns="NO" typeSelect="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="URI-WR-XVJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="167"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <size key="intercellSpacing" width="17" height="0.0"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn identifier="AutomaticTableColumnIdentifier.0" width="329" minWidth="40" maxWidth="1000" id="RkT-gR-7jL">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="eaa-kA-x1P">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="DomainNameCell" id="nVR-sP-FP5">
+                                                            <rect key="frame" x="8" y="0.0" width="324" height="24"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zm2-ZJ-LKf">
+                                                                    <rect key="frame" x="0.0" y="4" width="324" height="16"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="1j7-fb-iKW">
+                                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <connections>
+                                                                <outlet property="textField" destination="zm2-ZJ-LKf" id="AyX-AQ-qW5"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                        </tableView>
+                                    </subviews>
+                                    <nil key="backgroundColor"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkZ-U0-fd9">
+                                    <rect key="frame" x="1" y="152" width="341" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="CLN-gc-1X2">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <textField focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dfY-qf-WHw">
+                                <rect key="frame" x="20" y="20" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Ds2-d3-3EG"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Dynamic DNS address will appear here" drawsBackground="YES" id="XfT-sP-iHf">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lIk-SQ-T26">
+                                <rect key="frame" x="368" y="13" width="99" height="32"/>
+                                <buttonCell key="cell" type="push" title="Copy" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UM4-zc-rlg">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="85" id="Zyv-G7-KFe"/>
+                                    <constraint firstAttribute="height" constant="20" id="o8b-Re-s6Z"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="copyPressed:" target="xYr-fR-H3U" id="Wnl-Cv-XGc"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M9Z-id-sHC">
+                                <rect key="frame" x="368" y="194" width="107" height="32"/>
+                                <buttonCell key="cell" type="push" title="Select All" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="H1q-wf-vv0">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="93" id="4Xj-lQ-hbV"/>
+                                    <constraint firstAttribute="height" constant="20" id="dOF-jC-BLg"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="selectAll:" target="URI-WR-XVJ" id="n3u-DD-n7X"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EjW-iU-T2H">
+                                <rect key="frame" x="368" y="162" width="107" height="32"/>
+                                <buttonCell key="cell" type="push" title="Deselect All" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yTr-by-Zem">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="EWw-Mv-4cu"/>
+                                    <constraint firstAttribute="width" constant="93" id="cAq-xR-hNI"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="deselectAll:" target="URI-WR-XVJ" id="ONG-8e-okE"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2jY-YZ-lZJ">
+                                <rect key="frame" x="368" y="130" width="107" height="32"/>
+                                <buttonCell key="cell" type="push" title="Get URL" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rGK-9f-faW">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <color key="bezelColor" name="AccentColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="AoP-Nc-gTw"/>
+                                    <constraint firstAttribute="width" constant="93" id="g4s-Xr-tl6"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="getURLPressed:" target="xYr-fR-H3U" id="aIF-cj-H2k"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="lIk-SQ-T26" secondAttribute="trailing" constant="20" symbolic="YES" id="2gJ-Gp-es8"/>
+                            <constraint firstItem="EjW-iU-T2H" firstAttribute="top" secondItem="M9Z-id-sHC" secondAttribute="bottom" constant="12" symbolic="YES" id="8PX-ig-VZa"/>
+                            <constraint firstAttribute="trailing" secondItem="EjW-iU-T2H" secondAttribute="trailing" constant="12" id="ACQ-DK-zHn"/>
+                            <constraint firstItem="M9Z-id-sHC" firstAttribute="leading" secondItem="1cL-SC-SeL" secondAttribute="trailing" constant="12" id="BQQ-hI-TaF"/>
+                            <constraint firstItem="dfY-qf-WHw" firstAttribute="top" secondItem="1cL-SC-SeL" secondAttribute="bottom" constant="12" id="LaD-Iw-amV"/>
+                            <constraint firstItem="lIk-SQ-T26" firstAttribute="leading" secondItem="dfY-qf-WHw" secondAttribute="trailing" constant="12" id="ZOG-A0-Xyq"/>
+                            <constraint firstItem="dfY-qf-WHw" firstAttribute="leading" secondItem="bK3-ud-Nof" secondAttribute="leading" constant="20" symbolic="YES" id="dfr-J8-8tc"/>
+                            <constraint firstItem="OoJ-MF-F39" firstAttribute="leading" secondItem="bK3-ud-Nof" secondAttribute="leading" constant="20" symbolic="YES" id="g5O-K6-Wn9"/>
+                            <constraint firstItem="1cL-SC-SeL" firstAttribute="top" secondItem="OoJ-MF-F39" secondAttribute="bottom" constant="12" id="gPI-JH-fzL"/>
+                            <constraint firstAttribute="bottom" secondItem="lIk-SQ-T26" secondAttribute="bottom" constant="20" symbolic="YES" id="hJ4-Ij-vqQ"/>
+                            <constraint firstItem="M9Z-id-sHC" firstAttribute="top" secondItem="OoJ-MF-F39" secondAttribute="bottom" constant="13" id="lWE-aI-Oom"/>
+                            <constraint firstItem="OoJ-MF-F39" firstAttribute="top" secondItem="bK3-ud-Nof" secondAttribute="top" constant="20" symbolic="YES" id="mqo-Gh-G4T"/>
+                            <constraint firstItem="1cL-SC-SeL" firstAttribute="leading" secondItem="bK3-ud-Nof" secondAttribute="leading" constant="20" symbolic="YES" id="oJp-iL-biv"/>
+                            <constraint firstItem="2jY-YZ-lZJ" firstAttribute="top" secondItem="EjW-iU-T2H" secondAttribute="bottom" constant="12" symbolic="YES" id="r8w-2H-QzY"/>
+                            <constraint firstAttribute="trailing" secondItem="2jY-YZ-lZJ" secondAttribute="trailing" constant="12" id="rC1-rQ-8JA"/>
+                            <constraint firstAttribute="bottom" secondItem="dfY-qf-WHw" secondAttribute="bottom" constant="20" symbolic="YES" id="sMQ-lk-tBx"/>
+                            <constraint firstAttribute="trailing" secondItem="M9Z-id-sHC" secondAttribute="trailing" constant="12" id="t8H-Aa-5Ct"/>
+                            <constraint firstAttribute="trailing" secondItem="OoJ-MF-F39" secondAttribute="trailing" constant="20" symbolic="YES" id="ul1-iT-Mre"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="getURLButton" destination="2jY-YZ-lZJ" id="LB1-1V-Zwq"/>
+                        <outlet property="tableView" destination="URI-WR-XVJ" id="Kxa-ey-i9O"/>
+                    </connections>
                 </viewController>
                 <customObject id="7xL-BV-RQT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1625" y="233"/>
+            <point key="canvasLocation" x="780" y="2217"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="8T2-dJ-hXC">
@@ -952,7 +1117,7 @@
                 </viewController>
                 <customObject id="qHf-Ap-YSA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-334" y="1540"/>
+            <point key="canvasLocation" x="-441" y="1631"/>
         </scene>
         <!--Inspector View Controller-->
         <scene sceneID="aG8-J1-HYr">
@@ -986,7 +1151,7 @@
                 </viewController>
                 <customObject id="FcV-Y1-z5r" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="452" y="1554"/>
+            <point key="canvasLocation" x="534" y="1645"/>
         </scene>
         <!--Record View Controller-->
         <scene sceneID="cVZ-mO-zqT">
@@ -1008,15 +1173,18 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gvq-Hx-bcN">
-                                <rect key="frame" x="179" y="13" width="75" height="32"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
+                                <rect key="frame" x="125" y="13" width="129" height="32"/>
+                                <buttonCell key="cell" type="push" title="Dynamic DNS..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <segue destination="zIV-Kw-Yxt" kind="modal" id="EO4-Ub-v6c"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olg-un-fMk">
                                 <rect key="frame" x="252" y="13" width="133" height="32"/>
-                                <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
+                                <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1207,16 +1375,20 @@
                     </view>
                     <connections>
                         <outlet property="detailTableView" destination="wcc-60-9Eh" id="xTM-Pd-tTn"/>
+                        <outlet property="dynamicDNSButton" destination="gvq-Hx-bcN" id="BJK-KU-PG5"/>
                         <outlet property="zoneNameLabel" destination="gca-hn-Edl" id="wZu-ls-7Bb"/>
                     </connections>
                 </viewController>
                 <customObject id="XL1-wP-D37" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="1556"/>
+            <point key="canvasLocation" x="75" y="1647"/>
         </scene>
     </scenes>
     <resources>
-        <image name="sidebar.right" catalog="system" width="18" height="14"/>
+        <image name="sidebar.right" catalog="system" width="24" height="18"/>
         <image name="x.circle" catalog="system" width="15" height="15"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

@@ -10,8 +10,10 @@ import Cocoa
 class RecordViewController: NSViewController {
     @IBOutlet weak var detailTableView: NSTableView!
     @IBOutlet var zoneNameLabel: NSTextField!
-
+    @IBOutlet weak var dynamicDNSButton: NSButton!
+    
     let recordDataManager = DNSRecordDataManager.shared
+    let dynamicDNSDataManager = DynamicDNSDataManager.shared
 
     var inspectorSplitViewItem: NSSplitViewItem?
 
@@ -27,8 +29,10 @@ class RecordViewController: NSViewController {
 }
 
 extension RecordViewController: DNSRecordDataManagerDelegate {
-    func recordWasUpdated(_ recordName: String) {
-        zoneNameLabel.stringValue = recordName
+    func recordWasUpdated(_ zoneName: String) {
+        zoneNameLabel.stringValue = zoneName
         detailTableView.reloadData()
+        dynamicDNSDataManager.parse(records: recordDataManager.records)
+        dynamicDNSButton.isEnabled = true
     }
 }
