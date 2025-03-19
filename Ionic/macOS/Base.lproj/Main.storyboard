@@ -749,7 +749,7 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="sidebar.right" catalog="system" symbolScale="large"/>
                                     <button key="view" identifier="ToggleInspector" id="jqs-Xr-EcS">
-                                        <rect key="frame" x="31" y="15.5" width="24.5" height="18"/>
+                                        <rect key="frame" x="27" y="14.5" width="24.5" height="18"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="bevel" bezelStyle="rounded" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="3DG-EY-ONl">
                                             <behavior key="behavior" lightByContents="YES"/>
@@ -820,9 +820,8 @@
         <scene sceneID="4r1-kO-Us5">
             <objects>
                 <viewController id="xYr-fR-H3U" customClass="DynamicDNSViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="bK3-ud-Nof">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="bK3-ud-Nof">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OoJ-MF-F39">
                                 <rect key="frame" x="18" y="234" width="444" height="16"/>
@@ -886,7 +885,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkZ-U0-fd9">
-                                    <rect key="frame" x="1" y="152" width="341" height="16"/>
+                                    <rect key="frame" x="1" y="153" width="341" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="CLN-gc-1X2">
@@ -968,7 +967,9 @@
                             <constraint firstItem="EjW-iU-T2H" firstAttribute="top" secondItem="M9Z-id-sHC" secondAttribute="bottom" constant="12" symbolic="YES" id="8PX-ig-VZa"/>
                             <constraint firstAttribute="trailing" secondItem="EjW-iU-T2H" secondAttribute="trailing" constant="12" id="ACQ-DK-zHn"/>
                             <constraint firstItem="M9Z-id-sHC" firstAttribute="leading" secondItem="1cL-SC-SeL" secondAttribute="trailing" constant="12" id="BQQ-hI-TaF"/>
+                            <constraint firstAttribute="height" constant="270" id="Ew8-kb-NKX"/>
                             <constraint firstItem="dfY-qf-WHw" firstAttribute="top" secondItem="1cL-SC-SeL" secondAttribute="bottom" constant="12" id="LaD-Iw-amV"/>
+                            <constraint firstAttribute="width" constant="480" id="SSG-eu-clw"/>
                             <constraint firstItem="lIk-SQ-T26" firstAttribute="leading" secondItem="dfY-qf-WHw" secondAttribute="trailing" constant="12" id="ZOG-A0-Xyq"/>
                             <constraint firstItem="dfY-qf-WHw" firstAttribute="leading" secondItem="bK3-ud-Nof" secondAttribute="leading" constant="20" symbolic="YES" id="dfr-J8-8tc"/>
                             <constraint firstItem="OoJ-MF-F39" firstAttribute="leading" secondItem="bK3-ud-Nof" secondAttribute="leading" constant="20" symbolic="YES" id="g5O-K6-Wn9"/>
@@ -985,8 +986,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="copyButton" destination="lIk-SQ-T26" id="OSz-JL-Vwc"/>
                         <outlet property="getURLButton" destination="2jY-YZ-lZJ" id="LB1-1V-Zwq"/>
                         <outlet property="tableView" destination="URI-WR-XVJ" id="Kxa-ey-i9O"/>
+                        <outlet property="urlTextField" destination="dfY-qf-WHw" id="1Uw-Xg-gKa"/>
                     </connections>
                 </viewController>
                 <customObject id="7xL-BV-RQT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
