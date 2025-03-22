@@ -32,6 +32,7 @@ extension RecordViewController: DNSRecordDataManagerDelegate {
     func recordWasUpdated(_ zoneName: String) {
         zoneNameLabel.stringValue = zoneName
         detailTableView.reloadData()
+        detailTableView.scrollRowToVisible(0)
         dynamicDNSDataManager.parse(records: recordDataManager.records)
         dynamicDNSButton.isEnabled = true
     }

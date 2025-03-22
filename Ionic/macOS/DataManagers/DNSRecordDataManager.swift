@@ -60,10 +60,7 @@ extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard let tableView = notification.object as? NSTableView else { return }
-        if tableView.selectedRowIndexes.count > 0 {
-            let selectedRowIndex = tableView.selectedRowIndexes.first!
-            let record = records[selectedRowIndex]
-            selectedRecord = record
-        }
+        print(tableView.selectedRow)
+        selectedRecord = records[tableView.selectedRow]
     }
 }

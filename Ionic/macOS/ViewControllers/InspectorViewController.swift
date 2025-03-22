@@ -9,28 +9,18 @@ import Cocoa
 
 class InspectorViewController: NSViewController {
     @IBOutlet weak var noSelectionLabel: NSTextField!
-    @IBOutlet weak var detailsLabel: NSTextField!
-    @IBOutlet weak var idLabel: NSTextField!
-    @IBOutlet weak var idValueLabel: NSTextField!
-    @IBOutlet weak var rootLabel: NSTextField!
-    @IBOutlet weak var rootValueLabel: NSTextField!
-    @IBOutlet weak var contentLabel: NSTextField!
-    @IBOutlet weak var contentValueLabel: NSTextField!
-    @IBOutlet weak var typeLabel: NSTextField!
+    @IBOutlet weak var inspectorView: NSView!
+    @IBOutlet weak var idTextField: NSTextField!
+    @IBOutlet weak var contentTextField: NSTextField!
+    @IBOutlet weak var rootTextField: NSTextField!
     @IBOutlet weak var typeValueLabel: NSTextField!
-    @IBOutlet weak var ttlLabel: NSTextField!
     @IBOutlet weak var ttlValueLabel: NSTextField!
-    @IBOutlet weak var priorityLabel: NSTextField!
     @IBOutlet weak var priorityValueLabel: NSTextField!
-    @IBOutlet weak var horizontalLine: NSBox!
-    @IBOutlet weak var disableButton: NSButton!
-    @IBOutlet weak var editButton: NSButton!
-    @IBOutlet weak var deleteButton: NSButton!
-
+    @IBOutlet weak var lastChangedValueLabel: NSTextField!
+    
     var dnsRecord: DNSRecordResponse? {
         didSet {
             updateLabels()
-            toggleInspector(itemIsSelected: true)
         }
     }
 
@@ -49,41 +39,32 @@ class InspectorViewController: NSViewController {
 
     private func updateLabels() {
         guard let record = dnsRecord else { return }
-        idValueLabel.stringValue = record.id
-        rootValueLabel.stringValue = record.rootName
-        contentValueLabel.stringValue = record.content
+        idTextField.stringValue = record.id
+        contentTextField.stringValue = record.content
+        rootTextField.stringValue = record.rootName
         typeValueLabel.stringValue = record.type.rawValue
         ttlValueLabel.stringValue = String(record.ttl)
 
-        guard let prio = record.prio else {
+        if let prio = record.prio {
+            priorityValueLabel.stringValue = String(prio)
+        } else {
             priorityValueLabel.stringValue = "none"
-            return
         }
-        priorityValueLabel.stringValue = String(prio)
+
+        lastChangedValueLabel.stringValue = record.changeDate.readableDate()
+        toggleInspector(itemIsSelected: true)
     }
 
     private func toggleInspector(itemIsSelected: Bool) {
         noSelectionLabel.isHidden = itemIsSelected
+        inspectorView.isHidden = !itemIsSelected
 
-        detailsLabel.isHidden = !itemIsSelected
-        idLabel.isHidden = !itemIsSelected
-        rootLabel.isHidden = !itemIsSelected
-        contentLabel.isHidden = !itemIsSelected
-        typeLabel.isHidden = !itemIsSelected
-        ttlLabel.isHidden = !itemIsSelected
-        priorityLabel.isHidden = !itemIsSelected
-
-        idValueLabel.isHidden = !itemIsSelected
-        rootValueLabel.isHidden = !itemIsSelected
-        contentValueLabel.isHidden = !itemIsSelected
+        idTextField.isHidden = !itemIsSelected
+        contentTextField.isHidden = !itemIsSelected
+        rootTextField.isHidden = !itemIsSelected
         typeValueLabel.isHidden = !itemIsSelected
         ttlValueLabel.isHidden = !itemIsSelected
         priorityValueLabel.isHidden = !itemIsSelected
-        
-        horizontalLine.isHidden = !itemIsSelected
-        
-        disableButton.isHidden = !itemIsSelected
-        editButton.isHidden = !itemIsSelected
-        deleteButton.isHidden = !itemIsSelected
+        lastChangedValueLabel.isHidden = !itemIsSelected
     }
 }

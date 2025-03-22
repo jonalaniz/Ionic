@@ -23,7 +23,6 @@ enum Endpoint {
         case .zone(let id): url.appendPathComponent("zones/\(id)")
         }
 
-        print(url.absoluteString)
         return url
     }
 }

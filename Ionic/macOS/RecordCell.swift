@@ -47,27 +47,11 @@ class RecordCell: NSTableCellView {
 
     private func updateCell() {
         guard let record = record else { return }
-        print(record)
         nameLabel.stringValue = record.name
         typeLabel.stringValue = "Type: \(record.type.rawValue)"
         contentLabel.stringValue = "Content: \(record.content)"
         changeDateLabel.stringValue = "Change Date: \(record.changeDate.readableDate())"
         ttlLabel.stringValue = "TTL: \(record.ttl)"
         statusLabel.stringValue = record.disabled ? "🔴" : "🟢"
-    }
-}
-
-extension String {
-    func readableDate() -> String {
-        let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
-        guard let date = isoFormatter.date(from: self) else { return "Invalid date format" }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM d, yyyy - h:mm a"
-        dateFormatter.timeZone = .current
-
-        let readableDate = dateFormatter.string(from: date)
-        return readableDate
     }
 }
