@@ -15,8 +15,15 @@ class DNSRecordDataManager: NSObject {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?
 
+    var selectedRecord: DNSRecordResponse? {
+        didSet {
+            NotificationCenter.default.post(name: .selectedRecordDidChange, object: selectedRecord)
+        }
+    }
+
     var zoneDetails: ZoneDetails? {
         didSet {
+            selectedRecord = nil
             sortRecords()
             notifyDelegate()
         }
@@ -49,5 +56,14 @@ extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
 
         cell.record = record
         return cell
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard let tableView = notification.object as? NSTableView else { return }
+        if tableView.selectedRowIndexes.count > 0 {
+            let selectedRowIndex = tableView.selectedRowIndexes.first!
+            let record = records[selectedRowIndex]
+            selectedRecord = record
+        }
     }
 }

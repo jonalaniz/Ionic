@@ -25,7 +25,6 @@ import Cocoa
 class RecordCell: NSTableCellView {
     @IBOutlet weak var headerView: NSView!
     @IBOutlet weak var statusLabel: NSTextField!
-    @IBOutlet weak var idLabel: NSTextField!
     @IBOutlet weak var nameLabel: NSTextField!
     @IBOutlet weak var typeLabel: NSTextField!
     @IBOutlet weak var contentLabel: NSTextField!
@@ -44,18 +43,31 @@ class RecordCell: NSTableCellView {
         headerView.wantsLayer = true
         headerView.layer?.backgroundColor = NSColor.darkGray.cgColor
         headerView.layer?.opacity = 0.5
-        // Drawing code here.
     }
 
     private func updateCell() {
         guard let record = record else { return }
-        idLabel.stringValue = "ID: \(record.id)"
+        print(record)
         nameLabel.stringValue = record.name
         typeLabel.stringValue = "Type: \(record.type.rawValue)"
         contentLabel.stringValue = "Content: \(record.content)"
-        changeDateLabel.stringValue = "Change Date: \(record.changeDate)"
+        changeDateLabel.stringValue = "Change Date: \(record.changeDate.readableDate())"
         ttlLabel.stringValue = "TTL: \(record.ttl)"
         statusLabel.stringValue = record.disabled ? "🔴" : "🟢"
     }
+}
 
+extension String {
+    func readableDate() -> String {
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        guard let date = isoFormatter.date(from: self) else { return "Invalid date format" }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM d, yyyy - h:mm a"
+        dateFormatter.timeZone = .current
+
+        let readableDate = dateFormatter.string(from: date)
+        return readableDate
+    }
 }

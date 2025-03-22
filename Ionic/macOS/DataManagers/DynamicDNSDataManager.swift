@@ -33,7 +33,7 @@ class DynamicDNSDataManager: NSObject {
         let selectedDomains = indexSet.map { domains[$0] }
         let dynamicDNSRequest = DynamicDNSRequest(domains: selectedDomains, description: "Ionic DNS")
 
-        delegate?.urlCaptured("https://ipv4.api.hosting.ionos.com/dns/v1/dyndns?q=MWVmYWU2OGJmYjNmNGYyNmEyNDBkNWM5Y2Q4YmYxNzcuVkNWZnk2N25EVjhhM2tUbkVpd1cydll4VjBOM2RyOU5JT0FCVFJtZ1ozR1hQVW1qUzBHNUJpb2lERXdjRnJZaTR4eFZPeEhWYU1sYnpidEhiWDVydlE")
+        delegate?.urlCaptured("")
         print(dynamicDNSRequest)
     }
 }
