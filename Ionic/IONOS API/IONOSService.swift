@@ -36,7 +36,21 @@ class IONOSService {
             expectingReturnType: ZoneDetails.self)
     }
 
+    func postDynamicDNSRecord(_ request: DynamicDNSRequest, with apiKey: String) async throws -> DynamicDNSResponse {
+        let url = Endpoint.dynamicDNS.url
+        let headers = headers(key: apiKey)
+        let data = try JSONEncoder().encode(request)
+        print(url)
+        print(headers)
+        return try await apiManager.request(
+            url: url,
+            httpMethod: .post,
+            body: data,
+            headers: headers,
+            expectingReturnType: DynamicDNSResponse.self)
+    }
+
     private func headers(key: String) -> [String: String] {
-        return ["accept": "application/json", "X-API-Key": key]
+        return ["accept": "application/json", "X-API-Key": key, "Content-Type": "application/json"]
     }
 }

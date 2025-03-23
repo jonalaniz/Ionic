@@ -10,6 +10,7 @@ import Foundation
 enum Endpoint {
     private var baseURL: String { return "https://api.hosting.ionos.com/dns/v1" }
 
+    case dynamicDNS
     case zones
     case zone(String)
 
@@ -19,6 +20,7 @@ enum Endpoint {
         }
 
         switch self {
+        case .dynamicDNS: url.appendPathComponent("dyndns")
         case .zones: url.appendPathComponent("zones")
         case .zone(let id): url.appendPathComponent("zones/\(id)")
         }

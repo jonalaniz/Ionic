@@ -21,7 +21,7 @@ import Foundation
 
 struct DynamicDNSResponse: Codable {
     let bulkId: String
-    let updateURL: String
+    let updateUrl: String
     let domains: [String]
     let description: String
 }

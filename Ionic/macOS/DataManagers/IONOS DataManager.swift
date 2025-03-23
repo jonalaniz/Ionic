@@ -18,14 +18,14 @@ class IONOSDataManager {
     weak var delegate: IONOSDataManagerDelegate?
 
     private let service = IONOSService.shared
-    private var apiKey: String?
+    private let apiKeyManager = APIKeyManager.shared
     var zones = [Zone]()
     var zoneDetails = [String: ZoneDetails]()
 
     private init() {}
 
     @MainActor func setKeys(publicKey: String, privateKey: String) {
-        apiKey = publicKey + "." + privateKey
+        apiKeyManager.set(publicKey: publicKey, privateKey: privateKey)
         loadData()
     }
 
@@ -40,7 +40,7 @@ class IONOSDataManager {
     }
 
     func loadZones() async {
-        guard let apiKey = apiKey else { return }
+        guard let apiKey = apiKeyManager.key else { return }
         do {
             zones = try await service.fetchZoneList(with: apiKey)
         } catch {
@@ -49,7 +49,7 @@ class IONOSDataManager {
     }
 
     func loadZoneInformation() async {
-        guard let apiKey = apiKey else { return }
+        guard let apiKey = apiKeyManager.key else { return }
 
         for zone in zones {
             do {
