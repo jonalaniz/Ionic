@@ -21,21 +21,23 @@ class Toolbar: NSToolbar {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(toggleProgressView),
+            name: .zonesDidChange,
+            object: nil)
+
         publicKeyField.stringValue = publicKey
         privateKeyField.stringValue = privateKey
     }
 
     @IBAction func connect(_ sender: NSButton) {
         guard publicKeyField.stringValue != "" && privateKeyField.stringValue != "" else { return }
+        circularProgressView.startAnimation(nil)
         dataManager.setKeys(publicKey: publicKeyField.stringValue, privateKey: privateKeyField.stringValue)
     }
 
-    @IBAction func toggleInspector(_ sender: NSButton) {
-        guard
-            let splitViewController = window?.contentViewController as? NSSplitViewController,
-            let splitViewItem = splitViewController.splitViewItems.last
-        else { return }
-
-        splitViewItem.animator().isCollapsed.toggle()
+    @objc private func toggleProgressView(_ notification: Notification) {
+        if notification.name == .zonesDidChange { circularProgressView.stopAnimation(nil) }
     }
 }

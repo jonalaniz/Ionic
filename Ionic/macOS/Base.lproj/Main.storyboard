@@ -685,9 +685,10 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Ionic DNS" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" toolbarStyle="compact" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="440" y="360" width="900" height="480"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -726,9 +727,9 @@
                                 <toolbarItem implicitItemIdentifier="E57E5AB4-33E3-44C8-824E-35FE08BD79E8" label="" paletteLabel="Connect Button" title="Connect" sizingBehavior="auto" id="3q6-82-lPQ">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="oww-sS-ULZ">
-                                        <rect key="frame" x="2" y="14" width="86" height="32"/>
+                                        <rect key="frame" x="11" y="14" width="68" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="push" title="Connect" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="H6P-50-qvT">
+                                        <buttonCell key="cell" type="roundTextured" title="Connect" bezelStyle="texturedRounded" alignment="center" borderStyle="border" inset="2" id="H6P-50-qvT">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -737,7 +738,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="38B701D1-278C-4476-8CCE-646D3D2BDFD5" label="" paletteLabel="Circular Progress Indicator" tag="-1" sizingBehavior="auto" id="OSI-mv-zt6">
+                                <toolbarItem implicitItemIdentifier="38B701D1-278C-4476-8CCE-646D3D2BDFD5" label="Circular Progress Indicator" paletteLabel="Circular Progress Indicator" tag="-1" sizingBehavior="auto" id="OSI-mv-zt6">
                                     <nil key="toolTip"/>
                                     <progressIndicator key="view" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" id="ulk-nS-hmx">
                                         <rect key="frame" x="66" y="14" width="16" height="16"/>
@@ -765,12 +766,42 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="iTE-uL-p44" kind="relationship" relationship="window.shadowedContentViewController" id="Vut-cm-fOw"/>
+                        <segue destination="nmo-B2-gyv" kind="relationship" relationship="window.shadowedContentViewController" id="iSr-Ii-cpf"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="376"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="KkY-Hz-0aU">
+            <objects>
+                <viewController id="nmo-B2-gyv" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="Jtu-Yu-nkt">
+                        <rect key="frame" x="0.0" y="0.0" width="900" height="480"/>
+                        <subviews>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MUF-Zb-ybc">
+                                <rect key="frame" x="18" y="225" width="864" height="31"/>
+                                <textFieldCell key="cell" alignment="center" title="Enter you IONOS API key above to connect" id="9th-Kn-s1n">
+                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="MUF-Zb-ybc" firstAttribute="leading" secondItem="Jtu-Yu-nkt" secondAttribute="leading" constant="20" symbolic="YES" id="FRJ-kc-BOX"/>
+                            <constraint firstItem="MUF-Zb-ybc" firstAttribute="centerY" secondItem="Jtu-Yu-nkt" secondAttribute="centerY" id="L03-zM-dRq"/>
+                            <constraint firstAttribute="height" constant="480" id="a5v-Te-i73"/>
+                            <constraint firstAttribute="width" constant="900" id="hDa-ii-w8v"/>
+                            <constraint firstAttribute="trailing" secondItem="MUF-Zb-ybc" secondAttribute="trailing" constant="20" symbolic="YES" id="l6m-7L-FZC"/>
+                            <constraint firstItem="MUF-Zb-ybc" firstAttribute="centerX" secondItem="Jtu-Yu-nkt" secondAttribute="centerX" id="xFI-5R-dBh"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="6cZ-bi-bu4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1104" y="330"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="Gj3-Og-fNI">
@@ -865,7 +896,7 @@
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkZ-U0-fd9">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkZ-U0-fd9">
                                     <rect key="frame" x="1" y="152" width="341" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -980,14 +1011,14 @@
         <!--Split View Controller-->
         <scene sceneID="8T2-dJ-hXC">
             <objects>
-                <splitViewController id="iTE-uL-p44" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="MainContentSplitViewController" id="iTE-uL-p44" sceneMemberID="viewController">
                     <splitViewItems>
                         <splitViewItem holdingPriority="255" behavior="contentList" id="f8a-1e-s2b"/>
                         <splitViewItem id="kzp-wk-Mdw"/>
                         <splitViewItem canCollapse="YES" holdingPriority="261" behavior="inspector" id="pYj-0c-bU1"/>
                     </splitViewItems>
                     <splitView key="splitView" dividerStyle="thin" vertical="YES" id="4dU-jS-SHp">
-                        <rect key="frame" x="0.0" y="0.0" width="800" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="900" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
                             <outlet property="delegate" destination="iTE-uL-p44" id="Qlu-J6-snk"/>
@@ -1417,23 +1448,23 @@
         <scene sceneID="cVZ-mO-zqT">
             <objects>
                 <viewController id="eZm-gz-ywL" customClass="RecordViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-ea-S0e">
-                        <rect key="frame" x="0.0" y="0.0" width="409" height="484"/>
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-ea-S0e">
+                        <rect key="frame" x="0.0" y="0.0" width="423" height="484"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gca-hn-Edl">
-                                <rect key="frame" x="18" y="398" width="385" height="16"/>
+                                <rect key="frame" x="18" y="398" width="387" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="kr7-UL-PMC"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Test Name" id="Zma-Ft-n7d">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Select a Zone to view Records" id="Zma-Ft-n7d">
                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gvq-Hx-bcN">
-                                <rect key="frame" x="150" y="13" width="129" height="32"/>
+                                <rect key="frame" x="152" y="13" width="129" height="32"/>
                                 <buttonCell key="cell" type="push" title="Dynamic DNS..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1443,20 +1474,20 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olg-un-fMk">
-                                <rect key="frame" x="277" y="13" width="133" height="32"/>
+                                <rect key="frame" x="279" y="13" width="133" height="32"/>
                                 <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="117" horizontalPageScroll="10" verticalLineScroll="117" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfC-Ji-93a" userLabel="BSV - Detail">
-                                <rect key="frame" x="18" y="58" width="385" height="322"/>
+                                <rect key="frame" x="18" y="58" width="387" height="322"/>
                                 <clipView key="contentView" drawsBackground="NO" id="rGP-B8-NCT">
-                                    <rect key="frame" x="1" y="1" width="383" height="320"/>
+                                    <rect key="frame" x="1" y="1" width="385" height="320"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="117" viewBased="YES" id="wcc-60-9Eh">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="320"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="385" height="320"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>

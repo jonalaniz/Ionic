@@ -23,21 +23,7 @@ class ZoneViewController: NSViewController {
 
 extension ZoneViewController: IONOSDataManagerDelegate {
     func stateDidChange(_ state: DataManagerState) {
-        switch state {
-        case .uninitialized: break
-        case .loading: isLoading(true)
-        case .done: isLoading(false)
-        }
-    }
-
-    private func isLoading(_ loading: Bool) {
-        guard let toolbar = view.window?.toolbar as? Toolbar else { return }
-        if loading {
-            toolbar.circularProgressView.startAnimation(nil)
-        } else {
-            toolbar.circularProgressView.stopAnimation(nil)
-            zoneTableView.reloadData()
-        }
+        // Nothing right now, this functionality was moved to the Toolbar
     }
 }
 

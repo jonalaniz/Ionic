@@ -34,6 +34,7 @@ class IONOSDataManager {
         Task {
             await loadZones()
             await loadZoneInformation()
+            NotificationCenter.default.post(name: .zonesDidChange, object: nil)
             stateDidChange(.done)
         }
     }
