@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -686,13 +687,13 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Ionic DNS" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" toolbarStyle="compact" id="IQv-IB-iLA">
+                    <window key="window" title="Ionic DNS" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" toolbarStyle="compact" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="440" y="360" width="900" height="480"/>
+                        <rect key="contentRect" x="440" y="360" width="900" height="540"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <value key="minSize" type="size" width="900" height="480"/>
+                        <value key="minSize" type="size" width="900" height="540"/>
                         <toolbar key="toolbar" implicitIdentifier="4A676CF1-52D9-4367-A2C2-FFF4A55FE21B" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="regular" id="0lv-DR-EAw" customClass="Toolbar" customModule="Ionic" customModuleProvider="target">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="DeD-Cc-dN5"/>
@@ -778,10 +779,10 @@
             <objects>
                 <viewController id="nmo-B2-gyv" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="Jtu-Yu-nkt">
-                        <rect key="frame" x="0.0" y="0.0" width="900" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="900" height="540"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MUF-Zb-ybc">
-                                <rect key="frame" x="18" y="225" width="864" height="31"/>
+                                <rect key="frame" x="18" y="255" width="864" height="31"/>
                                 <textFieldCell key="cell" alignment="center" title="Enter you IONOS API key above to connect" id="9th-Kn-s1n">
                                     <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -792,7 +793,7 @@
                         <constraints>
                             <constraint firstItem="MUF-Zb-ybc" firstAttribute="leading" secondItem="Jtu-Yu-nkt" secondAttribute="leading" constant="20" symbolic="YES" id="FRJ-kc-BOX"/>
                             <constraint firstItem="MUF-Zb-ybc" firstAttribute="centerY" secondItem="Jtu-Yu-nkt" secondAttribute="centerY" id="L03-zM-dRq"/>
-                            <constraint firstAttribute="height" constant="480" id="a5v-Te-i73"/>
+                            <constraint firstAttribute="height" constant="540" id="a5v-Te-i73"/>
                             <constraint firstAttribute="width" constant="900" id="hDa-ii-w8v"/>
                             <constraint firstAttribute="trailing" secondItem="MUF-Zb-ybc" secondAttribute="trailing" constant="20" symbolic="YES" id="l6m-7L-FZC"/>
                             <constraint firstItem="MUF-Zb-ybc" firstAttribute="centerX" secondItem="Jtu-Yu-nkt" secondAttribute="centerX" id="xFI-5R-dBh"/>
@@ -1017,7 +1018,7 @@
                     <splitViewItems>
                         <splitViewItem holdingPriority="255" behavior="contentList" id="f8a-1e-s2b"/>
                         <splitViewItem id="kzp-wk-Mdw"/>
-                        <splitViewItem canCollapse="YES" holdingPriority="261" behavior="inspector" id="pYj-0c-bU1"/>
+                        <splitViewItem holdingPriority="261" behavior="inspector" separatorStyle="line" id="pYj-0c-bU1"/>
                     </splitViewItems>
                     <splitView key="splitView" dividerStyle="thin" vertical="YES" id="4dU-jS-SHp">
                         <rect key="frame" x="0.0" y="0.0" width="900" height="480"/>
