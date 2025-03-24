@@ -41,7 +41,7 @@ class RecordCell: NSTableCellView {
         super.draw(dirtyRect)
 
         headerView.wantsLayer = true
-        headerView.layer?.backgroundColor = NSColor.darkGray.cgColor
+        headerView.layer?.backgroundColor = NSColor.lightGray.cgColor
         headerView.layer?.opacity = 0.5
     }
 
