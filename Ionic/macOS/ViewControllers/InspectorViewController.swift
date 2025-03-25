@@ -37,6 +37,27 @@ class InspectorViewController: NSViewController {
         dnsRecord = record
     }
 
+    @IBAction func deleteRecord(_ sender: NSButton) {
+        let alert = NSAlert()
+        alert.messageText = "Are you sure you want to delete this record?"
+        alert.alertStyle = .critical
+        alert.informativeText = "This action cannot be undone."
+
+        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: "Delete").bezelColor = .red
+
+        guard let window = self.view.window else { return }
+        alert.beginSheetModal(for: window) { response in
+            if response == .alertSecondButtonReturn {
+                self.deleteRecord()
+            }
+        }
+    }
+
+    func deleteRecord() {
+        print("record: \(dnsRecord?.name) deleted")
+    }
+
     private func updateLabels() {
         guard let record = dnsRecord else { return }
         idTextField.stringValue = record.id
