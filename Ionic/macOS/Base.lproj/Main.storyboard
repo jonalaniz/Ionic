@@ -1457,11 +1457,11 @@
             <objects>
                 <viewController id="eZm-gz-ywL" customClass="RecordViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-ea-S0e">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="484"/>
+                        <rect key="frame" x="0.0" y="0.0" width="429" height="484"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gca-hn-Edl">
-                                <rect key="frame" x="18" y="404" width="392" height="16"/>
+                                <rect key="frame" x="18" y="404" width="393" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="kr7-UL-PMC"/>
                                 </constraints>
@@ -1472,7 +1472,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gvq-Hx-bcN">
-                                <rect key="frame" x="157" y="13" width="129" height="32"/>
+                                <rect key="frame" x="158" y="13" width="129" height="32"/>
                                 <buttonCell key="cell" type="push" title="Dynamic DNS..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1482,20 +1482,20 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olg-un-fMk">
-                                <rect key="frame" x="284" y="13" width="133" height="32"/>
+                                <rect key="frame" x="285" y="13" width="133" height="32"/>
                                 <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="117" horizontalPageScroll="10" verticalLineScroll="117" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfC-Ji-93a" userLabel="BSV - Detail">
-                                <rect key="frame" x="18" y="58" width="392" height="328"/>
+                                <rect key="frame" x="18" y="58" width="393" height="328"/>
                                 <clipView key="contentView" drawsBackground="NO" id="rGP-B8-NCT">
-                                    <rect key="frame" x="1" y="1" width="390" height="326"/>
+                                    <rect key="frame" x="1" y="1" width="391" height="326"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="117" viewBased="YES" id="wcc-60-9Eh">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="326"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="391" height="326"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
