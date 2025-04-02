@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		56FE7E182D9C5FF300AA94FA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56FE7E172D9C5FF300AA94FA /* Security.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		56E745272D7C2A6C009AA048 /* Ionic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ionic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		56FE7E172D9C5FF300AA94FA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56FE7E182D9C5FF300AA94FA /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +39,7 @@
 			isa = PBXGroup;
 			children = (
 				56E745292D7C2A6C009AA048 /* Ionic */,
+				56FE7E162D9C5FF200AA94FA /* Frameworks */,
 				56E745282D7C2A6C009AA048 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +50,14 @@
 				56E745272D7C2A6C009AA048 /* Ionic.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		56FE7E162D9C5FF200AA94FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				56FE7E172D9C5FF300AA94FA /* Security.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
