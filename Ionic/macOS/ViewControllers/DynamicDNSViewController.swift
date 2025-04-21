@@ -13,10 +13,14 @@ class DynamicDNSViewController: NSViewController {
     @IBOutlet weak var copyButton: NSButton!
     @IBOutlet weak var urlTextField: NSTextField!
     
-    let dataManager = DynamicDNSDataManager.shared
+    private let dataManager = DynamicDNSDataManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
+    }
+
+    private func configureUI() {
         dataManager.delegate = self
         tableView.delegate = dataManager
         tableView.dataSource = dataManager
@@ -33,13 +37,7 @@ class DynamicDNSViewController: NSViewController {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(content, forType: .string)
 
-        urlTextField.isEnabled = false
-        urlTextField.stringValue = "URL Copied to Clipboard"
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.urlTextField.isEnabled = true
-            self.urlTextField.stringValue = content
-        }
+        urlTextField.showCopyConfirmation(for: content)
     }
 }
 
