@@ -7,22 +7,76 @@
 
 import Foundation
 
-class APIKeyManager {
-    static let shared = APIKeyManager()
+struct DNSAPIKey: Codable {
+    let name: String
+    let publicKey: String
+    let privateKey: String
 
-    private var publicKey: String?
-    private var privateKey: String?
-
-    var key: String? {
-        guard let publicKey = publicKey, let privateKey = privateKey
-        else { return nil }
+    var authenticationString: String {
         return publicKey + "." + privateKey
     }
+}
 
-    private init() {}
+enum Key: String {
+    case service = "com.jonalaniz.ionic"
+    case account = "apiKeys"
+}
 
-    func set(publicKey: String, privateKey: String) {
-        self.publicKey = publicKey
-        self.privateKey = privateKey
+class APIKeyManager {
+    static let shared = APIKeyManager()
+    private let keychainHelper = KeychainHelper(service: Key.service.rawValue)
+    private let account = Key.account.rawValue
+    private(set) var key: DNSAPIKey?
+
+    private init() {
+        loadKey()
+    }
+
+    func addKey(_ key: DNSAPIKey) {
+        self.key = key
+        save()
+    }
+
+    private func loadKey() {
+        do {
+            let key = try keychainHelper.get(DNSAPIKey.self, for: account)
+            self.key = key
+            print(key)
+        } catch let error as KeychainError {
+            handleKeychainError(error)
+        } catch let error as DecodingError {
+            handleDecodingError(error)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+    private func save() {
+        do {
+            try keychainHelper.set(key, for: account)
+        } catch let error as KeychainError {
+            handleKeychainError(error)
+        } catch let error as EncodingError {
+            handleEncodingError(error)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+    private func handleKeychainError(_ error: KeychainError) {
+        switch error {
+        case .itemNotFound: print("Item not found")
+        case .duplicateItem: print("Duplicate item")
+        case .invalidItemFormat: print("Invalid item format")
+        case .unexpectedStatus(let oSStatus): print(oSStatus.description)
+        }
+    }
+
+    private func handleEncodingError(_ error: EncodingError) {
+        print(error.localizedDescription)
+    }
+
+    private func handleDecodingError(_ error: DecodingError) {
+        print(error.localizedDescription)
     }
 }
