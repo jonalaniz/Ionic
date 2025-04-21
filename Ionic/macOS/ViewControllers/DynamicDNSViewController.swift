@@ -23,19 +23,21 @@ class DynamicDNSViewController: NSViewController {
     }
 
     @IBAction func getURLPressed(_ sender: Any) {
-        guard tableView.selectedRowIndexes.count > 0 else { return }
+        guard !tableView.selectedRowIndexes.isEmpty else { return }
         dataManager.fetchDynamicDNSURL(for: tableView.selectedRowIndexes)
     }
     
     @IBAction func copyPressed (_ sender: Any) {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(urlTextField.stringValue, forType: .string)
-
         let content = urlTextField.stringValue
+
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(content, forType: .string)
+
+        urlTextField.isEnabled = false
         urlTextField.stringValue = "URL Copied to Clipboard"
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.urlTextField.isEnabled = true
             self.urlTextField.stringValue = content
         }
     }
@@ -43,12 +45,12 @@ class DynamicDNSViewController: NSViewController {
 
 extension DynamicDNSViewController: DynamicDNSDataManagerDelegate {
     func selectionDidChange() {
-        let indexes = tableView.selectedRowIndexes
-        getURLButton.isEnabled = indexes.count > 0 ? true : false
+        getURLButton.isEnabled = !tableView.selectedRowIndexes.isEmpty
     }
 
     func urlCaptured(_ urlString: String) {
         urlTextField.stringValue = urlString
+        urlTextField.isEnabled = true
         copyButton.isEnabled = true
     }
 }
