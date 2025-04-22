@@ -10,7 +10,7 @@ import Cocoa
 class ZoneViewController: NSViewController {
     @IBOutlet weak var zoneTableView: NSTableView!
 
-    let dataManager = IONOSDataManager.shared
+    let dataManager = ZoneDataManager.shared
     let recordDataManager = DNSRecordDataManager.shared
 
     override func viewDidLoad() {
@@ -21,8 +21,8 @@ class ZoneViewController: NSViewController {
     }
 }
 
-extension ZoneViewController: IONOSDataManagerDelegate {
-    func stateDidChange(_ state: DataManagerState) {
+extension ZoneViewController: ZoneDataManagerDelegate {
+    func stateDidChange(_ state: ZoneDataManagerState) {
         // Nothing right now, this functionality was moved to the Toolbar
     }
 }
