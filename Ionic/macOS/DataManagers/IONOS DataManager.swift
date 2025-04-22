@@ -7,53 +7,44 @@
 
 import Foundation
 
-enum DataManagerState {
+enum ZoneDataManagerState {
     case uninitialized
     case loading
     case done
 }
 
-class IONOSDataManager {
-    static let shared = IONOSDataManager()
-    weak var delegate: IONOSDataManagerDelegate?
+class ZoneDataManager {
+    static let shared = ZoneDataManager()
+    weak var delegate: ZoneDataManagerDelegate?
 
     private let service = IONOSService.shared
-    private let apiKeyManager = APIKeyManager.shared
     var zones = [Zone]()
     var zoneDetails = [String: ZoneDetails]()
 
     private init() {}
 
-    @MainActor func setKeys(publicKey: String, privateKey: String) {
-        apiKeyManager.set(publicKey: publicKey, privateKey: privateKey)
-        loadData()
-    }
-
-    @MainActor func loadData() {
+    @MainActor func loadData(with key: DNSAPIKey) throws {
         stateDidChange(.loading)
         Task {
-            await loadZones()
-            await loadZoneInformation()
+            await loadZones(with: key)
+            await loadZoneInformation(with: key)
             NotificationCenter.default.post(name: .zonesDidChange, object: nil)
             stateDidChange(.done)
         }
     }
 
-    func loadZones() async {
-        guard let apiKey = apiKeyManager.key else { return }
+    func loadZones(with key: DNSAPIKey) async {
         do {
-            zones = try await service.fetchZoneList(with: apiKey)
+            zones = try await service.fetchZoneList(with: key.authenticationString)
         } catch {
             print(error)
         }
     }
 
-    func loadZoneInformation() async {
-        guard let apiKey = apiKeyManager.key else { return }
-
+    func loadZoneInformation(with key: DNSAPIKey) async {
         for zone in zones {
             do {
-                let zoneDetail = try await service.fetchZoneDetail(id: zone.id, with: apiKey)
+                let zoneDetail = try await service.fetchZoneDetail(id: zone.id, with: key.authenticationString)
                 zoneDetails[zone.id] = zoneDetail
             } catch {
                 print("Error")
@@ -62,11 +53,11 @@ class IONOSDataManager {
     }
 
     @MainActor
-    func stateDidChange(_ state: DataManagerState) {
+    func stateDidChange(_ state: ZoneDataManagerState) {
         delegate?.stateDidChange(state)
     }
 }
 
-protocol IONOSDataManagerDelegate: NSObject {
-    func stateDidChange(_ state: DataManagerState)
+protocol ZoneDataManagerDelegate: NSObject {
+    func stateDidChange(_ state: ZoneDataManagerState)
 }
