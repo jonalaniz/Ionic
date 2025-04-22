@@ -1069,7 +1069,7 @@
         <!--Split View Controller-->
         <scene sceneID="8T2-dJ-hXC">
             <objects>
-                <splitViewController storyboardIdentifier="MainContentSplitViewController" id="iTE-uL-p44" customClass="SplitViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="MainContentSplitViewController" id="iTE-uL-p44" sceneMemberID="viewController">
                     <splitViewItems>
                         <splitViewItem holdingPriority="255" behavior="contentList" id="f8a-1e-s2b"/>
                         <splitViewItem holdingPriority="255" behavior="contentList" id="kzp-wk-Mdw"/>
