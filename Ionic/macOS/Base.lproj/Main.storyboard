@@ -743,7 +743,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="XHy-uG-7er"/>
                                         </constraints>
-                                        <textFieldCell key="cell" alignment="center" title="Enter you IONOS API key to connect" id="9th-Kn-s1n">
+                                        <textFieldCell key="cell" alignment="center" title="Enter your IONOS API key to connect" id="9th-Kn-s1n">
                                             <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1437,6 +1437,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="b8t-ex-Pak"/>
                                         </constraints>
+                                        <connections>
+                                            <action selector="disableRecord:" target="0kJ-IW-lHY" id="v1d-So-Nk4"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="odP-6R-vxO">
                                         <rect key="frame" x="13" y="13" width="123" height="32"/>
