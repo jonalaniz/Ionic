@@ -5,23 +5,19 @@
 //  Created by Jon Alaniz on 3/17/25.
 //
 
-/*
- {
-   "bulkId": "22af3414-abbe-9e11-5df5-66fbe8e334b4",
-   "updateUrl": "https://ipv4.api.hosting.ionos.com/dns/v1/dyndns?q=",
-   "domains": [
-     "example-zone.de",
-     "www.example-zone.de"
-   ],
-   "description": "My DynamicDns"
- }
- */
-
 import Foundation
 
+/// A model representing the response returned after requesting dynamic DNS configuration.
 struct DynamicDNSResponse: Codable {
+    /// The unique identifier representing the bulk operation request.
     let bulkId: String
+
+    /// The URL used to perform dynamic DNS updates.
     let updateUrl: String
+
+    /// A list of domain names associated with the dynamic DNS configuration.
     let domains: [String]
+
+    /// A user-provided description for the dynamic DNS request.
     let description: String
 }

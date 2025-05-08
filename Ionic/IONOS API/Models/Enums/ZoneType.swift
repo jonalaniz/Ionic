@@ -7,6 +7,12 @@
 
 import Foundation
 
+/// Represents the possible DNS zone types.
+///
+/// Conforms to `Codable` for use with JSON decoding and encoding.
+///
+/// - `native`: A master zone that is managed locally.
+/// - `slave`: A secondary zone that replicates data from a master server.
 enum ZoneType: String, Codable {
     case native = "NATIVE"
     case slave = "SLAVE"

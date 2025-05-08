@@ -31,7 +31,7 @@ class RecordCell: NSTableCellView {
     @IBOutlet weak var changeDateLabel: NSTextField!
     @IBOutlet weak var ttlLabel: NSTextField!
     
-    var record: DNSRecordResponse? {
+    var record: RecordResponse? {
         didSet {
             updateCell()
         }

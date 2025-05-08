@@ -5,10 +5,17 @@
 //  Created by Jon Alaniz on 3/15/25.
 //
 
-// [ A, AAAA, CNAME, MX, NS, SOA, SRV, TXT, CAA, TLSA, SMIMEA, SSHFP, DS, HTTPS, SVCB, CERT, URI, RP, LOC, OPENPGPKEY ]
-
 import Foundation
 
+/// An enumeration of supported DNS record types.
+///
+/// This enum represents common and advanced DNS record types used in zone configurations,
+/// and conforms to `Codable` for easy encoding and decoding.
+///
+/// Supported record types include:
+/// - A, AAAA, CNAME, MX, NS, SOA, TXT, CAA
+/// - TLSA, SMIMEA, SSHFP, DS, HTTPS, SVCB, CERT
+/// - URI, RP, LOC, OPENPGPKEY
 enum RecordType: String, Codable {
     case A = "A"
     case AAAA = "AAAA"
