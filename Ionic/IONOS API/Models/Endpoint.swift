@@ -13,6 +13,7 @@ enum Endpoint {
     case dynamicDNS
     case zones
     case zone(String)
+    case record(String, String)
 
     var url: URL {
         guard var url = URL(string: baseURL) else {
@@ -23,6 +24,8 @@ enum Endpoint {
         case .dynamicDNS: url.appendPathComponent("dyndns")
         case .zones: url.appendPathComponent("zones")
         case .zone(let id): url.appendPathComponent("zones/\(id)")
+        case .record(let zoneID, let recordID):
+            url.appendPathComponent("zones/\(zoneID)/records/\(recordID)")
         }
 
         return url
