@@ -18,9 +18,8 @@ class DynamicDNSDataManager: NSObject {
     weak var delegate: DynamicDNSDataManagerDelegate?
     let service = IONOSService.shared
     var domainNames: [String]?
-    var key: DNSAPIKey?
 
-    func parse(records: [DNSRecordResponse]) {
+    func parse(records: [RecordResponse]) {
         var names = [String]()
         records.forEach {
             if $0.type == .A {
@@ -34,11 +33,10 @@ class DynamicDNSDataManager: NSObject {
         guard let domains = domainNames else { return }
         let selectedDomains = indexSet.map { domains[$0] }
         let dynamicDNSRequest = DynamicDNSRequest(domains: selectedDomains, description: "Ionic DNS")
-        guard let key = key else { return }
 
         Task {
             do {
-                let response  = try await service.postDynamicDNSRecord(dynamicDNSRequest, with: key.authenticationString)
+                let response  = try await service.postDynamicDNSRecord(dynamicDNSRequest)
                 print(response)
                 await urlCaptured(response.updateUrl)
             } catch {

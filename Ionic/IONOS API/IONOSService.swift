@@ -10,13 +10,13 @@ import Foundation
 class IONOSService {
     static let shared = IONOSService()
     private let apiManager = APIManager.shared
+    private let keyManager = APIKeyManager.shared
 
     private init() {}
 
-    func fetchZoneList(with apiKey: String) async throws -> [Zone] {
+    func fetchZoneList() async throws -> [Zone] {
         let url = Endpoint.zones.url
-        let headers = headers(key: apiKey)
-
+        let headers = try headers()
         return try await apiManager.request(
             url: url,
             httpMethod: .get,
@@ -25,9 +25,9 @@ class IONOSService {
             expectingReturnType: [Zone].self)
     }
 
-    func fetchZoneDetail(id: String, with apiKey: String) async throws -> ZoneDetails {
+    func fetchZoneDetail(id: String) async throws -> ZoneDetails {
         let url = Endpoint.zone(id).url
-        let headers = headers(key: apiKey)
+        let headers = try headers()
         return try await apiManager.request(
             url: url,
             httpMethod: .get,
@@ -36,12 +36,10 @@ class IONOSService {
             expectingReturnType: ZoneDetails.self)
     }
 
-    func postDynamicDNSRecord(_ request: DynamicDNSRequest, with apiKey: String) async throws -> DynamicDNSResponse {
+    func postDynamicDNSRecord(_ request: DynamicDNSRequest) async throws -> DynamicDNSResponse {
         let url = Endpoint.dynamicDNS.url
-        let headers = headers(key: apiKey)
+        let headers = try headers()
         let data = try JSONEncoder().encode(request)
-        print(url)
-        print(headers)
         return try await apiManager.request(
             url: url,
             httpMethod: .post,
@@ -50,7 +48,27 @@ class IONOSService {
             expectingReturnType: DynamicDNSResponse.self)
     }
 
-    private func headers(key: String) -> [String: String] {
-        return ["accept": "application/json", "X-API-Key": key, "Content-Type": "application/json"]
+    func update(record: RecordUpdate, zoneID: String, recordID: String) async throws -> RecordResponse {
+        let url = Endpoint.record(zoneID, recordID).url
+        let headers = try headers()
+        let data = try JSONEncoder().encode(record)
+        return try await apiManager.request(
+            url: url,
+            httpMethod: .put,
+            body: data,
+            headers: headers,
+            expectingReturnType: RecordResponse.self)
+    }
+
+    private func headers() throws -> [String: String] {
+        guard let key = keyManager.key?.authenticationString else {
+            throw APIManagerError.configurationMissing
+        }
+
+        return [
+            "accept": "application/json",
+            "X-API-Key": key,
+            "Content-Type": "application/json"
+        ]
     }
 }

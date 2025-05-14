@@ -8,51 +8,77 @@
 import Cocoa
 
 protocol DNSRecordDataManagerDelegate: NSObject {
-    func recordWasUpdated(_ zoneName: String)
+    func zoneUpdated()
+    func recordUpdated()
 }
 
 class DNSRecordDataManager: NSObject {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?
 
-    var selectedRecord: DNSRecordResponse? {
-        didSet {
-            NotificationCenter.default.post(name: .selectedRecordDidChange, object: selectedRecord)
-        }
-    }
+    let service = IONOSService.shared
 
-    var zoneDetails: ZoneDetails? {
+    var selectedRecord: RecordResponse?
+
+    var selectedZone: ZoneDetails? {
         didSet {
             selectedRecord = nil
             sortRecords()
-            notifyDelegate()
+            delegate?.zoneUpdated()
         }
     }
 
-    var records = [DNSRecordResponse]()
+    var records = [RecordResponse]()
 
     private override init() {}
 
-    private func sortRecords() {
-        guard let unsortedRecords = zoneDetails?.records else { return }
-        records = unsortedRecords.sorted { $0.name < $1.name }
+    func toggleDisabledStatus() {
+        guard
+            let record = selectedRecord,
+            let zoneID = selectedZone?.id
+        else {
+            print("unable to grab record: \(String(describing: selectedRecord)), \(String(describing: selectedZone?.id))")
+            return
+        }
+
+        // Create the record update object
+        let object = RecordUpdate(disabled: !record.disabled,
+                                  content: record.content,
+                                  ttl: record.ttl,
+                                  prio: record.prio ?? 0)
+
+        Task {
+            do {
+                let response = try await service.update(record: object, zoneID: zoneID, recordID: record.id)
+                selectedRecord = response
+
+                if let index = records.firstIndex(where: { $0.id == response.id }) {
+                    records[index] = response
+                    delegate?.recordUpdated()
+                }
+
+            } catch {
+                print(error)
+            }
+        }
     }
 
-    private func notifyDelegate() {
-        guard let name = zoneDetails?.name else { return }
-        delegate?.recordWasUpdated(name)
+    private func sortRecords() {
+        guard let unsortedRecords = selectedZone?.records else { return }
+        records = unsortedRecords.sorted { $0.name < $1.name }
     }
 }
 
 extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return zoneDetails?.records.count ?? 0
+        return selectedZone?.records.count ?? 0
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let record = records[row]
         let identifier = NSUserInterfaceItemIdentifier("RecordCell")
-        guard let cell = tableView.makeView(withIdentifier: identifier, owner: self) as? RecordCell else { return nil }
+        guard let cell = tableView.makeView(withIdentifier: identifier, owner: self) as? RecordCell
+        else { return nil }
 
         cell.record = record
         return cell
@@ -60,7 +86,7 @@ extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard let tableView = notification.object as? NSTableView else { return }
-        print(tableView.selectedRow)
         selectedRecord = records[tableView.selectedRow]
+        delegate?.recordUpdated()
     }
 }

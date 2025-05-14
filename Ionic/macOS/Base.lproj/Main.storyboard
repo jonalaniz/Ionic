@@ -1093,10 +1093,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="975"/>
         </scene>
-        <!--Zone View Controller-->
+        <!--Zones View Controller-->
         <scene sceneID="AOU-dp-9Fv">
             <objects>
-                <viewController id="iuS-oZ-uIU" customClass="ZoneViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="iuS-oZ-uIU" customClass="ZonesViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="vyr-dt-Dkv">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="600"/>
                         <subviews>
@@ -1438,7 +1438,7 @@
                                             <constraint firstAttribute="height" constant="20" id="b8t-ex-Pak"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="disableRecord:" target="0kJ-IW-lHY" id="v1d-So-Nk4"/>
+                                            <action selector="toggleEnabledStatus:" target="0kJ-IW-lHY" id="v1d-So-Nk4"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="odP-6R-vxO">
@@ -1536,6 +1536,7 @@
                     </view>
                     <connections>
                         <outlet property="contentTextField" destination="0NI-Rz-c58" id="3D5-W1-1HH"/>
+                        <outlet property="disableButton" destination="fCM-uw-MM1" id="LDX-8N-OBJ"/>
                         <outlet property="idTextField" destination="Ovg-cA-wLb" id="dpT-hH-mAH"/>
                         <outlet property="inspectorView" destination="FDL-68-5hO" id="SrQ-4U-xB9"/>
                         <outlet property="lastChangedValueLabel" destination="1XI-Ld-iWY" id="63r-0S-mdk"/>
@@ -1550,18 +1551,18 @@
             </objects>
             <point key="canvasLocation" x="534" y="1645"/>
         </scene>
-        <!--Record View Controller-->
+        <!--Zone View Controller-->
         <scene sceneID="cVZ-mO-zqT">
             <objects>
-                <viewController id="eZm-gz-ywL" customClass="RecordViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="eZm-gz-ywL" customClass="ZoneViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-ea-S0e">
-                        <rect key="frame" x="0.0" y="0.0" width="431" height="540"/>
+                        <rect key="frame" x="0.0" y="0.0" width="432" height="540"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="BvT-3z-Gug">
-                                <rect key="frame" x="20" y="488" width="391" height="52"/>
+                                <rect key="frame" x="20" y="488" width="392" height="52"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gca-hn-Edl">
-                                        <rect key="frame" x="-2" y="18" width="395" height="16"/>
+                                        <rect key="frame" x="-2" y="18" width="396" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Select a Zone to view Records" id="Zma-Ft-n7d">
                                             <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1576,7 +1577,7 @@
                                 </constraints>
                             </customView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gvq-Hx-bcN">
-                                <rect key="frame" x="160" y="13" width="129" height="32"/>
+                                <rect key="frame" x="161" y="13" width="129" height="32"/>
                                 <buttonCell key="cell" type="push" title="Dynamic DNS..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1586,20 +1587,20 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olg-un-fMk">
-                                <rect key="frame" x="287" y="13" width="133" height="32"/>
+                                <rect key="frame" x="288" y="13" width="133" height="32"/>
                                 <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="117" horizontalPageScroll="10" verticalLineScroll="117" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfC-Ji-93a" userLabel="BSV - Detail">
-                                <rect key="frame" x="18" y="58" width="395" height="420"/>
+                                <rect key="frame" x="18" y="58" width="396" height="420"/>
                                 <clipView key="contentView" drawsBackground="NO" id="rGP-B8-NCT">
-                                    <rect key="frame" x="1" y="1" width="393" height="418"/>
+                                    <rect key="frame" x="1" y="1" width="394" height="418"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="117" viewBased="YES" id="wcc-60-9Eh">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="418"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="394" height="418"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>

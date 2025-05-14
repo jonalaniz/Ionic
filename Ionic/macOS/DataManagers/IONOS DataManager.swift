@@ -5,7 +5,7 @@
 //  Created by Jon Alaniz on 3/9/25.
 //
 
-import Foundation
+import Cocoa
 
 enum ZoneDataManagerState {
     case uninitialized
@@ -13,7 +13,7 @@ enum ZoneDataManagerState {
     case done
 }
 
-class ZoneDataManager {
+class ZoneDataManager: NSObject {
     static let shared = ZoneDataManager()
     weak var delegate: ZoneDataManagerDelegate?
 
@@ -21,30 +21,35 @@ class ZoneDataManager {
     var zones = [Zone]()
     var zoneDetails = [String: ZoneDetails]()
 
-    private init() {}
+    private override init() {}
 
-    @MainActor func loadData(with key: DNSAPIKey) throws {
+    @MainActor func loadData() throws {
         stateDidChange(.loading)
         Task {
-            await loadZones(with: key)
-            await loadZoneInformation(with: key)
+            await loadZones()
+            await loadZoneInformation()
+
+            // Notification should change to just notify
+            // not pass the data
             NotificationCenter.default.post(name: .zonesDidChange, object: nil)
+
+            // This needs to always go to the Coordinator
             stateDidChange(.done)
         }
     }
 
-    func loadZones(with key: DNSAPIKey) async {
+    func loadZones() async {
         do {
-            zones = try await service.fetchZoneList(with: key.authenticationString)
+            zones = try await service.fetchZoneList()
         } catch {
             print(error)
         }
     }
 
-    func loadZoneInformation(with key: DNSAPIKey) async {
+    func loadZoneInformation() async {
         for zone in zones {
             do {
-                let zoneDetail = try await service.fetchZoneDetail(id: zone.id, with: key.authenticationString)
+                let zoneDetail = try await service.fetchZoneDetail(id: zone.id)
                 zoneDetails[zone.id] = zoneDetail
             } catch {
                 print("Error")
@@ -55,6 +60,12 @@ class ZoneDataManager {
     @MainActor
     func stateDidChange(_ state: ZoneDataManagerState) {
         delegate?.stateDidChange(state)
+    }
+}
+
+extension ZoneDataManager: NSTableViewDataSource {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return zones.count
     }
 }
 
