@@ -10,7 +10,15 @@ import Cocoa
 class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
+        subscribeToNotifications()
+    }
+
+    private func subscribeToNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(transitionToSplitView), name: .zonesDidChange, object: nil)
+    }
+
+    private func unsubscribeFromNotifications() {
+        NotificationCenter.default.removeObserver(self)
     }
 
     @objc private func transitionToSplitView() {
@@ -23,8 +31,9 @@ class MainWindowController: NSWindowController {
         }
 
         if currentVC is NSSplitViewController { return }
-        // Prepare the new view controller
-        splitVC.view.alphaValue = 0  // Start fully transparent
+
+        // Prepare the new view controller (set transparent)
+        splitVC.view.alphaValue = 0
         splitVC.view.frame = CGRect(x: 0, y: 0, width: window.frame.width, height: window.frame.height)
 
         // Perform the fade transition
@@ -45,5 +54,7 @@ class MainWindowController: NSWindowController {
                 splitVC.view.animator().alphaValue = 1
             }
         })
+
+        unsubscribeFromNotifications()
     }
 }
