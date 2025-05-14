@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class InspectorViewController: NSViewController {
+class InspectorViewController: MainWindowViewController {
     @IBOutlet weak var noSelectionLabel: NSTextField!
     @IBOutlet weak var inspectorView: NSView!
     @IBOutlet weak var idTextField: NSTextField!
@@ -18,74 +18,68 @@ class InspectorViewController: NSViewController {
     @IBOutlet weak var priorityValueLabel: NSTextField!
     @IBOutlet weak var lastChangedValueLabel: NSTextField!
     @IBOutlet weak var disableButton: NSButton!
-    
-    let dataManager = DNSRecordDataManager.shared
 
-    var dnsRecord: RecordResponse? {
-        didSet {
-            // TODO: Make the coordinator put this somehow
-            // Maybe make them notifications from coordinator and coordinator
-            // talk with delegates
-            updateLabels()
-        }
+    override func recordUpdated() {
+        let selected = recordManager.selectedRecord != nil
+        toggleInspector(itemIsSelected: selected)
+        updateLabels()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateRecord), name: .selectedRecordDidChange, object: nil)
+    override func zoneUpdated() {
+        toggleInspector(itemIsSelected: false)
     }
 
-    @objc func updateRecord(_ notification: Notification) {
-        guard let record = notification.object as? RecordResponse else {
-            toggleInspector(itemIsSelected: false)
-            return
-        }
-        dnsRecord = record
-    }
+    @IBAction func toggleEnabledStatus(_ sender: NSButton) {
+        guard let record = recordManager.selectedRecord else { return }
+        let buttonTitle = record.disabled ? "Enable" : "Disable"
+        let action = record.disabled ? "enable" : "disable"
 
-    @IBAction func disableRecord(_ sender: NSButton) {
-        let alert = NSAlert()
-        alert.messageText = "Are you sure you want to disable this record?"
-        alert.alertStyle = .warning
+        let alert = alert(style: .warning,
+                          buttonTitle: buttonTitle,
+                          message: "Are you sure you want to \(action) this record?")
 
-        alert.addButton(withTitle: "Cancel")
-        alert.addButton(withTitle: "Disable").bezelColor = .systemBlue
-
-        guard let window = self.view.window else { return }
-        alert.beginSheetModal(for: window) { response in
-            if response == .alertSecondButtonReturn {
-                self.toggleDisabledStatus()
-            }
-        }
+        show(alert) { self.toggleDisabledStatus() }
     }
 
     @IBAction func deleteRecord(_ sender: NSButton) {
+        let alert = alert(style: .critical,
+                          buttonTitle: "Delete",
+                          message: "Are you sure you want to delete this record?",
+                          informativeText: "This action cannot be undone.")
+
+        show(alert) { self.deleteRecord() }
+    }
+
+    private func alert(style: NSAlert.Style, buttonTitle: String, message: String, informativeText: String? = nil) -> NSAlert {
         let alert = NSAlert()
-        alert.messageText = "Are you sure you want to delete this record?"
-        alert.alertStyle = .critical
-        alert.informativeText = "This action cannot be undone."
+        let color: NSColor = style == .critical ? .red : .systemBlue
 
+        alert.messageText = message
+        alert.alertStyle = style
+        if let text = informativeText { alert.informativeText = text }
         alert.addButton(withTitle: "Cancel")
-        alert.addButton(withTitle: "Delete").bezelColor = .red
+        alert.addButton(withTitle: buttonTitle).bezelColor = color
 
+        return alert
+    }
+
+    private func show(_ alert: NSAlert, completion: @escaping () -> Void) {
         guard let window = self.view.window else { return }
         alert.beginSheetModal(for: window) { response in
-            if response == .alertSecondButtonReturn {
-                self.deleteRecord()
-            }
+            if response == .alertSecondButtonReturn { completion() }
         }
     }
 
-    func toggleDisabledStatus() {
-        dataManager.toggleDisabledStatus()
+    private func toggleDisabledStatus() {
+        recordManager.toggleDisabledStatus()
     }
 
-    func deleteRecord() {
-        print("record: \(dnsRecord?.name) deleted")
+    private func deleteRecord() {
+        print("record deleted")
     }
 
     private func updateLabels() {
-        guard let record = dnsRecord else { return }
+        guard let record = recordManager.selectedRecord else { return }
         idTextField.stringValue = record.id
         contentTextField.stringValue = record.content
         rootTextField.stringValue = record.rootName

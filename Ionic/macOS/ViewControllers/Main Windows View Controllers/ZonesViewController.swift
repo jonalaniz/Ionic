@@ -1,5 +1,5 @@
 //
-//  ZoneView.swift
+//  ZonesViewController.swift
 //  Ionic
 //
 //  Created by Jon Alaniz on 3/11/25.
@@ -7,15 +7,14 @@
 
 import Cocoa
 
-class ZonesViewController: NSViewController {
+class ZonesViewController: MainWindowViewController {
     @IBOutlet weak var zoneTableView: NSTableView!
 
-    let dataManager = ZoneDataManager.shared
-    let recordDataManager = DNSRecordDataManager.shared
+    let zoneManager = ZoneDataManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        zoneTableView.dataSource = self
+        zoneTableView.dataSource = zoneManager
         zoneTableView.delegate = self
     }
 }
@@ -30,24 +29,18 @@ extension ZonesViewController: NSTableViewDelegate {
             owner: self) as? NSTableCellView
         else { return NSTableCellView() }
 
-        cell.textField?.stringValue = dataManager.zones[row].name
-        cell.imageView?.image = image(for: dataManager.zones[row].type)
+        cell.textField?.stringValue = zoneManager.zones[row].name
+        cell.imageView?.image = image(for: zoneManager.zones[row].type)
 
         return cell
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let selectedZone = dataManager.zones[zoneTableView.selectedRow]
-        recordDataManager.zoneDetails = dataManager.zoneDetails[selectedZone.id]
+        let selectedZone = zoneManager.zones[zoneTableView.selectedRow]
+        recordManager.selectedZone = zoneManager.zoneDetails[selectedZone.id]
     }
 
     private func image(for type: ZoneType) -> NSImage? {
         return NSImage(systemSymbolName: type.sfSymbolName, accessibilityDescription: "")
-    }
-}
-
-extension ZonesViewController: NSTableViewDataSource {
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return dataManager.zones.count
     }
 }
