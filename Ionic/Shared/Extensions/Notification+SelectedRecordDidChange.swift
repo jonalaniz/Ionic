@@ -9,5 +9,6 @@ import Foundation
 
 extension Notification.Name {
     static let selectedRecordDidChange = Notification.Name("selectedRecordDidChange")
+    static let selectedZoneDidChange = Notification.Name("selectedZoneDidChange")
     static let zonesDidChange = Notification.Name("zonesDidChange")
 }
