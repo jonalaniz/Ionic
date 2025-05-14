@@ -7,21 +7,6 @@
 
 import Cocoa
 
-/*
- "records": [
-   {
-     "id": "22af3414-abbe-9e11-5df5-66fbe8e334b4",
-     "name": "example-zone.de",
-     "rootName": "example-zone.de",
-     "type": "A",
-     "content": "1.1.1.1",
-     "changeDate": "2019-12-09T13:04:25.772Z",
-     "ttl": 3600,
-     "prio": 0,
-     "disabled": false
-   }
- */
-
 class RecordCell: NSTableCellView {
     @IBOutlet weak var headerView: NSView!
     @IBOutlet weak var statusLabel: NSTextField!
