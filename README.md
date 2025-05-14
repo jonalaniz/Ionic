@@ -15,7 +15,7 @@
 
 ## To Do
 
-- **Quick Enable/Disable**: Enable/disable a record with one click.
+- ~~**Quick Enable/Disable**: Enable/disable a record with one click.~~
 - **Create Record**: Create a new record in a Zone.
 - **Edit**: Edit a record.
 - **Delete**: Delete a record.
