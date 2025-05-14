@@ -7,7 +7,7 @@
 
 import Cocoa
 
-class ZoneViewController: NSViewController {
+class ZonesViewController: NSViewController {
     @IBOutlet weak var zoneTableView: NSTableView!
 
     let dataManager = ZoneDataManager.shared
@@ -15,19 +15,12 @@ class ZoneViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataManager.delegate = self
         zoneTableView.dataSource = self
         zoneTableView.delegate = self
     }
 }
 
-extension ZoneViewController: ZoneDataManagerDelegate {
-    func stateDidChange(_ state: ZoneDataManagerState) {
-        // Nothing right now, this functionality was moved to the Toolbar
-    }
-}
-
-extension ZoneViewController: NSTableViewDelegate {
+extension ZonesViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let column = Column(from: tableColumn?.identifier) else { return nil }
         let cellIdentifier = NSUserInterfaceItemIdentifier(column.cellIdentifier)
@@ -53,7 +46,7 @@ extension ZoneViewController: NSTableViewDelegate {
     }
 }
 
-extension ZoneViewController: NSTableViewDataSource {
+extension ZonesViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return dataManager.zones.count
     }

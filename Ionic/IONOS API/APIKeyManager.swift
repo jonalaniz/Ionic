@@ -32,9 +32,9 @@ class APIKeyManager {
         loadKey()
     }
 
-    func addKey(_ key: DNSAPIKey) {
+    func addKey(_ key: DNSAPIKey, save: Bool) {
         self.key = key
-        save()
+        if save { saveKey() }
     }
 
     private func loadKey() {
@@ -51,7 +51,7 @@ class APIKeyManager {
         }
     }
 
-    private func save() {
+    private func saveKey() {
         do {
             try keychainHelper.set(key, for: account)
         } catch let error as KeychainError {
