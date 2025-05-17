@@ -17,15 +17,10 @@ struct DNSAPIKey: Codable {
     }
 }
 
-enum Key: String {
-    case service = "com.jonalaniz.ionic"
-    case account = "apiKeys"
-}
-
 class APIKeyManager {
     static let shared = APIKeyManager()
-    private let keychainHelper = KeychainHelper(service: Key.service.rawValue)
-    private let account = Key.account.rawValue
+    private let keychainHelper = KeychainHelper(service: "com.jonalaniz.ionic")
+    private let account = "apiKeys"
     private(set) var key: DNSAPIKey?
 
     private init() {
