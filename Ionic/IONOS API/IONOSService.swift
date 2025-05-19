@@ -21,8 +21,7 @@ class IONOSService {
             url: url,
             httpMethod: .get,
             body: nil,
-            headers: headers,
-            expectingReturnType: [Zone].self)
+            headers: headers)
     }
 
     func fetchZoneDetail(id: String) async throws -> ZoneDetails {
@@ -32,8 +31,7 @@ class IONOSService {
             url: url,
             httpMethod: .get,
             body: nil,
-            headers: headers,
-            expectingReturnType: ZoneDetails.self)
+            headers: headers)
     }
 
     func postDynamicDNSRecord(_ request: DynamicDNSRequest) async throws -> DynamicDNSResponse {
@@ -44,8 +42,7 @@ class IONOSService {
             url: url,
             httpMethod: .post,
             body: data,
-            headers: headers,
-            expectingReturnType: DynamicDNSResponse.self)
+            headers: headers)
     }
 
     func update(record: RecordUpdate, zoneID: String, recordID: String) async throws -> RecordResponse {
@@ -56,8 +53,7 @@ class IONOSService {
             url: url,
             httpMethod: .put,
             body: data,
-            headers: headers,
-            expectingReturnType: RecordResponse.self)
+            headers: headers)
     }
 
     private func headers() throws -> [String: String] {
