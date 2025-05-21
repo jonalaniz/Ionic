@@ -24,18 +24,18 @@ class ErrorPresenter {
 //        alert.alertStyle = .critical
     }
     
-    private func createAlertContent(for error: APIManagerError) -> AlertContent {
-        switch error {
-        case .configurationMissing: return
-        case .conversionFailedToHTTPURLResponse: return
-        case .invalidResponse(let code):
-            return AlertContent(messageText: "Invalid Response",
-                                informativeText: "Server returned status code: \(code)")
-        case .invalidURL: return
-        case .ionosAPIErrorCode(let ionosError):
-            return AlertContent(messageText: ionosError.message, informativeText: <#T##String?#>)
-        case .serializaitonFailed: return
-        case .somethingWentWrong(let error): return
-        }
-    }
+//    private func createAlertContent(for error: APIManagerError) -> AlertContent {
+//        switch error {
+//        case .configurationMissing: return
+//        case .conversionFailedToHTTPURLResponse: return
+//        case .invalidResponse(let code):
+//            return AlertContent(messageText: "Invalid Response",
+//                                informativeText: "Server returned status code: \(code)")
+//        case .invalidURL: return
+//        case .ionosAPIErrorCode(let ionosError):
+//            return AlertContent(messageText: ionosError.message, informativeText: <#T##String?#>)
+//        case .serializaitonFailed: return
+//        case .somethingWentWrong(let error): return
+//        }
+//    }
 }

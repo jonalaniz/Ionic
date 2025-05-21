@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct IONOSAPIError: Error {
+    let code: IONOSAPIErrorCode
+    let responseData: Data?
+}
+
 /// Represents known HTTP status codes returned by the API and their associated meanings.
 ///
 /// - `400` - Returns a `RecordError` based on detailed record validation failure.

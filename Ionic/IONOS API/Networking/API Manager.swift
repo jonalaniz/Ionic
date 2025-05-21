@@ -18,29 +18,45 @@ final class APIManager: Managable {
                     httpMethod: ServiceMethod,
                     body: Data?,
                     headers: [String : String]?
-    ) async throws -> T where T: Decodable, T: Encodable {
+    ) async throws -> T where T: Decodable {
         let request = buildRequest(url: url,
                                    httpMethod: httpMethod,
                                    body: body,
                                    headers: headers)
 
-        return try await self.decodeResponse(session.data(for: request))
+        return try await self.handleResponse(session.data(for: request))
     }
 
-    private func decodeResponse<T: Decodable>(_ dataWithResponse: (data: Data, response: URLResponse)) async throws -> T {
+    private func handleResponse<T: Decodable>(_ dataWithResponse: (data: Data, response: URLResponse)
+    ) async throws -> T {
         guard let response = dataWithResponse.response as? HTTPURLResponse else {
             throw APIManagerError.conversionFailedToHTTPURLResponse
         }
-
-        try response.statusCodeChecker()
+        
+        // Here we grab the status code and data
+        let statusCode = response.statusCode
+        let data = dataWithResponse.data
+        
+        // Check for error status codes
+        guard (200...299).contains(statusCode) else {
+            // Decode as an IONOS API Error first
+            if let errorCode = IONOSAPIErrorCode(rawValue: statusCode) {
+                let error = IONOSAPIError(code: errorCode, responseData: data)
+                throw APIManagerError.ionosAPIError(error)
+            } else {
+                throw APIManagerError.invalidResponse(statuscode: statusCode)
+            }
+        }
 
         do {
-            return try JSONDecoder().decode(
-                T.self,
-                from: dataWithResponse.data)
+            return try decode(data)
         } catch {
-            throw APIManagerError.serializaitonFailed
+            throw APIManagerError.serializaitonFailed(error)
         }
+    }
+    
+    private func decode<T: Decodable>(_ data: Data) throws -> T {
+        return try JSONDecoder().decode(T.self, from: data)
     }
     
     private func buildRequest(url: URL,

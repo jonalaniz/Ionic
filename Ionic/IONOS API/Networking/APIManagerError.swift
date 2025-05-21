@@ -12,7 +12,8 @@ enum APIManagerError: Error {
     case conversionFailedToHTTPURLResponse
     case invalidResponse(statuscode: Int)
     case invalidURL
-    case serializaitonFailed
+    case ionosAPIError(IONOSAPIError)
+    case serializaitonFailed(Error)
     case somethingWentWrong(error: Error?)
 
     var errorDescription: String {
@@ -21,12 +22,14 @@ enum APIManagerError: Error {
             return "Missing configuration data"
         case .conversionFailedToHTTPURLResponse:
             return "Typecasting failed."
+        case .ionosAPIError(let error):
+            return error.code.message
         case .invalidResponse(let statuscode):
             return "Invalid Response (\(statuscode))"
         case .invalidURL:
             return "Invalid URL"
-        case .serializaitonFailed:
-            return "JSONSerialization Failed"
+        case .serializaitonFailed(let error):
+            return "Failed to decode JSON: \(error.description)"
         case .somethingWentWrong(let error):
             return error?.localizedDescription ?? "Something went wrong"
         }
