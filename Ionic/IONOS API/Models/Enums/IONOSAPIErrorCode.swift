@@ -7,12 +7,18 @@
 
 import Foundation
 
+/// Represents an error response from the IONOS API.
+///
+/// This struct encablulates both the HTTP status code (via `IONOSAPIErrorCode`)
+/// and the optional response body returned by the server.
+/// Response data can either be nil, or decoded into either an
+/// `APIErrorCodeResponse` or `APIErrorInvalidResponse`
 struct IONOSAPIError: Error {
     let code: IONOSAPIErrorCode
     let responseData: Data?
 }
 
-/// Represents known HTTP status codes returned by the API and their associated meanings.
+/// Represents known HTTP status codes returned by the IONOS API and their interpritations.
 ///
 /// - `400` - Returns a `RecordError` based on detailed record validation failure.
 /// - `401`, `403`, `404` - Returns an `APIError` with a provided message from the server.
