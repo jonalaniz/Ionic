@@ -51,7 +51,7 @@ final class APIManager: Managable {
         do {
             return try decode(data)
         } catch {
-            throw APIManagerError.serializaitonFailed(error)
+            throw APIManagerError.serializationFailed(error)
         }
     }
     

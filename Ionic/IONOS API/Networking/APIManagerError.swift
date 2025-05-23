@@ -26,7 +26,7 @@ enum APIManagerError: Error {
     
     /// The response could not be decoded into the expected model.
     ///  - Parameter: `Error` is uaully a `DecodingError` from `JSONDecoder`.
-    case serializaitonFailed(Error)
+    case serializationFailed(Error)
     
     /// A general catch-all error when the cause is unknown.
     case somethingWentWrong(error: Error?)
@@ -41,10 +41,10 @@ enum APIManagerError: Error {
         case .ionosAPIError(let error):
             return error.code.message
         case .invalidResponse(let statuscode):
-            return "Invalid Response (\(statuscode))"
+            return "Invalid HTTP Response Status Code (\(statuscode))"
         case .invalidURL:
             return "Invalid URL"
-        case .serializaitonFailed(let error):
+        case .serializationFailed(let error):
             return "Failed to decode JSON: \(error.description)"
         case .somethingWentWrong(let error):
             return error?.localizedDescription ?? "Something went wrong"
