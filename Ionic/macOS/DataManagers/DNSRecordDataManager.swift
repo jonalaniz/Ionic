@@ -15,6 +15,7 @@ protocol DNSRecordDataManagerDelegate: NSObject {
 class DNSRecordDataManager: NSObject {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?
+    weak var errorHandler: ErrorHandling?
 
     let service = IONOSService.shared
 
@@ -58,7 +59,7 @@ class DNSRecordDataManager: NSObject {
                 }
 
             } catch {
-                print(error)
+                errorHandler?.handle(error: error as! APIManagerError, from: .recordDataManager)
             }
         }
     }

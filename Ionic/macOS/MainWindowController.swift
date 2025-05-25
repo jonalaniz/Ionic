@@ -11,6 +11,8 @@ class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         subscribeToNotifications()
+        ZoneDataManager.shared.errorHandler = self
+        DNSRecordDataManager.shared.errorHandler = self
     }
 
     private func subscribeToNotifications() {
@@ -56,5 +58,30 @@ class MainWindowController: NSWindowController {
         })
 
         unsubscribeFromNotifications()
+    }
+}
+
+// MainWindowController should handle errors for issues related to the three views it holds: Zones, Zone, and Inspector
+extension MainWindowController: ErrorHandling {
+    func handle(error: APIManagerError, from source: ErrorSource) {
+        DispatchQueue.main.async {
+            switch source {
+            case .zoneDataManager:
+                self.stopLoadingProgressindicator()
+            case .recordDataManager:
+                break
+            }
+            
+            guard let window = self.window else {
+                assertionFailure("MailWindowController.window was nil while presenting an error")
+                return
+            }
+            ErrorPresenter.shared.presentError(error, in: window)
+        }
+    }
+    
+    private func stopLoadingProgressindicator() {
+        guard let viewController = contentViewController as? LoginViewController else { return }
+        viewController.progressindicator.stopAnimation(nil)
     }
 }

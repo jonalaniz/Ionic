@@ -16,6 +16,7 @@ enum ZoneDataManagerState {
 class ZoneDataManager: NSObject {
     static let shared = ZoneDataManager()
     weak var delegate: ZoneDataManagerDelegate?
+    weak var errorHandler: ErrorHandling?
 
     private let service = IONOSService.shared
     var zones = [Zone]()
@@ -28,25 +29,37 @@ class ZoneDataManager: NSObject {
         Task {
             await loadZones()
             await loadZoneInformation()
-
-            // Notification should change to just notify
-            // not pass the data
+            
+            // Make sure the above was successful, errors will be thrown above
+            guard !zones.isEmpty, !zoneDetails.isEmpty else {
+                print("Shit's empty")
+                return
+            }
+            
+            // Notify that the zones were changed
             NotificationCenter.default.post(name: .zonesDidChange, object: nil)
-
-            // This needs to always go to the Coordinator
+            
+            // Let the coordinator know we are done
             stateDidChange(.done)
         }
     }
 
     func loadZones() async {
+        print("loading Zones")
         do {
             zones = try await service.fetchZoneList()
         } catch {
-            print(error)
+            if let apiError = error as? APIManagerError {
+                errorHandler?.handle(error: apiError, from: .zoneDataManager)
+            }
+            
+            let error = APIManagerError.somethingWentWrong(error: error)
+            errorHandler?.handle(error: error, from: .zoneDataManager)
         }
     }
 
     func loadZoneInformation() async {
+        print("Loading Zone information")
         for zone in zones {
             do {
                 let zoneDetail = try await service.fetchZoneDetail(id: zone.id)
