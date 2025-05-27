@@ -12,7 +12,8 @@ import Cocoa
 // the zone.
 class ZoneViewController: MainWindowViewController {
     @IBOutlet weak var detailTableView: NSTableView!
-    @IBOutlet var zoneNameLabel: NSTextField!
+    @IBOutlet weak var zoneNameLabel: NSTextField!
+    @IBOutlet weak var createRecordButton: NSButton!
     @IBOutlet weak var dynamicDNSButton: NSButton!
     
     override func viewDidLoad() {
@@ -26,6 +27,7 @@ class ZoneViewController: MainWindowViewController {
         zoneNameLabel.stringValue = zoneDetails.name
         detailTableView.reloadData()
         detailTableView.scrollRowToVisible(0)
+        createRecordButton.isEnabled = true
         dynamicDNSButton.isEnabled = true
     }
 

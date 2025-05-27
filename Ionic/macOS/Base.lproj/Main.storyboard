@@ -882,7 +882,7 @@
                 </windowController>
                 <customObject id="wwt-pL-jit" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="2248"/>
+            <point key="canvasLocation" x="-226" y="2272"/>
         </scene>
         <!--DynamicDNS View Controller-->
         <scene sceneID="4r1-kO-Us5">
@@ -1064,7 +1064,7 @@
                 </viewController>
                 <customObject id="7xL-BV-RQT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="717" y="2248"/>
+            <point key="canvasLocation" x="-226" y="2727"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="8T2-dJ-hXC">
@@ -1219,7 +1219,7 @@
                 </viewController>
                 <customObject id="qHf-Ap-YSA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-360" y="1663"/>
+            <point key="canvasLocation" x="-390" y="1705"/>
         </scene>
         <!--Inspector View Controller-->
         <scene sceneID="aG8-J1-HYr">
@@ -1549,7 +1549,70 @@
                 </viewController>
                 <customObject id="FcV-Y1-z5r" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="534" y="1645"/>
+            <point key="canvasLocation" x="650" y="1675"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="LQo-is-Sf4">
+            <objects>
+                <windowController id="mH4-Dv-TYm" sceneMemberID="viewController">
+                    <window key="window" title="Create Record" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" id="up6-Yf-p3H">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="372" y="413" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2304" height="1296"/>
+                        <view key="contentView" id="RZz-OH-edH">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="mH4-Dv-TYm" id="YKL-fh-UhM"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="BSK-E5-una" kind="relationship" relationship="window.shadowedContentViewController" id="Eh6-1j-ad1"/>
+                    </connections>
+                </windowController>
+                <customObject id="wmh-lL-5tq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="394" y="2272"/>
+        </scene>
+        <!--Create Record View Controller-->
+        <scene sceneID="LGe-mn-2HP">
+            <objects>
+                <viewController id="BSK-E5-una" customClass="CreateRecordViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="BPO-Ey-f7p">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nUp-oo-nbG">
+                                <rect key="frame" x="141" y="212" width="306" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="yJW-y3-w8t">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="1mT-Wo-TCl"/>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7vT-wI-vAm">
+                                <rect key="frame" x="55" y="219" width="37" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="10t-JN-qlJ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="AIc-L8-bzP"/>
+                        <viewLayoutGuide key="layoutMargins" id="KDX-bf-Oxu"/>
+                    </view>
+                    <connections>
+                        <outlet property="recordTypeButton" destination="nUp-oo-nbG" id="ipx-YD-v29"/>
+                    </connections>
+                </viewController>
+                <customObject id="bbF-CA-C3F" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="967" y="2272"/>
         </scene>
         <!--Zone View Controller-->
         <scene sceneID="cVZ-mO-zqT">
@@ -1592,6 +1655,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <segue destination="mH4-Dv-TYm" kind="show" id="eOF-6X-7xu"/>
+                                </connections>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="117" horizontalPageScroll="10" verticalLineScroll="117" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfC-Ji-93a" userLabel="BSV - Detail">
                                 <rect key="frame" x="18" y="58" width="397" height="420"/>
@@ -1764,6 +1830,7 @@
                         <viewLayoutGuide key="layoutMargins" id="p0e-M1-ugC"/>
                     </view>
                     <connections>
+                        <outlet property="createRecordButton" destination="olg-un-fMk" id="tt1-1R-9jn"/>
                         <outlet property="detailTableView" destination="wcc-60-9Eh" id="xTM-Pd-tTn"/>
                         <outlet property="dynamicDNSButton" destination="gvq-Hx-bcN" id="BJK-KU-PG5"/>
                         <outlet property="zoneNameLabel" destination="gca-hn-Edl" id="wZu-ls-7Bb"/>
@@ -1771,7 +1838,7 @@
                 </viewController>
                 <customObject id="XL1-wP-D37" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="97" y="1645"/>
+            <point key="canvasLocation" x="76" y="1675"/>
         </scene>
     </scenes>
     <resources>
