@@ -8,7 +8,7 @@
 import Cocoa
 
 protocol DNSRecordDataManagerDelegate: NSObject {
-    func zoneUpdated()
+    func zoneSelected()
     func recordSelected()
     func recordUpdated()
 }
@@ -59,10 +59,10 @@ class DNSRecordDataManager: BaseDataManager {
         }
     }
     
-    func set(zone: ZoneDetails) {
+    func select(zone: ZoneDetails) {
         selectedZone = zone
         selectedRecord = nil
-        delegate?.zoneUpdated()
+        delegate?.zoneSelected()
     }
     
     private func updateRecord(with response: RecordResponse) {

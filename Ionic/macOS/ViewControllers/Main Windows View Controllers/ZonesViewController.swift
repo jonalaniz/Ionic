@@ -38,7 +38,7 @@ extension ZonesViewController: NSTableViewDelegate {
     func tableViewSelectionDidChange(_ notification: Notification) {
         let selectedZone = zoneManager.zones[zoneTableView.selectedRow]
         guard let zone = zoneManager.zoneDetails[selectedZone.id] else { return }
-        recordManager.set(zone: zone)
+        recordManager.select(zone: zone)
     }
 
     private func image(for type: ZoneType) -> NSImage? {
