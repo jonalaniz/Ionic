@@ -16,8 +16,12 @@ protocol DynamicDNSDataManagerDelegate: NSObject {
 class DynamicDNSDataManager: NSObject {
     static let shared = DynamicDNSDataManager()
     weak var delegate: DynamicDNSDataManagerDelegate?
-    let service = IONOSService.shared
+    weak var errorHandler: ErrorHandling?
+    
+    private let service = IONOSService.shared
     var domainNames: [String]?
+    
+    private override init() {}
 
     func parse(records: [RecordResponse]) {
         var names = [String]()
@@ -37,10 +41,9 @@ class DynamicDNSDataManager: NSObject {
         Task {
             do {
                 let response  = try await service.postDynamicDNSRecord(dynamicDNSRequest)
-                print(response)
                 await urlCaptured(response.updateUrl)
             } catch {
-                print(error)
+                handleError(error)
             }
         }
     }
@@ -48,6 +51,18 @@ class DynamicDNSDataManager: NSObject {
     @MainActor
     func urlCaptured(_ urlString: String) {
         delegate?.urlCaptured(urlString)
+    }
+    
+    private func handleError(_ error: Error) {
+        guard let apiError = error as? APIManagerError else {
+            errorHandler?.handle(
+                error: APIManagerError.somethingWentWrong(error: error),
+                from: .ddnsDataManager
+            )
+            return
+        }
+                
+        errorHandler?.handle(error: apiError, from: .ddnsDataManager)
     }
 }
 

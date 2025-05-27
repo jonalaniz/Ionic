@@ -10,4 +10,5 @@ import Foundation
 enum ErrorSource {
     case zoneDataManager
     case recordDataManager
+    case ddnsDataManager
 }

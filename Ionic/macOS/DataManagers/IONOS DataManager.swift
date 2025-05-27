@@ -49,12 +49,7 @@ class ZoneDataManager: NSObject {
         do {
             zones = try await service.fetchZoneList()
         } catch {
-            if let apiError = error as? APIManagerError {
-                errorHandler?.handle(error: apiError, from: .zoneDataManager)
-            }
-            
-            let error = APIManagerError.somethingWentWrong(error: error)
-            errorHandler?.handle(error: error, from: .zoneDataManager)
+            handleError(error)
         }
     }
 
@@ -65,7 +60,7 @@ class ZoneDataManager: NSObject {
                 let zoneDetail = try await service.fetchZoneDetail(id: zone.id)
                 zoneDetails[zone.id] = zoneDetail
             } catch {
-                print("Error")
+                handleError(error)
             }
         }
     }
@@ -73,6 +68,18 @@ class ZoneDataManager: NSObject {
     @MainActor
     func stateDidChange(_ state: ZoneDataManagerState) {
         delegate?.stateDidChange(state)
+    }
+    
+    private func handleError(_ error: Error) {
+        guard let apiError = error as? APIManagerError else {
+            errorHandler?.handle(
+                error: APIManagerError.somethingWentWrong(error: error),
+                from: .zoneDataManager
+            )
+            return
+        }
+                
+        errorHandler?.handle(error: apiError, from: .zoneDataManager)
     }
 }
 

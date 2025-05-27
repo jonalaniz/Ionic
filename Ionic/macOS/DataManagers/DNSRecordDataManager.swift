@@ -12,6 +12,11 @@ protocol DNSRecordDataManagerDelegate: NSObject {
     func recordUpdated()
 }
 
+// TODO: Implement error handling like that form the other DataManagers
+// Maybe create a base datamanager class??? 🤔
+// We can set the type in the data manager and pass it to a shared
+// errorHandler function as well as make it overridable if something
+// must be haulted in the future
 class DNSRecordDataManager: NSObject {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?

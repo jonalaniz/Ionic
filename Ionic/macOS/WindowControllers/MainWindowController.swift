@@ -64,24 +64,27 @@ class MainWindowController: NSWindowController {
 // MainWindowController should handle errors for issues related to the three views it holds: Zones, Zone, and Inspector
 extension MainWindowController: ErrorHandling {
     func handle(error: APIManagerError, from source: ErrorSource) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             switch source {
-            case .zoneDataManager:
-                self.stopLoadingProgressindicator()
-            case .recordDataManager:
-                break
+            case .zoneDataManager: self?.stopLoadingProgressindicator()
+            default: break
             }
             
-            guard let window = self.window else {
-                assertionFailure("MailWindowController.window was nil while presenting an error")
-                return
-            }
-            ErrorPresenter.shared.presentError(error, in: window)
+            self?.presentError(error)
         }
     }
     
     private func stopLoadingProgressindicator() {
         guard let viewController = contentViewController as? LoginViewController else { return }
         viewController.progressindicator.stopAnimation(nil)
+    }
+    
+    private func presentError(_ error: APIManagerError) {
+        guard let window = self.window else {
+            assertionFailure("MailWindowController.window was nil while presenting an error")
+            return
+        }
+        
+        ErrorPresenter.shared.presentError(error, in: window)
     }
 }
