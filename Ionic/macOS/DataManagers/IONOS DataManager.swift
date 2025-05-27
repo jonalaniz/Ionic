@@ -7,25 +7,23 @@
 
 import Cocoa
 
-enum ZoneDataManagerState {
-    case uninitialized
-    case loading
-    case done
+protocol ZoneDataManagerDelegate: NSObject {
+    /// Called when Zones were fetched and parsed successfully
+    func zonesLoaded()
 }
 
-class ZoneDataManager: NSObject {
+class ZoneDataManager: BaseDataManager {
     static let shared = ZoneDataManager()
     weak var delegate: ZoneDataManagerDelegate?
-    weak var errorHandler: ErrorHandling?
 
-    private let service = IONOSService.shared
     var zones = [Zone]()
     var zoneDetails = [String: ZoneDetails]()
 
-    private override init() {}
+    private init() {
+        super.init(source: .zoneDataManager)
+    }
 
     @MainActor func loadData() throws {
-        stateDidChange(.loading)
         Task {
             await loadZones()
             await loadZoneInformation()
@@ -35,17 +33,13 @@ class ZoneDataManager: NSObject {
                 print("Shit's empty")
                 return
             }
-            
-            // Notify that the zones were changed
-            NotificationCenter.default.post(name: .zonesDidChange, object: nil)
-            
+                        
             // Let the coordinator know we are done
-            stateDidChange(.done)
+            zonesLoaded()
         }
     }
 
     func loadZones() async {
-        print("loading Zones")
         do {
             zones = try await service.fetchZoneList()
         } catch {
@@ -54,7 +48,6 @@ class ZoneDataManager: NSObject {
     }
 
     func loadZoneInformation() async {
-        print("Loading Zone information")
         for zone in zones {
             do {
                 let zoneDetail = try await service.fetchZoneDetail(id: zone.id)
@@ -66,20 +59,8 @@ class ZoneDataManager: NSObject {
     }
 
     @MainActor
-    func stateDidChange(_ state: ZoneDataManagerState) {
-        delegate?.stateDidChange(state)
-    }
-    
-    private func handleError(_ error: Error) {
-        guard let apiError = error as? APIManagerError else {
-            errorHandler?.handle(
-                error: APIManagerError.somethingWentWrong(error: error),
-                from: .zoneDataManager
-            )
-            return
-        }
-                
-        errorHandler?.handle(error: apiError, from: .zoneDataManager)
+    func zonesLoaded() {
+        delegate?.zonesLoaded()
     }
 }
 
@@ -87,8 +68,4 @@ extension ZoneDataManager: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return zones.count
     }
-}
-
-protocol ZoneDataManagerDelegate: NSObject {
-    func stateDidChange(_ state: ZoneDataManagerState)
 }

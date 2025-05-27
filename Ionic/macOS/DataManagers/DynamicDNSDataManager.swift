@@ -13,15 +13,15 @@ protocol DynamicDNSDataManagerDelegate: NSObject {
 }
 
 
-class DynamicDNSDataManager: NSObject {
+class DynamicDNSDataManager: BaseDataManager {
     static let shared = DynamicDNSDataManager()
     weak var delegate: DynamicDNSDataManagerDelegate?
-    weak var errorHandler: ErrorHandling?
     
-    private let service = IONOSService.shared
     var domainNames: [String]?
     
-    private override init() {}
+    private init() {
+        super.init(source: .ddnsDataManager)
+    }
 
     func parse(records: [RecordResponse]) {
         var names = [String]()
@@ -51,18 +51,6 @@ class DynamicDNSDataManager: NSObject {
     @MainActor
     func urlCaptured(_ urlString: String) {
         delegate?.urlCaptured(urlString)
-    }
-    
-    private func handleError(_ error: Error) {
-        guard let apiError = error as? APIManagerError else {
-            errorHandler?.handle(
-                error: APIManagerError.somethingWentWrong(error: error),
-                from: .ddnsDataManager
-            )
-            return
-        }
-                
-        errorHandler?.handle(error: apiError, from: .ddnsDataManager)
     }
 }
 

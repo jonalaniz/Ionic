@@ -9,69 +9,82 @@ import Cocoa
 
 protocol DNSRecordDataManagerDelegate: NSObject {
     func zoneUpdated()
+    func recordSelected()
     func recordUpdated()
 }
 
-// TODO: Implement error handling like that form the other DataManagers
-// Maybe create a base datamanager class??? 🤔
-// We can set the type in the data manager and pass it to a shared
-// errorHandler function as well as make it overridable if something
-// must be haulted in the future
-class DNSRecordDataManager: NSObject {
+class DNSRecordDataManager: BaseDataManager {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?
-    weak var errorHandler: ErrorHandling?
-
-    let service = IONOSService.shared
 
     var selectedRecord: RecordResponse?
 
-    var selectedZone: ZoneDetails? {
-        didSet {
-            selectedRecord = nil
-            sortRecords()
-            delegate?.zoneUpdated()
-        }
+    private(set) var selectedZone: ZoneDetails?
+
+    var records: [RecordResponse] {
+        return selectedZone?.records.sorted {
+            $0.name < $1.name
+        } ?? []
     }
-
-    var records = [RecordResponse]()
-
-    private override init() {}
+    
+    private init() {
+        super.init(source: .recordDataManager)
+    }
 
     func toggleDisabledStatus() {
         guard
             let record = selectedRecord,
             let zoneID = selectedZone?.id
         else {
-            print("unable to grab record: \(String(describing: selectedRecord)), \(String(describing: selectedZone?.id))")
+            handleError(APIManagerError.configurationMissing)
             return
         }
 
         // Create the record update object
-        let object = RecordUpdate(disabled: !record.disabled,
-                                  content: record.content,
-                                  ttl: record.ttl,
-                                  prio: record.prio ?? 0)
+        let object = RecordUpdate(
+            disabled: !record.disabled,
+            content: record.content,
+            ttl: record.ttl,
+            prio: record.prio ?? 0)
 
         Task {
             do {
                 let response = try await service.update(record: object, zoneID: zoneID, recordID: record.id)
                 selectedRecord = response
-
-                if let index = records.firstIndex(where: { $0.id == response.id }) {
-                    records[index] = response
-                    delegate?.recordUpdated()
-                }
-
+                
+                updateRecord(with: response)
             } catch {
-                errorHandler?.handle(error: error as! APIManagerError, from: .recordDataManager)
+                handleError(error)
             }
         }
     }
-
-    private func sortRecords() {
-        guard let unsortedRecords = selectedZone?.records else { return }
-        records = unsortedRecords.sorted { $0.name < $1.name }
+    
+    func set(zone: ZoneDetails) {
+        selectedZone = zone
+        selectedRecord = nil
+        delegate?.zoneUpdated()
+    }
+    
+    private func updateRecord(with response: RecordResponse) {
+        selectedRecord = response
+        
+        guard let oldZone = selectedZone else { return }
+        
+        var records = oldZone.records
+        if let index = records.firstIndex(where: {
+            $0.id == response.id
+        }) {
+            records[index] = response
+        }
+        
+        selectedZone = ZoneDetails(
+            id: oldZone.id,
+            name: oldZone.name,
+            type: oldZone.type,
+            records: records
+        )
+        
+        delegate?.recordUpdated()
     }
 }
 
@@ -93,6 +106,6 @@ extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard let tableView = notification.object as? NSTableView else { return }
         selectedRecord = records[tableView.selectedRow]
-        delegate?.recordUpdated()
+        delegate?.recordSelected()
     }
 }

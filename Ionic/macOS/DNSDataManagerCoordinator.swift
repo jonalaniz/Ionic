@@ -65,46 +65,42 @@ class DNSDataManagerCoordinator: NSObject {
         }
     }
 
-    func updateSelectedZone(_ zoneName: String) {
-        guard let zoneDetails = zoneDataManager.zoneDetails[zoneName]
-        else { return }
-        dnsRecordDataManager.selectedZone = zoneDetails
-    }
-
     func fetchDynamicDNS(for indexSet: IndexSet) {
         dynamicDNSDataManager.fetchDynamicDNSURL(for: indexSet)
     }
 }
 
 extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
-    func stateDidChange(_ state: ZoneDataManagerState) {
-        switch state {
-        case .uninitialized: break
-        case .loading: break
-        case .done: break
-        }
-    }
-}
-
-extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
-    func recordUpdated() {
-        print("record selected")
+    func zonesLoaded() {
         DispatchQueue.main.async {
             NotificationCenter.default.post(
-                name: .selectedRecordDidChange,
-                object: nil)
-        }
-    }
-
-    func zoneUpdated() {
-        print("zoneSelected")
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(
-                name: .selectedZoneDidChange,
+                name: .zonesDidChange,
                 object: nil)
         }
 
         // Update the DNSDataManager
         dynamicDNSDataManager.parse(records: dnsRecordDataManager.records)
+    }
+}
+
+extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
+    func zoneUpdated() {
+        notify(notification: .selectedZoneDidChange)
+    }
+    
+    func recordSelected() {
+        notify(notification: .selectedRecordDidChange)
+    }
+    
+    func recordUpdated() {
+        notify(notification: .selectedRecordUpdated)
+    }
+    
+    private func notify(notification: Notification.Name) {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(
+                name: notification,
+                object: nil)
+        }
     }
 }

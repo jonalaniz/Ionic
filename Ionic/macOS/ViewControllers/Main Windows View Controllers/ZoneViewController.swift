@@ -15,8 +15,6 @@ class ZoneViewController: MainWindowViewController {
     @IBOutlet var zoneNameLabel: NSTextField!
     @IBOutlet weak var dynamicDNSButton: NSButton!
     
-    let dynamicDNSDataManager = DynamicDNSDataManager.shared
-
     override func viewDidLoad() {
         super.viewDidLoad()
         detailTableView.dataSource = recordManager

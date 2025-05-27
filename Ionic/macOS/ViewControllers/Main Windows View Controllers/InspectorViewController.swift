@@ -19,6 +19,12 @@ class InspectorViewController: MainWindowViewController {
     @IBOutlet weak var lastChangedValueLabel: NSTextField!
     @IBOutlet weak var disableButton: NSButton!
 
+    override func recordSelected() {
+        let selected = recordManager.selectedRecord != nil
+        toggleInspector(itemIsSelected: selected)
+        updateLabels()
+    }
+    
     override func recordUpdated() {
         let selected = recordManager.selectedRecord != nil
         toggleInspector(itemIsSelected: selected)
