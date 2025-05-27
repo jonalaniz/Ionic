@@ -16,10 +16,12 @@
 ## To Do
 
 - ~~**Quick Enable/Disable**: Enable/disable a record with one click.~~
+- ~~**Save**: Save IONOS API Keys to disk.~~
+- ~~**Implement graceful Error handling**~~
 - **Create Record**: Create a new record in a Zone.
 - **Edit**: Edit a record.
 - **Delete**: Delete a record.
-- **Save**: Save IONOS API Keys to disk.
+
 - **Auto Updating:** Implement Sparkle updating.
 
 ## Requirements
