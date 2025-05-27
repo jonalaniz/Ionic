@@ -16,13 +16,14 @@ import Foundation
 /// - A, AAAA, CNAME, MX, NS, SOA, TXT, CAA
 /// - TLSA, SMIMEA, SSHFP, DS, HTTPS, SVCB, CERT
 /// - URI, RP, LOC, OPENPGPKEY
-enum RecordType: String, Codable {
+enum RecordType: String, CaseIterable, Codable {
     case A = "A"
     case AAAA = "AAAA"
     case CNAME = "CNAME"
     case MX = "MX"
     case NS = "NS"
     case SOA = "SOA"
+    case SRV = "SRV"
     case TXT = "TXT"
     case CAA = "CAA"
     case TLSA = "TLSA"
@@ -47,5 +48,12 @@ enum RecordType: String, Codable {
         }
         
         self = recordType
+    }
+    
+    func experimental() -> Bool {
+        switch self {
+        case .A, .AAAA, .CNAME, .MX, .NS, .SRV, .TXT: return false
+        default: return true
+        }
     }
 }
