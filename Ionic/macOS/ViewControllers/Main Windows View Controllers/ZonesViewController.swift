@@ -21,11 +21,9 @@ class ZonesViewController: MainWindowViewController {
 
 extension ZonesViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        guard let column = Column(from: tableColumn?.identifier) else { return nil }
-        let cellIdentifier = NSUserInterfaceItemIdentifier(column.cellIdentifier)
-
+        let identifier = NSUserInterfaceItemIdentifier("ZoneCell")
         guard let cell = tableView.makeView(
-            withIdentifier: cellIdentifier,
+            withIdentifier: identifier,
             owner: self) as? NSTableCellView
         else { return NSTableCellView() }
 
