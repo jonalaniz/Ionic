@@ -10,6 +10,8 @@ import Cocoa
 protocol ZoneDataManagerDelegate: NSObject {
     /// Called when Zones were fetched and parsed successfully
     func zonesLoaded()
+    
+    func selected(_ zone: ZoneDetails)
 }
 
 class ZoneDataManager: BaseDataManager {
@@ -61,6 +63,10 @@ class ZoneDataManager: BaseDataManager {
     @MainActor
     func zonesLoaded() {
         delegate?.zonesLoaded()
+    }
+    
+    func select(_ zone: ZoneDetails) {
+        delegate?.selected(zone)
     }
 }
 
