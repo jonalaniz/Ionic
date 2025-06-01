@@ -28,7 +28,11 @@ class ZoneViewController: MainWindowViewController {
         detailTableView.reloadData()
         detailTableView.scrollRowToVisible(0)
         createRecordButton.isEnabled = true
-        dynamicDNSButton.isEnabled = true
+        
+        /// Only enable the button if the zone has an A or AAAA record
+        if zoneDetails.records.contains(where: { $0.type == .A || $0.type == .AAAA }) {
+            dynamicDNSButton.isEnabled = true
+        }
     }
 
     override func recordUpdated() {
