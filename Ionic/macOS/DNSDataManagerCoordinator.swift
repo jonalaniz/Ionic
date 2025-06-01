@@ -29,6 +29,9 @@ class DNSDataManagerCoordinator: NSObject {
 
     /// Manages domain names and update URLs used for Dynamic DNS functionality.
     let ddnsDataManager = DynamicDNSDataManager.shared
+    
+    /// Manages creation of new DNS Records in a specified zone.
+    let recordFactory = RecordFactory.shared
 
     /// The currently active API key. This is the key used to authenticate all API calls.
     var apiKey: DNSAPIKey? {
@@ -76,16 +79,21 @@ extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
     /// Posts `.zonesDidChange` notification and refreshes Dynamic DNS data.
     func zonesLoaded() {
         post(notification: .zonesDidChange)
-        ddnsDataManager.parse(records: recordDataManager.records)
+    }
+    
+    /// Called when zone has been selected
+    func selected(_ zone: ZoneDetails) {
+        recordDataManager.select(zone: zone)
+        recordFactory.domain = zone.name
     }
 }
 
 // MARK: - DNSRecordDataManagerDelegate
 extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
-    
     /// Called when a zone is selected.
     func zoneSelected() {
         post(notification: .selectedZoneDidChange)
+        ddnsDataManager.parse(records: recordDataManager.records)
     }
     
     /// Called when a record is selected in the UI.
