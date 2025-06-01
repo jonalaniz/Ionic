@@ -46,6 +46,15 @@ enum RecordType: String, CaseIterable, Codable {
         }
     }
     
+    /// Display-friendly description for the content stored.
+    var contentLabel: String {
+        switch self {
+        case .A, .AAAA, .CNAME, .MX, .NS, .SRV: return "Points to"
+        case .TXT: return "Value"
+        default: return ""
+        }
+    }
+    
     /// A short human-readable description of the record type’s purpose.
     var description: String {
         switch self {

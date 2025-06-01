@@ -10,6 +10,7 @@ import Cocoa
 class CreateRecordViewController: NSViewController {
     @IBOutlet weak var nameTextField: NSTextField!
     @IBOutlet weak var recordTypeButton: NSPopUpButton!
+    @IBOutlet weak var contentLabel: NSTextField!
     @IBOutlet weak var contentTextField: NSTextField!
     @IBOutlet weak var ttlPopupButton: NSPopUpButton!
     @IBOutlet weak var priorityTextLabel: NSTextField!
@@ -98,6 +99,8 @@ class CreateRecordViewController: NSViewController {
     private func updateUI(for type: RecordType) {
         recordTypeLabel.stringValue = "\(type.name):"
         recordTypeDescriptionTextField.stringValue = type.description
+        
+        contentLabel.stringValue = type.contentLabel + ":"
         
         let priority = type.requiresPriority()
         priorityTextField.isEnabled = priority

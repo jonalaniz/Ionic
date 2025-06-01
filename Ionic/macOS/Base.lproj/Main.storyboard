@@ -1625,7 +1625,7 @@
                                             <constraint firstAttribute="width" constant="60" id="MmZ-fC-LJC"/>
                                             <constraint firstAttribute="height" constant="16" id="tC0-XX-XHh"/>
                                         </constraints>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Content:" id="v7d-wB-Bnz">
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Points to:" id="v7d-wB-Bnz">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1793,6 +1793,7 @@
                         <viewLayoutGuide key="layoutMargins" id="KDX-bf-Oxu"/>
                     </view>
                     <connections>
+                        <outlet property="contentLabel" destination="OaU-x7-Go8" id="yQT-Qh-SeF"/>
                         <outlet property="contentTextField" destination="tI7-Ql-UKt" id="c3C-S1-SGk"/>
                         <outlet property="nameTextField" destination="uGf-on-JwA" id="Pck-oi-voS"/>
                         <outlet property="priorityTextField" destination="H7I-cE-4zW" id="d0Z-s8-d0m"/>
