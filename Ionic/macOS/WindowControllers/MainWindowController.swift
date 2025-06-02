@@ -77,7 +77,7 @@ extension MainWindowController: ErrorHandling {
     
     private func stopLoadingProgressindicator() {
         guard let viewController = contentViewController as? LoginViewController else { return }
-        viewController.progressindicator.stopAnimation(nil)
+        viewController.progressIndicator.stopAnimation(nil)
     }
     
     private func presentError(_ error: APIManagerError) {

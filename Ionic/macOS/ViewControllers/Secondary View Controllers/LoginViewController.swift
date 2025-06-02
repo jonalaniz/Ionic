@@ -11,7 +11,7 @@ class LoginViewController: NSViewController {
     @IBOutlet weak var connectButton: NSButton!
     @IBOutlet weak var publicKeyField: NSTextField!
     @IBOutlet weak var privateKeyField: NSTextField!
-    @IBOutlet weak var progressindicator: NSProgressIndicator!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
     @IBOutlet weak var saveCheckmark: NSButton!
 
     let coordinator = DNSDataManagerCoordinator.shared
@@ -19,12 +19,34 @@ class LoginViewController: NSViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         subscribeToNotifications()
+        setupTextFields()
+        loadAPIKey()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupTextFields() {
         publicKeyField.delegate = self
         privateKeyField.delegate = self
-        checkForKey()
+    }
+    
+    @IBAction func connect(_ sender: NSButton?) {
+        guard publicKeyField.stringValue != "" && privateKeyField.stringValue != "" else { return }
+        progressIndicator.startAnimation(nil)
+        login(saveCheckmark.state == .on,
+              publicKey: publicKeyField.stringValue,
+              privateKey: privateKeyField.stringValue)
+    }
+    
+    @objc private func toggleProgressView(_ notification: Notification) {
+        if notification.name == .zonesDidChange {
+            progressIndicator.stopAnimation(nil)
+        }
     }
 
-    private func checkForKey() {
+    private func loadAPIKey() {
         guard let key = coordinator.apiKey else { return }
         publicKeyField.stringValue = key.publicKey
         privateKeyField.stringValue = key.privateKey
@@ -45,19 +67,9 @@ class LoginViewController: NSViewController {
             name: .zonesDidChange,
             object: nil)
     }
-
-    @IBAction func connect(_ sender: NSButton) {
-        guard publicKeyField.stringValue != "" && privateKeyField.stringValue != "" else { return }
-        progressindicator.startAnimation(nil)
-        login(saveCheckmark.state == .on,
-              publicKey: publicKeyField.stringValue,
-              privateKey: privateKeyField.stringValue)
-    }
-
-    @objc private func toggleProgressView(_ notification: Notification) {
-        if notification.name == .zonesDidChange {
-            progressindicator.stopAnimation(nil)
-        }
+    
+    private func updateConnectButton() {
+        connectButton.isEnabled = !publicKeyField.stringValue.isEmpty && !privateKeyField.stringValue.isEmpty
     }
 }
 
@@ -65,8 +77,13 @@ extension LoginViewController: NSTextFieldDelegate {
     func controlTextDidChange(_ obj: Notification) {
         updateConnectButton()
     }
-
-    private func updateConnectButton() {
-        connectButton.isEnabled = !publicKeyField.stringValue.isEmpty && !privateKeyField.stringValue.isEmpty
+    
+    func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        if commandSelector == #selector(insertNewline) {
+            guard connectButton.isEnabled else { return false }
+            connect(nil)
+            return true
+        }
+        return false
     }
 }

@@ -783,6 +783,7 @@
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
+                                                <color key="bezelColor" name="AccentColor"/>
                                                 <connections>
                                                     <action selector="connect:" target="nmo-B2-gyv" id="cTH-hk-mz7"/>
                                                 </connections>
@@ -850,7 +851,7 @@
                     <connections>
                         <outlet property="connectButton" destination="olG-7x-Z1a" id="ggn-vQ-YJe"/>
                         <outlet property="privateKeyField" destination="Leb-JO-L7j" id="zDN-pu-dlA"/>
-                        <outlet property="progressindicator" destination="SIL-SL-Hp5" id="72L-Cg-YFc"/>
+                        <outlet property="progressIndicator" destination="SIL-SL-Hp5" id="72L-Cg-YFc"/>
                         <outlet property="publicKeyField" destination="MHK-Fg-y5c" id="XVB-gg-hL4"/>
                         <outlet property="saveCheckmark" destination="bEM-69-Lqc" id="UTt-0m-xEF"/>
                     </connections>
