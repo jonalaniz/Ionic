@@ -15,9 +15,21 @@ class InspectorViewController: MainWindowViewController {
     @IBOutlet weak var rootTextField: NSTextField!
     @IBOutlet weak var typeValueLabel: NSTextField!
     @IBOutlet weak var ttlValueLabel: NSTextField!
+    @IBOutlet weak var ttlPopupButton: NSPopUpButton!
     @IBOutlet weak var priorityValueLabel: NSTextField!
     @IBOutlet weak var lastChangedValueLabel: NSTextField!
     @IBOutlet weak var disableButton: NSButton!
+    @IBOutlet weak var buttonView: NSView!
+    @IBOutlet weak var editingView: NSView!
+    
+    var editingMode = false {
+        didSet { toggleEditingMode() }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTTLMenu()
+    }
 
     override func recordSelected() {
         let selected = recordManager.selectedRecord != nil
@@ -33,6 +45,28 @@ class InspectorViewController: MainWindowViewController {
 
     override func zoneUpdated() {
         toggleInspector(itemIsSelected: false)
+    }
+    
+    private func setupTTLMenu() {
+        guard let menu = ttlPopupButton.menu else { return }
+        menu.removeAllItems()
+        
+        for ttl in TTL.allCases {
+            let item = NSMenuItem(
+                title: ttl.description,
+                action: nil,
+                keyEquivalent: ""
+            )
+            
+            item.representedObject = ttl
+            item.target = self
+            item.tag = ttl.rawValue
+            menu.addItem(item)
+        }
+    }
+    
+    @IBAction func toggleEditing(_ sender: NSButton) {
+        editingMode.toggle()
     }
 
     @IBAction func toggleEnabledStatus(_ sender: NSButton) {
@@ -86,9 +120,9 @@ class InspectorViewController: MainWindowViewController {
 
     private func updateLabels() {
         guard let record = recordManager.selectedRecord else { return }
-        idTextField.stringValue = record.id
-        contentTextField.stringValue = record.content
-        rootTextField.stringValue = record.rootName
+        idTextField.placeholderString = record.id
+        contentTextField.placeholderString = record.content
+        rootTextField.placeholderString = record.rootName
         typeValueLabel.stringValue = record.type.rawValue
         ttlValueLabel.stringValue = String(record.ttl)
 
@@ -101,20 +135,31 @@ class InspectorViewController: MainWindowViewController {
         lastChangedValueLabel.stringValue = record.changeDate.readableDate()
 
         record.disabled ? (disableButton.title = "Enable") : (disableButton.title = "Disable")
+        
+        ttlPopupButton.selectItem(withTag: record.ttl)
 
         toggleInspector(itemIsSelected: true)
+    }
+    
+    private func toggleEditingMode() {
+        ttlValueLabel.isHidden = editingMode
+        buttonView.isHidden = editingMode
+        ttlPopupButton.isHidden = !editingMode
+        editingView.isHidden = !editingMode
+        
+        contentTextField.isEditable = editingMode
+        
+        if editingMode {
+            contentTextField.stringValue = contentTextField.placeholderString ?? ""
+            view.window?.makeFirstResponder(contentTextField)
+            ttlPopupButton.selectItem(withTag: recordManager.selectedRecord!.ttl)
+        } else {
+            contentTextField.stringValue = ""
+        }
     }
 
     private func toggleInspector(itemIsSelected: Bool) {
         noSelectionLabel.isHidden = itemIsSelected
         inspectorView.isHidden = !itemIsSelected
-
-        idTextField.isHidden = !itemIsSelected
-        contentTextField.isHidden = !itemIsSelected
-        rootTextField.isHidden = !itemIsSelected
-        typeValueLabel.isHidden = !itemIsSelected
-        ttlValueLabel.isHidden = !itemIsSelected
-        priorityValueLabel.isHidden = !itemIsSelected
-        lastChangedValueLabel.isHidden = !itemIsSelected
     }
 }
