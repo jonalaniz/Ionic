@@ -13,6 +13,7 @@ class MainWindowController: NSWindowController {
         subscribeToNotifications()
         ZoneDataManager.shared.errorHandler = self
         DNSRecordDataManager.shared.errorHandler = self
+        DynamicDNSDataManager.shared.errorHandler = self
     }
 
     private func subscribeToNotifications() {
