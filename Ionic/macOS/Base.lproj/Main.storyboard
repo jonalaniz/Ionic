@@ -1844,7 +1844,7 @@ Gw
         <scene sceneID="cVZ-mO-zqT">
             <objects>
                 <viewController id="eZm-gz-ywL" customClass="ZoneViewController" customModule="Ionic" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-ea-S0e">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-ea-S0e">
                         <rect key="frame" x="0.0" y="0.0" width="380" height="540"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="BvT-3z-Gug">
@@ -1885,13 +1885,13 @@ Gw
                                     <segue destination="BSK-E5-una" kind="sheet" id="ZAk-6t-S82"/>
                                 </connections>
                             </button>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="117" horizontalPageScroll="10" verticalLineScroll="117" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfC-Ji-93a" userLabel="BSV - Detail">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="114" horizontalPageScroll="10" verticalLineScroll="114" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfC-Ji-93a" userLabel="BSV - Detail">
                                 <rect key="frame" x="18" y="58" width="344" height="420"/>
                                 <clipView key="contentView" drawsBackground="NO" id="rGP-B8-NCT">
                                     <rect key="frame" x="1" y="1" width="342" height="418"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="117" viewBased="YES" id="wcc-60-9Eh">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="114" viewBased="YES" id="wcc-60-9Eh">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="418"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1910,17 +1910,17 @@ Gw
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="RecordCell" id="gqO-x5-X9G" customClass="RecordCell" customModule="Ionic" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="356" height="110"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="342" height="108"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Que-ss-vcW">
-                                                                    <rect key="frame" x="-6" y="86" width="368" height="24"/>
+                                                                    <rect key="frame" x="-6" y="84" width="354" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="24" id="m7U-rl-BbI"/>
                                                                     </constraints>
                                                                 </customView>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0hM-K2-PCX" userLabel="typeLabel">
-                                                                    <rect key="frame" x="1" y="65" width="354" height="16"/>
+                                                                    <rect key="frame" x="1" y="63" width="340" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="16" id="kin-IB-i6T"/>
                                                                     </constraints>
@@ -1931,7 +1931,7 @@ Gw
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0cd-oi-W1L" userLabel="contentLabel">
-                                                                    <rect key="frame" x="1" y="44" width="354" height="16"/>
+                                                                    <rect key="frame" x="1" y="42" width="340" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="16" id="hu1-ay-Z0J"/>
                                                                     </constraints>
@@ -1942,7 +1942,7 @@ Gw
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Lpb-g9-aus" userLabel="ChangeLabel">
-                                                                    <rect key="frame" x="1" y="23" width="354" height="16"/>
+                                                                    <rect key="frame" x="1" y="21" width="340" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="16" id="7QG-hq-IiQ"/>
                                                                     </constraints>
@@ -1953,7 +1953,7 @@ Gw
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Zzx-7k-QV5" userLabel="ChangeLabel">
-                                                                    <rect key="frame" x="1" y="2" width="354" height="16"/>
+                                                                    <rect key="frame" x="1" y="0.0" width="340" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="16" id="IKn-23-xHf"/>
                                                                     </constraints>
@@ -1964,7 +1964,7 @@ Gw
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="oNG-PI-O7e" userLabel="Name">
-                                                                    <rect key="frame" x="1" y="91" width="326" height="16"/>
+                                                                    <rect key="frame" x="1" y="89" width="312" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="16" id="Lue-ka-Nfm"/>
                                                                     </constraints>
@@ -1975,7 +1975,7 @@ Gw
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="j7e-2a-5Yo" userLabel="Emoji">
-                                                                    <rect key="frame" x="331" y="89" width="24" height="16"/>
+                                                                    <rect key="frame" x="317" y="87" width="24" height="16"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="9y6-C5-sOA"/>
                                                                         <constraint firstAttribute="width" constant="20" id="Rd6-BJ-9CN"/>
