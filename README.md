@@ -6,7 +6,7 @@
 **Ionic DNS** is an open-source macOS utility that implements the IONIS DNS [API](https://developer.hosting.ionos.com/docs/dns). Frustrated with manually using curl to generate Dynamic DNS URLs for clients, I developed Ionic DNS to simplify this workflow. Written entirely in Swift, Ionic DNS provides an easier way to manage your DNS settings than using the web interface or calling the API commands manually.
 
 <p align="center">
-    <img alt="Ionic DNS Screen Shot" src="http://www.jonalaniz.com/wp-content/uploads/2025/03/ionic_ss.png" width="640">
+    <img alt="Ionic DNS Screen Shot" src="https://static.jonalaniz.com/ionic/ss_ionic.png" width="640">
 
 
 ## Features
