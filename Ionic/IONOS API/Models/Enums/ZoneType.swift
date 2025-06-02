@@ -23,6 +23,13 @@ enum ZoneType: String, Codable {
         case .slave: return "s.square"
         }
     }
+    
+    var description: String {
+        switch self {
+        case .native: return "Native/Primary"
+        case .slave: return "Secondary"
+        }
+    }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

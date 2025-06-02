@@ -29,6 +29,7 @@ extension ZonesViewController: NSTableViewDelegate {
 
         cell.textField?.stringValue = zoneManager.zones[row].name
         cell.imageView?.image = image(for: zoneManager.zones[row].type)
+        cell.imageView?.toolTip = zoneManager.zones[row].type.description
 
         return cell
     }
