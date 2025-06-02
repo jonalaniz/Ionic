@@ -876,7 +876,7 @@
                                             <constraint firstAttribute="height" constant="16" id="zIC-zg-I3e"/>
                                         </constraints>
                                         <textFieldCell key="cell" selectable="YES" title="Choose the DNS Domains to include in the Dynamic DNS Update URL." id="gIl-LV-0SW">
-                                            <font key="font" metaFont="systemMedium" size="13"/>
+                                            <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -1450,7 +1450,7 @@ Gw
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="odP-6R-vxO">
                                         <rect key="frame" x="13" y="13" width="123" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Edit..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zsv-wT-rBP">
+                                        <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zsv-wT-rBP">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -1574,7 +1574,7 @@ Gw
                                             <constraint firstAttribute="height" constant="16" id="bu0-mn-ia7"/>
                                         </constraints>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Create a new Record" id="EqP-rP-p4I">
-                                            <font key="font" metaFont="systemMedium" size="13"/>
+                                            <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -1643,7 +1643,7 @@ Gw
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="T0j-i4-SXe"/>
                                         </constraints>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="left" placeholderString="www.alaniz.tech 3600 IN A 127.0.0.1" id="H7d-8s-hdB">
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" alignment="left" placeholderString="www.alaniz.tech 3600 IN A 127.0.0.1" id="H7d-8s-hdB">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
