@@ -93,7 +93,7 @@ class CreateRecordViewController: NSViewController {
         
         let host = nameTextField.stringValue == "@" ? "" : nameTextField.stringValue + "."
         let previewString = "\(host)\(domain) \(ttl.rawValue) IN \(recordType.rawValue) \(contentTextField.stringValue)"
-        recordPreviewTextField.stringValue = previewString
+        recordPreviewTextField.placeholderString = previewString
     }
     
     private func updateUI(for type: RecordType) {
