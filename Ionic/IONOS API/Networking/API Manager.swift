@@ -17,7 +17,7 @@ final class APIManager: Managable {
     func request<T>(url: URL,
                     httpMethod: ServiceMethod,
                     body: Data?,
-                    headers: [String : String]?
+                    headers: [String: String]?
     ) async throws -> T where T: Decodable {
         let request = buildRequest(url: url,
                                    httpMethod: httpMethod,
@@ -32,11 +32,11 @@ final class APIManager: Managable {
         guard let response = dataWithResponse.response as? HTTPURLResponse else {
             throw APIManagerError.conversionFailedToHTTPURLResponse
         }
-        
+
         // Here we grab the status code and data
         let statusCode = response.statusCode
         let data = dataWithResponse.data
-        
+
         // Check for error status codes
         guard (200...299).contains(statusCode) else {
             // Decode as an IONOS API Error first
@@ -54,11 +54,11 @@ final class APIManager: Managable {
             throw APIManagerError.serializationFailed(error)
         }
     }
-    
+
     private func decode<T: Decodable>(_ data: Data) throws -> T {
         return try JSONDecoder().decode(T.self, from: data)
     }
-    
+
     private func buildRequest(url: URL,
                               httpMethod: ServiceMethod,
                               body: Data?,
@@ -66,13 +66,13 @@ final class APIManager: Managable {
     ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
-        
+
         if let body = body, httpMethod != .get {
             request.httpBody = body
         }
-        
+
         request.addHeaders(from: headers)
-        
+
         return request
     }
 }

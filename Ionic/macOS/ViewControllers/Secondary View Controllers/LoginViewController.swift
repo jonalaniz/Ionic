@@ -22,16 +22,16 @@ class LoginViewController: NSViewController {
         setupTextFields()
         loadAPIKey()
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     private func setupTextFields() {
         publicKeyField.delegate = self
         privateKeyField.delegate = self
     }
-    
+
     @IBAction func connect(_ sender: NSButton?) {
         guard publicKeyField.stringValue != "" && privateKeyField.stringValue != "" else { return }
         progressIndicator.startAnimation(nil)
@@ -39,7 +39,7 @@ class LoginViewController: NSViewController {
               publicKey: publicKeyField.stringValue,
               privateKey: privateKeyField.stringValue)
     }
-    
+
     @objc private func toggleProgressView(_ notification: Notification) {
         if notification.name == .zonesDidChange {
             progressIndicator.stopAnimation(nil)
@@ -67,7 +67,7 @@ class LoginViewController: NSViewController {
             name: .zonesDidChange,
             object: nil)
     }
-    
+
     private func updateConnectButton() {
         connectButton.isEnabled = !publicKeyField.stringValue.isEmpty && !privateKeyField.stringValue.isEmpty
     }
@@ -77,7 +77,7 @@ extension LoginViewController: NSTextFieldDelegate {
     func controlTextDidChange(_ obj: Notification) {
         updateConnectButton()
     }
-    
+
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
         if commandSelector == #selector(insertNewline) {
             guard connectButton.isEnabled else { return false }

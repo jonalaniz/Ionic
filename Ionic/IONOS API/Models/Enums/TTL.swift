@@ -18,7 +18,7 @@ enum TTL: Int, CaseIterable {
     case twelveHours = 43200
     case twentyFourHours = 86400
     case fortyEightHours = 172800
-    
+
     var description: String {
         switch self {
         case .oneMinute: return "1 minute"

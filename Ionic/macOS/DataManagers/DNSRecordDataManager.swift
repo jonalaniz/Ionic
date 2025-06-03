@@ -7,7 +7,7 @@
 
 import Cocoa
 
-protocol DNSRecordDataManagerDelegate: NSObject {
+protocol DNSRecordDataManagerDelegate: AnyObject {
     func zoneSelected()
     func recordSelected()
     func recordUpdated()
@@ -26,7 +26,7 @@ class DNSRecordDataManager: BaseDataManager {
             $0.name < $1.name
         } ?? []
     }
-    
+
     private init() {
         super.init(source: .recordDataManager)
     }
@@ -51,39 +51,39 @@ class DNSRecordDataManager: BaseDataManager {
             do {
                 let response = try await service.update(record: object, zoneID: zoneID, recordID: record.id)
                 selectedRecord = response
-                
+
                 updateRecord(with: response)
             } catch {
                 handleError(error)
             }
         }
     }
-    
+
     func select(zone: ZoneDetails) {
         selectedZone = zone
         selectedRecord = nil
         delegate?.zoneSelected()
     }
-    
+
     private func updateRecord(with response: RecordResponse) {
         selectedRecord = response
-        
+
         guard let oldZone = selectedZone else { return }
-        
+
         var records = oldZone.records
         if let index = records.firstIndex(where: {
             $0.id == response.id
         }) {
             records[index] = response
         }
-        
+
         selectedZone = ZoneDetails(
             id: oldZone.id,
             name: oldZone.name,
             type: oldZone.type,
             records: records
         )
-        
+
         delegate?.recordUpdated()
     }
 }

@@ -9,14 +9,14 @@ import Foundation
 
 class BaseDataManager: NSObject {
     weak var errorHandler: ErrorHandling?
-    
+
     let service = IONOSService.shared
     let source: ErrorSource
-    
+
     init(source: ErrorSource) {
         self.source = source
     }
-    
+
     func handleError(_ error: Error) {
         guard let apiError = error as? APIManagerError else {
             errorHandler?.handle(
@@ -25,7 +25,7 @@ class BaseDataManager: NSObject {
             )
             return
         }
-                
+
         errorHandler?.handle(error: apiError, from: .zoneDataManager)
     }
 }

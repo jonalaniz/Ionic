@@ -8,26 +8,27 @@
 import Foundation
 
 enum APIManagerError: Error {
-    
+
     /// The required configuration data (e.g. API key) is missing.
     case configurationMissing
-    
+
     /// The `URLResponse` could not be typecast to `HTTPURLResponse`.
     case conversionFailedToHTTPURLResponse
-    
-    /// The server returned an HTTP status code outside the sucess range (200-299) and does not match an IONOS API Error.
+
+    /// The server returned an HTTP status code outside the sucess range (200-299)
+    /// and does not match an IONOS API Error.
     case invalidResponse(statuscode: Int)
-    
+
     /// The provided URL was invalid or malformed.
     case invalidURL
-    
+
     /// The server responded with an IONOS API Error.
     case ionosAPIError(IONOSAPIError)
-    
+
     /// The response could not be decoded into the expected model.
     ///  - Parameter: `Error` is uaully a `DecodingError` from `JSONDecoder`.
     case serializationFailed(Error)
-    
+
     /// A general catch-all error when the cause is unknown.
     case somethingWentWrong(error: Error?)
 

@@ -15,7 +15,7 @@ class RecordCell: NSTableCellView {
     @IBOutlet weak var contentLabel: NSTextField!
     @IBOutlet weak var changeDateLabel: NSTextField!
     @IBOutlet weak var ttlLabel: NSTextField!
-    
+
     var record: RecordResponse? {
         didSet {
             updateCell()

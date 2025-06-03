@@ -16,10 +16,10 @@ struct AlertContent {
 
 /// A singleton class responsible for formatting and presenting API-related errors as `NSAlert` sheets.
 class ErrorPresenter {
-    
+
     /// Shared instance of the error presenter.
     static let shared = ErrorPresenter()
-        
+
     /// Presents a formatted error alert in the given window.
     ///
     /// - Parameters:
@@ -28,14 +28,14 @@ class ErrorPresenter {
     func presentError(_ error: APIManagerError, in window: NSWindow) {
         let alert = NSAlert()
         let content = createAlertContent(for: error)
-        
+
         alert.messageText = content.messageText
         alert.alertStyle = content.style
         alert.informativeText = content.informativeText ?? ""
         alert.addButton(withTitle: "OK")
         alert.beginSheetModal(for: window)
     }
-    
+
     /// Converts an `APIManagerError` into displayable `AlertContent`.
     ///
     /// - Parameter error: The error to format.
@@ -64,21 +64,21 @@ class ErrorPresenter {
             )
         }
     }
-    
+
     /// Parses an `IONOSAPIError` into appropriate alert content based on its HTTP status code.
     ///
     /// - Parameter error: The `IONOSAPIError` containing error type and raw response data.
     /// - Returns: An `AlertContent` object representing the error alert.
     private func parseIONOSAPIError(_ error: IONOSAPIError) -> AlertContent {
         switch error.code {
-            
+
         // 400 - Returns `APIErrorInvalidResponse`
         case .badRequest:
             return decodeBadRequestError(
                 from: error.responseData,
                 statusCode: error.code.rawValue
             )
-            
+
         // 429 - Rate limit exceeded returns nothing
         case .rateLimitExceeded:
             return AlertContent(
@@ -86,7 +86,7 @@ class ErrorPresenter {
                 informativeText: nil,
                 style: .critical
             )
-            
+
         // 500 - Internal Server Error - Returns object with no message
         case .internalServerError:
             return AlertContent(
@@ -94,7 +94,7 @@ class ErrorPresenter {
                 informativeText: nil,
                 style: .critical
             )
-            
+
         // 401 - Unauthorized
         // 403 - Forbidden
         // 404 - RecordNotFound
@@ -105,7 +105,7 @@ class ErrorPresenter {
             )
         }
     }
-    
+
     // TODO: Implement bad request decoding
     private func decodeBadRequestError(from data: Data?, statusCode: Int) -> AlertContent {
         guard let data = data else {
@@ -114,14 +114,14 @@ class ErrorPresenter {
                 informativeText: "Bad request: unable to parse error"
             )
         }
-        
+
         // Debug print statement
         if let string = String(data: data, encoding: .utf8) { print(string) }
-        
+
         // For now just give it an empty object
-        return AlertContent(messageText: "", informativeText: "" , style: .warning)
+        return AlertContent(messageText: "", informativeText: "", style: .warning)
     }
-    
+
     /// Attempts to decode a standard API error from known 401, 403, and 404 status codes.
     ///
     /// - Parameters:
@@ -139,13 +139,13 @@ class ErrorPresenter {
                 informativeText: "Unable to parse error message"
             )
         }
-        
+
         return apiErrorFallback(
             statusCode: statusCode,
             informativeText: firstResponse.message
         )
     }
-    
+
     /// Creates a generic alert content structure to use when error details are missing or unparseable.
     ///
     /// - Parameters:
@@ -155,14 +155,14 @@ class ErrorPresenter {
     private func apiErrorFallback(statusCode code: Int?, informativeText text: String?) -> AlertContent {
         let message = code.map { errorTitle(for: $0) } ?? "API Error"
         let informativeText = text ?? "An unknown error occurred."
-        
+
         return AlertContent(
             messageText: message,
             informativeText: informativeText,
             style: .critical
         )
     }
-    
+
     private func errorTitle(for statusCode: Int) -> String {
         return "An API error occurred, status code: \(statusCode)"
     }

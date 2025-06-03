@@ -9,8 +9,8 @@ import Foundation
 
 class RecordFactory: NSObject {
     static let shared = RecordFactory()
-    
+
     var domain: String?
-    
+
     private override init() {}
 }

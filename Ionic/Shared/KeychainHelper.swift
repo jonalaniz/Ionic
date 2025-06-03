@@ -67,7 +67,8 @@ class KeychainHelper {
     ///   - data: The data to store securely.
     ///   - service: The Keychain service identifier.
     ///   - account: The account identifier for the stored data.
-    /// - Throws: `KeychainError.duplicateItem` if the item already exists, or `KeychainError.unexpectedStatus` if an error occurs.
+    /// - Throws: `KeychainError.duplicateItem` if the item already exists, or
+    /// `KeychainError.unexpectedStatus` if an error occurs.
     private func store(data: Data, account: String) throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
@@ -78,7 +79,7 @@ class KeychainHelper {
 
         let status = SecItemAdd(query as CFDictionary, nil)
 
-        if status == errSecDuplicateItem  { throw KeychainError.duplicateItem }
+        if status == errSecDuplicateItem { throw KeychainError.duplicateItem }
 
         guard status == errSecSuccess else { throw KeychainError.unexpectedStatus(status) }
     }
@@ -114,7 +115,8 @@ class KeychainHelper {
     ///   - data: The data to store securely.
     ///   - service: The Keychain service identifier.
     ///   - account: The account identifier for the stored data.
-    /// - Throws: `KeychainError.itemNotFound` if the item does not exist, or `KeychainError.unexpectedStatus` if an error occurs.
+    /// - Throws: `KeychainError.itemNotFound` if the item does not exist, or
+    /// `KeychainError.unexpectedStatus` if an error occurs.
     private func update(data: Data, account: String) throws {
         let query: [String: AnyObject] = [
             kSecAttrService as String: service as AnyObject,

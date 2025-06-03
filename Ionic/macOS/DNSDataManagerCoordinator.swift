@@ -14,7 +14,7 @@ import Foundation
 /// DNS data. It also handles broadcasting system-wide notifications for view controllers to
 /// observe data changes without tightly coupling the layers.
 class DNSDataManagerCoordinator: NSObject {
-    
+
     /// Shared singleton instance of the coordinator.
     static let shared = DNSDataManagerCoordinator()
 
@@ -29,7 +29,7 @@ class DNSDataManagerCoordinator: NSObject {
 
     /// Manages domain names and update URLs used for Dynamic DNS functionality.
     let ddnsDataManager = DynamicDNSDataManager.shared
-    
+
     /// Manages creation of new DNS Records in a specified zone.
     let recordFactory = RecordFactory.shared
 
@@ -60,7 +60,7 @@ class DNSDataManagerCoordinator: NSObject {
             try? await zoneDataManager.loadData()
         }
     }
-    
+
     /// Convenience method for posting system-wide notifications on the main thread.
     /// - Parameter notification: The `Notification.Name` to broadcast.
     private func post(notification: Notification.Name) {
@@ -74,13 +74,13 @@ class DNSDataManagerCoordinator: NSObject {
 
 // MARK: - ZoneDataManagerDelegate
 extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
-    
+
     /// Called when zone data has been loaded.
     /// Posts `.zonesDidChange` notification and refreshes Dynamic DNS data.
     func zonesLoaded() {
         post(notification: .zonesDidChange)
     }
-    
+
     /// Called when zone has been selected
     func selected(_ zone: ZoneDetails) {
         recordDataManager.select(zone: zone)
@@ -95,12 +95,12 @@ extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
         post(notification: .selectedZoneDidChange)
         ddnsDataManager.parse(records: recordDataManager.records)
     }
-    
+
     /// Called when a record is selected in the UI.
     func recordSelected() {
         post(notification: .selectedRecordDidChange)
     }
-    
+
     /// Called when a record is updated (e.g., modified or disabled).
     func recordUpdated() {
         post(notification: .selectedRecordUpdated)

@@ -7,10 +7,10 @@
 
 import Cocoa
 
-protocol ZoneDataManagerDelegate: NSObject {
+protocol ZoneDataManagerDelegate: AnyObject {
     /// Called when Zones were fetched and parsed successfully
     func zonesLoaded()
-    
+
     func selected(_ zone: ZoneDetails)
 }
 
@@ -29,13 +29,13 @@ class ZoneDataManager: BaseDataManager {
         Task {
             await loadZones()
             await loadZoneInformation()
-            
+
             // Make sure the above was successful, errors will be thrown above
             guard !zones.isEmpty, !zoneDetails.isEmpty else {
                 print("Shit's empty")
                 return
             }
-                        
+
             // Let the coordinator know we are done
             zonesLoaded()
         }
@@ -64,7 +64,7 @@ class ZoneDataManager: BaseDataManager {
     func zonesLoaded() {
         delegate?.zonesLoaded()
     }
-    
+
     func select(_ zone: ZoneDetails) {
         delegate?.selected(zone)
     }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 class IONOSService {
     static let shared = IONOSService()
     private let apiManager = APIManager.shared

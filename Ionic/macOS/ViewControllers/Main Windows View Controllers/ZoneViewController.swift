@@ -15,7 +15,7 @@ class ZoneViewController: MainWindowViewController {
     @IBOutlet weak var zoneNameLabel: NSTextField!
     @IBOutlet weak var createRecordButton: NSButton!
     @IBOutlet weak var dynamicDNSButton: NSButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         detailTableView.dataSource = recordManager
@@ -28,8 +28,8 @@ class ZoneViewController: MainWindowViewController {
         detailTableView.reloadData()
         detailTableView.scrollRowToVisible(0)
         createRecordButton.isEnabled = true
-        
-        /// Only enable the button if the zone has an A or AAAA record
+
+        // Only enable the button if the zone has an A or AAAA record
         if zoneDetails.records.contains(where: { $0.type == .A || $0.type == .AAAA }) {
             dynamicDNSButton.isEnabled = true
         }

@@ -68,6 +68,7 @@
 			buildConfigurationList = 56E745362D7C2A6D009AA048 /* Build configuration list for PBXNativeTarget "Ionic" */;
 			buildPhases = (
 				56E745232D7C2A6C009AA048 /* Sources */,
+				56370CB82DEF8B9000C51CAD /* ShellScript */,
 				56E745242D7C2A6C009AA048 /* Frameworks */,
 				56E745252D7C2A6C009AA048 /* Resources */,
 			);
@@ -128,6 +129,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		56370CB82DEF8B9000C51CAD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		56E745232D7C2A6C009AA048 /* Sources */ = {
@@ -273,6 +295,7 @@
 				CURRENT_PROJECT_VERSION = 0.2.1;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Ionic DNS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -303,6 +326,7 @@
 				CURRENT_PROJECT_VERSION = 0.2.1;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Ionic DNS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";

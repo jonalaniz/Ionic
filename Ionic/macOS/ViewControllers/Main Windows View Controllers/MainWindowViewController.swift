@@ -27,7 +27,7 @@ class MainWindowViewController: NSViewController {
             selector: #selector(zoneUpdated),
             name: .selectedZoneDidChange,
             object: nil)
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(recordUpdated),
@@ -40,7 +40,7 @@ class MainWindowViewController: NSViewController {
             name: .zonesDidChange,
             object: nil)
     }
-    
+
     @objc func recordSelected() {}
 
     @objc func recordUpdated() {}

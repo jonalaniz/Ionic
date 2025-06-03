@@ -7,6 +7,7 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 enum Endpoint {
     private var baseURL: String { return "https://api.hosting.ionos.com/dns/v1" }
 

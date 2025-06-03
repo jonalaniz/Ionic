@@ -15,19 +15,19 @@ import Foundation
 /// - `slave`: A secondary zone that replicates data from a master server.
 enum ZoneType: String, Codable {
     case native = "NATIVE"
-    case slave = "SLAVE"
+    case secondary = "SLAVE"
 
     var sfSymbolName: String {
         switch self {
         case .native: return "n.square"
-        case .slave: return "s.square"
+        case .secondary: return "s.square"
         }
     }
-    
+
     var description: String {
         switch self {
         case .native: return "Native/Primary"
-        case .slave: return "Secondary"
+        case .secondary: return "Secondary"
         }
     }
 

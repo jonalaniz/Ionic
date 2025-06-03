@@ -12,7 +12,7 @@ class DynamicDNSViewController: NSViewController {
     @IBOutlet weak var getURLButton: NSButton!
     @IBOutlet weak var copyButton: NSButton!
     @IBOutlet weak var urlTextField: NSTextField!
-    
+
     private let dataManager = DynamicDNSDataManager.shared
 
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ class DynamicDNSViewController: NSViewController {
         guard !tableView.selectedRowIndexes.isEmpty else { return }
         dataManager.fetchDynamicDNSURL(for: tableView.selectedRowIndexes)
     }
-    
+
     @IBAction func copyPressed (_ sender: Any) {
         let content = urlTextField.stringValue
 

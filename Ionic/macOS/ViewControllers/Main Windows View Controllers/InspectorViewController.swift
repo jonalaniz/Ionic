@@ -21,11 +21,11 @@ class InspectorViewController: MainWindowViewController {
     @IBOutlet weak var disableButton: NSButton!
     @IBOutlet weak var buttonView: NSView!
     @IBOutlet weak var editingView: NSView!
-    
+
     var editingMode = false {
         didSet { toggleEditingMode() }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTTLMenu()
@@ -36,7 +36,7 @@ class InspectorViewController: MainWindowViewController {
         toggleInspector(itemIsSelected: selected)
         updateLabels()
     }
-    
+
     override func recordUpdated() {
         let selected = recordManager.selectedRecord != nil
         toggleInspector(itemIsSelected: selected)
@@ -46,25 +46,25 @@ class InspectorViewController: MainWindowViewController {
     override func zoneUpdated() {
         toggleInspector(itemIsSelected: false)
     }
-    
+
     private func setupTTLMenu() {
         guard let menu = ttlPopupButton.menu else { return }
         menu.removeAllItems()
-        
+
         for ttl in TTL.allCases {
             let item = NSMenuItem(
                 title: ttl.description,
                 action: nil,
                 keyEquivalent: ""
             )
-            
+
             item.representedObject = ttl
             item.target = self
             item.tag = ttl.rawValue
             menu.addItem(item)
         }
     }
-    
+
     @IBAction func toggleEditing(_ sender: NSButton) {
         editingMode.toggle()
     }
@@ -90,7 +90,12 @@ class InspectorViewController: MainWindowViewController {
         show(alert) { self.deleteRecord() }
     }
 
-    private func alert(style: NSAlert.Style, buttonTitle: String, message: String, informativeText: String? = nil) -> NSAlert {
+    private func alert(
+        style: NSAlert.Style,
+        buttonTitle: String,
+        message: String,
+        informativeText: String? = nil
+    ) -> NSAlert {
         let alert = NSAlert()
         let color: NSColor = style == .critical ? .red : .systemBlue
 
@@ -135,20 +140,20 @@ class InspectorViewController: MainWindowViewController {
         lastChangedValueLabel.stringValue = record.changeDate.readableDate()
 
         record.disabled ? (disableButton.title = "Enable") : (disableButton.title = "Disable")
-        
+
         ttlPopupButton.selectItem(withTag: record.ttl)
 
         toggleInspector(itemIsSelected: true)
     }
-    
+
     private func toggleEditingMode() {
         ttlValueLabel.isHidden = editingMode
         buttonView.isHidden = editingMode
         ttlPopupButton.isHidden = !editingMode
         editingView.isHidden = !editingMode
-        
+
         contentTextField.isEditable = editingMode
-        
+
         if editingMode {
             contentTextField.stringValue = contentTextField.placeholderString ?? ""
             view.window?.makeFirstResponder(contentTextField)

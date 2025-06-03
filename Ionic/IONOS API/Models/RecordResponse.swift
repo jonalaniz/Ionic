@@ -7,9 +7,11 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 /// A model representing a DNS record returned from the API.
 ///
-/// This structure includes all necessary metadata for identifying and rendering a DNS record in the UI or for further editing.
+/// This structure includes all necessary metadata for identifying and rendering a
+/// DNS record in the UI or for further editing.
 struct RecordResponse: Codable {
 
     /// The unique identifier for the DNS record.

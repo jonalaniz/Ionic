@@ -7,6 +7,7 @@
 
 import Cocoa
 
+// swiftlint:disable
 class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -16,17 +17,27 @@ class MainWindowController: NSWindowController {
         DynamicDNSDataManager.shared.errorHandler = self
     }
 
+    // TODO: Add a "logged out" notification to show the loginView again
     private func subscribeToNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(transitionToSplitView), name: .zonesDidChange, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(transitionToSplitView),
+            name: .zonesDidChange,
+            object: nil
+        )
     }
 
-    private func unsubscribeFromNotifications() {
+    deinit {
         NotificationCenter.default.removeObserver(self)
+
     }
 
+    // TODO: Factor out transition functionality
     @objc private func transitionToSplitView() {
         guard
-            let splitVC = storyboard?.instantiateController(withIdentifier: "MainContentSplitViewController") as? NSSplitViewController,
+            let splitVC = storyboard?.instantiateController(
+                withIdentifier: "MainContentSplitViewController"
+            ) as? NSSplitViewController,
             let window = window,
             let currentVC = window.contentViewController
         else {
@@ -57,8 +68,6 @@ class MainWindowController: NSWindowController {
                 splitVC.view.animator().alphaValue = 1
             }
         })
-
-        unsubscribeFromNotifications()
     }
 }
 
@@ -70,22 +79,22 @@ extension MainWindowController: ErrorHandling {
             case .zoneDataManager: self?.stopLoadingProgressindicator()
             default: break
             }
-            
+
             self?.presentError(error)
         }
     }
-    
+
     private func stopLoadingProgressindicator() {
         guard let viewController = contentViewController as? LoginViewController else { return }
         viewController.progressIndicator.stopAnimation(nil)
     }
-    
+
     private func presentError(_ error: APIManagerError) {
         guard let window = self.window else {
             assertionFailure("MailWindowController.window was nil while presenting an error")
             return
         }
-        
+
         ErrorPresenter.shared.presentError(error, in: window)
     }
 }
