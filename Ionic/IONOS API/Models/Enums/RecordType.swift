@@ -7,6 +7,7 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
 /// An enumeration of supported DNS record types.
 ///
 /// This enum represents common and advanced DNS record types used in zone configurations,
@@ -17,7 +18,6 @@ import Foundation
 /// - Supported types: A, AAAA, CNAME, MX, NS, SOA, TXT, CAA
 /// - Experimental types: TLSA, SMIMEA, SSHFP, DS, HTTPS, SVCB, CERT,
 ///   URI, RP, LOC, OPENPGPKEY
-// swiftlint:disable identifier_name
 enum RecordType: String, CaseIterable, Codable {
     case A
     case AAAA
