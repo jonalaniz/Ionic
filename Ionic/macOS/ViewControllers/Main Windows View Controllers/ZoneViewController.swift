@@ -22,6 +22,11 @@ class ZoneViewController: MainWindowViewController {
         detailTableView.delegate = recordManager
     }
 
+    override func zonesReloaded() {
+        print("ZoneViewController: zonesReloaded ")
+        zoneUpdated()
+    }
+
     override func zoneUpdated() {
         guard let zoneDetails = recordManager.selectedZone else { return }
         zoneNameLabel.stringValue = zoneDetails.name

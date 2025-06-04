@@ -7,7 +7,6 @@
 
 import Cocoa
 
-// swiftlint:disable
 class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -30,6 +29,10 @@ class MainWindowController: NSWindowController {
     deinit {
         NotificationCenter.default.removeObserver(self)
 
+    }
+
+    @IBAction func reloadZones(_ sender: NSMenuItem) {
+        DNSDataManagerCoordinator.shared.reloadZones()
     }
 
     // TODO: Factor out transition functionality

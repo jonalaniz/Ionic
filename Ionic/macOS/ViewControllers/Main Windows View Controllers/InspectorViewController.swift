@@ -43,6 +43,10 @@ class InspectorViewController: MainWindowViewController {
         updateLabels()
     }
 
+    override func zonesReloaded() {
+        toggleInspector(itemIsSelected: false)
+    }
+
     override func zoneUpdated() {
         toggleInspector(itemIsSelected: false)
     }

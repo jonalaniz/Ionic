@@ -11,6 +11,8 @@ protocol ZoneDataManagerDelegate: AnyObject {
     /// Called when Zones were fetched and parsed successfully
     func zonesLoaded()
 
+    func zonesReloaded()
+
     func selected(_ zone: ZoneDetails)
 }
 
@@ -41,6 +43,20 @@ class ZoneDataManager: BaseDataManager {
         }
     }
 
+    @MainActor func reloadZones() throws {
+        Task {
+            await loadZoneInformation()
+
+            guard !zoneDetails.isEmpty else {
+                errorHandler?.handle(error: .conversionFailedToHTTPURLResponse, from: source)
+                return
+            }
+
+            // Let the coordinator know what we have done
+            zonesReloaded()
+        }
+    }
+
     func loadZones() async {
         do {
             zones = try await service.fetchZoneList()
@@ -63,6 +79,11 @@ class ZoneDataManager: BaseDataManager {
     @MainActor
     func zonesLoaded() {
         delegate?.zonesLoaded()
+    }
+
+    @MainActor
+    func zonesReloaded() {
+        delegate?.zonesReloaded()
     }
 
     func select(_ zone: ZoneDetails) {

@@ -17,6 +17,16 @@ class ZonesViewController: MainWindowViewController {
         zoneTableView.dataSource = zoneManager
         zoneTableView.delegate = self
     }
+
+    override func zonesReloaded() {
+        let selectedRow = zoneTableView.selectedRow
+        zoneTableView.reloadData()
+
+        if zoneTableView.numberOfRows > selectedRow {
+            let indexSet = IndexSet(integer: selectedRow)
+            zoneTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+        }
+    }
 }
 
 extension ZonesViewController: NSTableViewDelegate {

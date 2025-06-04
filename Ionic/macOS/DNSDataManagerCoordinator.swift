@@ -54,6 +54,12 @@ class DNSDataManagerCoordinator: NSObject {
         loadInitialData()
     }
 
+    func reloadZones() {
+        Task {
+            try? await zoneDataManager.reloadZones()
+        }
+    }
+
     /// Initiates loading of DNS zones. Errors are handled by `ZoneDataManager`.
     private func loadInitialData() {
         Task {
@@ -79,6 +85,10 @@ extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
     /// Posts `.zonesDidChange` notification and refreshes Dynamic DNS data.
     func zonesLoaded() {
         post(notification: .zonesDidChange)
+    }
+
+    func zonesReloaded() {
+        post(notification: .zonesDidReload)
     }
 
     /// Called when zone has been selected
