@@ -20,8 +20,12 @@ class ZoneDataManager: BaseDataManager {
     static let shared = ZoneDataManager()
     weak var delegate: ZoneDataManagerDelegate?
 
-    var zones = [Zone]()
-    var zoneDetails = [String: ZoneDetails]()
+    private var zones = [Zone]()
+    private var zoneDetails = [String: ZoneDetails]()
+
+    var zonesLoaded: Bool {
+        return zones.isEmpty == false
+    }
 
     private init() {
         super.init(source: .zoneDataManager)
@@ -39,7 +43,7 @@ class ZoneDataManager: BaseDataManager {
             }
 
             // Let the coordinator know we are done
-            zonesLoaded()
+            zonesDidLoad()
         }
     }
 
@@ -77,16 +81,16 @@ class ZoneDataManager: BaseDataManager {
     }
 
     @MainActor
-    func zonesLoaded() {
+    private func zonesDidLoad() {
         delegate?.zonesLoaded()
     }
 
     @MainActor
-    func zonesReloaded() {
+    private func zonesReloaded() {
         delegate?.zonesReloaded()
     }
 
-    func select(_ zone: ZoneDetails) {
+    private func select(_ zone: ZoneDetails) {
         delegate?.selected(zone)
     }
 }
@@ -94,5 +98,32 @@ class ZoneDataManager: BaseDataManager {
 extension ZoneDataManager: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return zones.count
+    }
+}
+
+extension ZoneDataManager: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let identifier = NSUserInterfaceItemIdentifier("ZoneCell")
+        guard let cell = tableView.makeView(
+            withIdentifier: identifier,
+            owner: self) as? NSTableCellView
+        else { return NSTableCellView() }
+
+        cell.textField?.stringValue = zones[row].name
+        cell.imageView?.image = image(for: zones[row].type)
+        cell.imageView?.toolTip = zones[row].type.description
+
+        return cell
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        guard let tableView = notification.object as? NSTableView else { return }
+        let selectedZone = zones[tableView.selectedRow]
+        guard let zone = zoneDetails[selectedZone.id] else { return }
+        select(zone)
+    }
+
+    private func image(for type: ZoneType) -> NSImage? {
+        return NSImage(systemSymbolName: type.sfSymbolName, accessibilityDescription: "")
     }
 }

@@ -1622,18 +1622,27 @@ Gw
                                 <rect key="frame" x="20" y="488" width="340" height="52"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gca-hn-Edl">
-                                        <rect key="frame" x="-2" y="18" width="344" height="16"/>
+                                        <rect key="frame" x="-2" y="18" width="320" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Select a Zone to view Records" id="Zma-Ft-n7d">
                                             <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
+                                    <progressIndicator maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-Lt-Hak">
+                                        <rect key="frame" x="324" y="18" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="SGH-6L-hDJ"/>
+                                            <constraint firstAttribute="width" constant="16" id="atk-IH-h2g"/>
+                                        </constraints>
+                                    </progressIndicator>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="gca-hn-Edl" secondAttribute="trailing" id="Mjh-gr-Wcp"/>
+                                    <constraint firstAttribute="trailing" secondItem="DaW-Lt-Hak" secondAttribute="trailing" id="6Nw-ew-eLy"/>
                                     <constraint firstItem="gca-hn-Edl" firstAttribute="centerY" secondItem="BvT-3z-Gug" secondAttribute="centerY" id="aW2-9D-sBR"/>
+                                    <constraint firstItem="DaW-Lt-Hak" firstAttribute="leading" secondItem="gca-hn-Edl" secondAttribute="trailing" constant="8" symbolic="YES" id="kjl-Nr-FIM"/>
                                     <constraint firstItem="gca-hn-Edl" firstAttribute="leading" secondItem="BvT-3z-Gug" secondAttribute="leading" id="un1-Sa-xJ4"/>
+                                    <constraint firstItem="DaW-Lt-Hak" firstAttribute="centerY" secondItem="BvT-3z-Gug" secondAttribute="centerY" id="yte-xz-uHQ"/>
                                 </constraints>
                             </customView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gvq-Hx-bcN">
@@ -1831,6 +1840,7 @@ Gw
                         <outlet property="createRecordButton" destination="olg-un-fMk" id="tt1-1R-9jn"/>
                         <outlet property="detailTableView" destination="wcc-60-9Eh" id="xTM-Pd-tTn"/>
                         <outlet property="dynamicDNSButton" destination="gvq-Hx-bcN" id="BJK-KU-PG5"/>
+                        <outlet property="loadingIndicator" destination="DaW-Lt-Hak" id="Ztk-Gv-QLP"/>
                         <outlet property="zoneNameLabel" destination="gca-hn-Edl" id="wZu-ls-7Bb"/>
                     </connections>
                 </viewController>

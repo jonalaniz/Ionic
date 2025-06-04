@@ -40,9 +40,16 @@ class MainWindowViewController: NSViewController {
 
         NotificationCenter.default.addObserver(
             self,
+            selector: #selector(zonesReloading),
+            name: .zonesReloading,
+            object: nil)
+
+        NotificationCenter.default.addObserver(
+            self,
             selector: #selector(zonesUpdated),
             name: .zonesDidChange,
             object: nil)
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(zonesReloaded),
@@ -55,6 +62,8 @@ class MainWindowViewController: NSViewController {
     @objc func recordUpdated() {}
 
     @objc func zonesUpdated() {}
+
+    @objc func zonesReloading() {}
 
     @objc func zonesReloaded() {}
 

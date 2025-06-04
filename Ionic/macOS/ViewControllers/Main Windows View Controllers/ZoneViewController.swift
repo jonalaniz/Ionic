@@ -7,14 +7,16 @@
 
 import Cocoa
 
-// ZoneViewController controls the middle view in
-// the main window. Displays a table of records in
-// the zone.
+/// `ZoneViewController` controls the middle view of the main window.
+///
+/// It displays the records for the currently selected DNS zone in a table view.
+/// This controller updates the UI in response to zone and record changes.
 class ZoneViewController: MainWindowViewController {
     @IBOutlet weak var detailTableView: NSTableView!
     @IBOutlet weak var zoneNameLabel: NSTextField!
     @IBOutlet weak var createRecordButton: NSButton!
     @IBOutlet weak var dynamicDNSButton: NSButton!
+    @IBOutlet weak var loadingIndicator: NSProgressIndicator!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,31 +24,52 @@ class ZoneViewController: MainWindowViewController {
         detailTableView.delegate = recordManager
     }
 
+    /// Called when zones begin reloading.
+    ///
+    /// Starts the loading indicator animation.
+    override func zonesReloading() {
+        loadingIndicator.startAnimation(nil)
+    }
+
+    /// Called when zones have finished reloading.
+    ///
+    /// Triggers the UI update with the current selected zone.
     override func zonesReloaded() {
-        print("ZoneViewController: zonesReloaded ")
         zoneUpdated()
     }
 
+    /// Called when the selected zone is updated.
+    ///
+    /// Updates the UI with the new zone's name, records, and relevant button states.
     override func zoneUpdated() {
+        loadingIndicator.stopAnimation(nil)
         guard let zoneDetails = recordManager.selectedZone else { return }
+
         zoneNameLabel.stringValue = zoneDetails.name
         detailTableView.reloadData()
         detailTableView.scrollRowToVisible(0)
         createRecordButton.isEnabled = true
 
-        // Only enable the button if the zone has an A or AAAA record
+        // Enable the dynamic DNS button only if the zone contains A or AAAA records.
         if zoneDetails.records.contains(where: { $0.type == .A || $0.type == .AAAA }) {
             dynamicDNSButton.isEnabled = true
         }
     }
 
+
+    /// Called when a specific record has been updated.
+    ///
+    /// Reloads only the affected row in the table view for performance and clarity.
     override func recordUpdated() {
         guard
             let record = recordManager.selectedRecord,
             let row = recordManager.records.firstIndex(where: { $0.id == record.id })
         else { return }
 
-        // grab the specific cell related to that selection
-        detailTableView.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(integer: 0))
+        // Reload only the affected row in the first column
+        detailTableView.reloadData(
+            forRowIndexes: IndexSet(integer: row),
+            columnIndexes: IndexSet(integer: 0)
+        )
     }
 }

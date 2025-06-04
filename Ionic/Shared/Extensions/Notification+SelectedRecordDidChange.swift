@@ -12,5 +12,6 @@ extension Notification.Name {
     static let selectedRecordDidChange = Notification.Name("selectedRecordDidChange")
     static let selectedZoneDidChange = Notification.Name("selectedZoneDidChange")
     static let zonesDidChange = Notification.Name("zonesDidChange")
+    static let zonesReloading = Notification.Name("zonesReloading")
     static let zonesDidReload = Notification.Name("zonesDidReload")
 }

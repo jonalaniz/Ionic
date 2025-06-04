@@ -55,6 +55,9 @@ class DNSDataManagerCoordinator: NSObject {
     }
 
     func reloadZones() {
+        guard zoneDataManager.zonesLoaded else { return }
+        post(notification: .zonesReloading)
+
         Task {
             try? await zoneDataManager.reloadZones()
         }
