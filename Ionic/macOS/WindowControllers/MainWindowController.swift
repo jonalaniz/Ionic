@@ -28,7 +28,6 @@ class MainWindowController: NSWindowController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-
     }
 
     @IBAction func reloadZones(_ sender: NSMenuItem) {
