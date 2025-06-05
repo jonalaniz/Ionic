@@ -14,49 +14,36 @@ final class APIManager: Managable {
 
     private init() {}
 
+    /// Performs a request and returns void. Useful for DELETE method
+    func request(url: URL,
+                 httpMethod: ServiceMethod,
+                 body: Data?,
+                 headers: [String: String]?
+    ) async throws {
+        let request = buildRequest(
+            url: url,
+            httpMethod: httpMethod,
+            body: body,
+            headers: headers
+        )
+        let (data, response) = try await session.data(for: request)
+        try validateResponse(data: data, response: response)
+
+    }
+
     func request<T>(url: URL,
                     httpMethod: ServiceMethod,
                     body: Data?,
                     headers: [String: String]?
     ) async throws -> T where T: Decodable {
-        let request = buildRequest(url: url,
-                                   httpMethod: httpMethod,
-                                   body: body,
-                                   headers: headers)
-
-        return try await self.handleResponse(session.data(for: request))
-    }
-
-    private func handleResponse<T: Decodable>(_ dataWithResponse: (data: Data, response: URLResponse)
-    ) async throws -> T {
-        guard let response = dataWithResponse.response as? HTTPURLResponse else {
-            throw APIManagerError.conversionFailedToHTTPURLResponse
-        }
-
-        // Here we grab the status code and data
-        let statusCode = response.statusCode
-        let data = dataWithResponse.data
-
-        // Check for error status codes
-        guard (200...299).contains(statusCode) else {
-            // Decode as an IONOS API Error first
-            if let errorCode = IONOSAPIErrorCode(rawValue: statusCode) {
-                let error = IONOSAPIError(code: errorCode, responseData: data)
-                throw APIManagerError.ionosAPIError(error)
-            } else {
-                throw APIManagerError.invalidResponse(statuscode: statusCode)
-            }
-        }
-
-        do {
-            return try decode(data)
-        } catch {
-            throw APIManagerError.serializationFailed(error)
-        }
-    }
-
-    private func decode<T: Decodable>(_ data: Data) throws -> T {
-        return try JSONDecoder().decode(T.self, from: data)
+        let request = buildRequest(
+            url: url,
+            httpMethod: httpMethod,
+            body: body,
+            headers: headers
+        )
+        let (data, response) = try await session.data(for: request)
+        return try await self.handleResponse(data: data, response: response)
     }
 
     private func buildRequest(url: URL,
@@ -74,5 +61,39 @@ final class APIManager: Managable {
         request.addHeaders(from: headers)
 
         return request
+    }
+
+    private func decode<T: Decodable>(_ data: Data) throws -> T {
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    private func handleResponse<T: Decodable>(data: Data, response: URLResponse) async throws -> T {
+        try validateResponse(data: data, response: response)
+
+        do {
+            return try decode(data)
+        } catch {
+            throw APIManagerError.serializationFailed(error)
+        }
+    }
+
+    private func validateResponse(data: Data, response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIManagerError.conversionFailedToHTTPURLResponse
+        }
+
+        let statusCode = httpResponse.statusCode
+        print(statusCode)
+
+        guard (200...299).contains(statusCode) else {
+            // Decode as an IONOS API Error first
+            if let errorCode = IONOSAPIErrorCode(rawValue: statusCode) {
+                throw APIManagerError.ionosAPIError(
+                    IONOSAPIError(code: errorCode, responseData: data)
+                )
+            } else {
+                throw APIManagerError.invalidResponse(statuscode: statusCode)
+            }
+        }
     }
 }
