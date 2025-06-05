@@ -21,7 +21,11 @@ class DNSRecordDataManager: BaseDataManager {
 
     var selectedRecord: RecordResponse?
 
-    private(set) var selectedZone: ZoneDetails?
+    private(set) var selectedZone: ZoneDetails? {
+        didSet {
+            print(self.records.count)
+        }
+    }
 
     var records: [RecordResponse] {
         return selectedZone?.records.sorted {
@@ -107,8 +111,8 @@ class DNSRecordDataManager: BaseDataManager {
 
         guard let oldZone = selectedZone else { return }
 
-        var oldRecords = oldZone.records
-        if let index = records.firstIndex(where: {
+        var oldRecords = records
+        if let index = oldRecords.firstIndex(where: {
             $0.id == response.id
         }) {
             oldRecords[index] = response
