@@ -1148,7 +1148,7 @@ Gw
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
-                                                <color key="bezelColor" name="AccentColor"/>
+                                                <color key="bezelColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="2v0-9X-TfW"/>
                                                     <constraint firstAttribute="width" constant="109" id="Xzl-em-Xlq"/>
