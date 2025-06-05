@@ -31,6 +31,10 @@ class InspectorViewController: MainWindowViewController {
         setupTTLMenu()
     }
 
+    override func recordDeleted() {
+        toggleInspector(itemIsSelected: false)
+    }
+
     override func recordSelected() {
         let selected = recordManager.selectedRecord != nil
         toggleInspector(itemIsSelected: selected)
@@ -124,7 +128,7 @@ class InspectorViewController: MainWindowViewController {
     }
 
     private func deleteRecord() {
-        print("record deleted")
+        recordManager.deleteRecord()
     }
 
     private func updateLabels() {

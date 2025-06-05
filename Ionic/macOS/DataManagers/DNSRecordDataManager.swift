@@ -7,8 +7,10 @@
 
 import Cocoa
 
+// TODO: Change this to state and enum
 protocol DNSRecordDataManagerDelegate: AnyObject {
     func zoneSelected()
+    func recordDeleted()
     func recordSelected()
     func recordUpdated()
 }
@@ -29,6 +31,41 @@ class DNSRecordDataManager: BaseDataManager {
 
     private init() {
         super.init(source: .recordDataManager)
+    }
+
+    func deleteRecord() {
+        guard
+            let recordID = selectedRecord?.id,
+            let zoneID = selectedZone?.id
+        else {
+            handleError(APIManagerError.configurationMissing)
+            return
+        }
+
+        Task {
+            do {
+                try await service.delete(record: recordID, in: zoneID)
+
+                guard let oldZone = selectedZone else { return }
+
+                var oldRecords = oldZone.records
+
+                if let index = selectedZone?.records.firstIndex(where: {$0.id == recordID}) {
+                    oldRecords.remove(at: index)
+                    selectedZone = ZoneDetails(
+                        id: oldZone.id,
+                        name: oldZone.name,
+                        type: oldZone.type,
+                        records: oldRecords
+                    )
+                }
+
+                delegate?.recordDeleted()
+                print("FUCKPUSSYCUNT")
+            } catch {
+                handleError(error)
+            }
+        }
     }
 
     func toggleDisabledStatus() {
@@ -70,18 +107,18 @@ class DNSRecordDataManager: BaseDataManager {
 
         guard let oldZone = selectedZone else { return }
 
-        var records = oldZone.records
+        var oldRecords = oldZone.records
         if let index = records.firstIndex(where: {
             $0.id == response.id
         }) {
-            records[index] = response
+            oldRecords[index] = response
         }
 
         selectedZone = ZoneDetails(
             id: oldZone.id,
             name: oldZone.name,
             type: oldZone.type,
-            records: records
+            records: oldRecords
         )
 
         delegate?.recordUpdated()

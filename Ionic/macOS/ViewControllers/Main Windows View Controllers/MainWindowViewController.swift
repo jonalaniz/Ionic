@@ -60,6 +60,13 @@ class MainWindowViewController: NSViewController {
 
         NotificationCenter.default.addObserver(
             self,
+            selector: #selector(recordDeleted),
+            name: .selectedRecordWasDeleted,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
             selector: #selector(zonesReloading),
             name: .zonesReloading,
             object: nil)
@@ -81,6 +88,12 @@ class MainWindowViewController: NSViewController {
     ///
     /// Subclasses can override this method to respond to selection changes.
     @objc func recordSelected() {}
+
+    /// Called when a the selected record was deleted..
+    ///
+    /// Subclasses can override this method to respond to selection changes.
+    @objc func recordDeleted() {}
+
 
     /// Called when a record has been updated.
     ///

@@ -56,6 +56,14 @@ class ZoneViewController: MainWindowViewController {
         }
     }
 
+    override func recordDeleted() {
+        // Grab the last selected row
+        let selectedRow = detailTableView.selectedRow
+        detailTableView.reloadData()
+        guard selectedRow <= detailTableView.numberOfRows else { return }
+        detailTableView.selectRowIndexes(IndexSet(integer: selectedRow), byExtendingSelection: false)
+
+    }
 
     /// Called when a specific record has been updated.
     ///

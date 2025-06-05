@@ -109,6 +109,11 @@ extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
         ddnsDataManager.parse(records: recordDataManager.records)
     }
 
+    /// Called when a record is deleted
+    func recordDeleted() {
+        post(notification: .selectedRecordWasDeleted)
+    }
+
     /// Called when a record is selected in the UI.
     func recordSelected() {
         post(notification: .selectedRecordDidChange)
