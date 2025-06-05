@@ -106,7 +106,7 @@ class ErrorPresenter {
         }
     }
 
-    // TODO: Implement bad request decoding
+    // TODO: Implement bad request decoding - Create Record related
     private func decodeBadRequestError(from data: Data?, statusCode: Int) -> AlertContent {
         guard let data = data else {
             return apiErrorFallback(

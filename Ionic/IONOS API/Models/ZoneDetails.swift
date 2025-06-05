@@ -31,4 +31,11 @@ struct ZoneDetails: Codable {
     ///
     /// Each record contains detailed information such as name, content, TTL, and type (e.g., A, MX, CNAME).
     let records: [RecordResponse]
+
+    /// Returns a new ZoneDetails struct identical to self, but with updated records.
+    ///
+    /// Useful for updating the zone locally after modifying its records on the server.
+    func withUpdatedRecords(_ records: [RecordResponse]) -> ZoneDetails {
+        ZoneDetails(id: self.id, name: self.name, type: self.type, records: records)
+    }
 }

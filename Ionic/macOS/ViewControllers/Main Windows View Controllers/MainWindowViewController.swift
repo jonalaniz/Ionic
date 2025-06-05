@@ -94,7 +94,6 @@ class MainWindowViewController: NSViewController {
     /// Subclasses can override this method to respond to selection changes.
     @objc func recordDeleted() {}
 
-
     /// Called when a record has been updated.
     ///
     /// Subclasses can override this to refresh the UI or take other actions.

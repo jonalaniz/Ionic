@@ -7,25 +7,13 @@
 
 import Cocoa
 
-// TODO: Change this to state and enum
-protocol DNSRecordDataManagerDelegate: AnyObject {
-    func zoneSelected()
-    func recordDeleted()
-    func recordSelected()
-    func recordUpdated()
-}
-
 class DNSRecordDataManager: BaseDataManager {
     static let shared = DNSRecordDataManager()
     weak var delegate: DNSRecordDataManagerDelegate?
 
     var selectedRecord: RecordResponse?
 
-    private(set) var selectedZone: ZoneDetails? {
-        didSet {
-            print(self.records.count)
-        }
-    }
+    private(set) var selectedZone: ZoneDetails?
 
     var records: [RecordResponse] {
         return selectedZone?.records.sorted {
@@ -33,11 +21,8 @@ class DNSRecordDataManager: BaseDataManager {
         } ?? []
     }
 
-    private init() {
-        super.init(source: .recordDataManager)
-    }
+    private init() { super.init(source: .recordDataManager) }
 
-    // TODO: factor out Zone updating
     func deleteRecord() {
         guard
             let recordID = selectedRecord?.id,
@@ -50,22 +35,8 @@ class DNSRecordDataManager: BaseDataManager {
         Task {
             do {
                 try await service.delete(record: recordID, in: zoneID)
-
-                guard let oldZone = selectedZone else { return }
-
-                var oldRecords = oldZone.records
-
-                if let index = selectedZone?.records.firstIndex(where: {$0.id == recordID}) {
-                    oldRecords.remove(at: index)
-                    selectedZone = ZoneDetails(
-                        id: oldZone.id,
-                        name: oldZone.name,
-                        type: oldZone.type,
-                        records: oldRecords
-                    )
-                }
-
-                delegate?.recordDeleted()
+                removeRecordFromSelectedZone(recordID: recordID)
+                notifyDelegate(.recordDeleted)
             } catch {
                 handleError(error)
             }
@@ -90,10 +61,12 @@ class DNSRecordDataManager: BaseDataManager {
 
         Task {
             do {
-                let response = try await service.update(record: object, zoneID: zoneID, recordID: record.id)
-                selectedRecord = response
-
-                updateRecord(with: response)
+                let response = try await service.update(
+                    record: object,
+                    zoneID: zoneID,
+                    recordID: record.id
+                )
+                applyUpdated(record: response)
             } catch {
                 handleError(error)
             }
@@ -103,29 +76,34 @@ class DNSRecordDataManager: BaseDataManager {
     func select(zone: ZoneDetails) {
         selectedZone = zone
         selectedRecord = nil
-        delegate?.zoneSelected()
+        notifyDelegate(.zoneSelected)
     }
 
-    private func updateRecord(with response: RecordResponse) {
-        selectedRecord = response
+    // MARK: - Helper Methods
+    private func applyUpdated(record: RecordResponse) {
+        selectedRecord = record
+        guard let zone = selectedZone else { return }
 
-        guard let oldZone = selectedZone else { return }
-
-        var oldRecords = records
-        if let index = oldRecords.firstIndex(where: {
-            $0.id == response.id
-        }) {
-            oldRecords[index] = response
+        var updatedRecords = records
+        if let index = updatedRecords.firstIndex(where: { $0.id == record.id }) {
+            updatedRecords[index] = record
+            selectedZone = zone.withUpdatedRecords(updatedRecords)
         }
 
-        selectedZone = ZoneDetails(
-            id: oldZone.id,
-            name: oldZone.name,
-            type: oldZone.type,
-            records: oldRecords
-        )
+        notifyDelegate(.recordUpdated)
+    }
+    private func removeRecordFromSelectedZone(recordID: String) {
+        guard let zone = selectedZone else { return }
+        var updatedRecords = zone.records
+        updatedRecords.removeAll(where: { $0.id == recordID })
 
-        delegate?.recordUpdated()
+        selectedZone = zone.withUpdatedRecords(updatedRecords)
+    }
+
+    private func notifyDelegate(_ state: DNSRecordDataManagerState) {
+        DispatchQueue.main.async {
+            self.delegate?.stateDidChange(state)
+        }
     }
 }
 
@@ -146,7 +124,9 @@ extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard let tableView = notification.object as? NSTableView else { return }
-        selectedRecord = records[tableView.selectedRow]
-        delegate?.recordSelected()
+        let index = tableView.selectedRow
+        guard records.indices.contains(index) else { return }
+        selectedRecord = records[index]
+        notifyDelegate(.recordSelected)
     }
 }

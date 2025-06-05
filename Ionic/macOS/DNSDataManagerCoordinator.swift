@@ -103,24 +103,17 @@ extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
 
 // MARK: - DNSRecordDataManagerDelegate
 extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
-    /// Called when a zone is selected.
-    func zoneSelected() {
-        post(notification: .selectedZoneDidChange)
-        ddnsDataManager.parse(records: recordDataManager.records)
-    }
-
-    /// Called when a record is deleted
-    func recordDeleted() {
-        post(notification: .selectedRecordWasDeleted)
-    }
-
-    /// Called when a record is selected in the UI.
-    func recordSelected() {
-        post(notification: .selectedRecordDidChange)
-    }
-
-    /// Called when a record is updated (e.g., modified or disabled).
-    func recordUpdated() {
-        post(notification: .selectedRecordUpdated)
+    func stateDidChange(_ state: DNSRecordDataManagerState) {
+        switch state {
+        case .zoneSelected:
+            post(notification: .selectedZoneDidChange)
+            ddnsDataManager.parse(records: recordDataManager.records)
+        case .recordDeleted:
+            post(notification: .selectedRecordWasDeleted)
+        case .recordSelected:
+            post(notification: .selectedRecordDidChange)
+        case .recordUpdated:
+            post(notification: .selectedRecordUpdated)
+        }
     }
 }
