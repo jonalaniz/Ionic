@@ -83,7 +83,6 @@ final class APIManager: Managable {
         }
 
         let statusCode = httpResponse.statusCode
-        print(statusCode)
 
         guard (200...299).contains(statusCode) else {
             // Decode as an IONOS API Error first

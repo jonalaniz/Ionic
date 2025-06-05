@@ -33,6 +33,7 @@ class DNSRecordDataManager: BaseDataManager {
         super.init(source: .recordDataManager)
     }
 
+    // TODO: factor out Zone updating
     func deleteRecord() {
         guard
             let recordID = selectedRecord?.id,
@@ -61,7 +62,6 @@ class DNSRecordDataManager: BaseDataManager {
                 }
 
                 delegate?.recordDeleted()
-                print("FUCKPUSSYCUNT")
             } catch {
                 handleError(error)
             }

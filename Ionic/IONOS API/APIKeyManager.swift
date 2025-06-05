@@ -36,7 +36,6 @@ class APIKeyManager {
         do {
             let key = try keychainHelper.get(DNSAPIKey.self, for: account)
             self.key = key
-            print(key)
         } catch let error as KeychainError {
             handleKeychainError(error)
         } catch let error as DecodingError {

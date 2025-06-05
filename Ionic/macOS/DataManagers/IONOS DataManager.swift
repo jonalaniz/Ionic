@@ -38,7 +38,6 @@ class ZoneDataManager: BaseDataManager {
 
             // Make sure the above was successful, errors will be thrown above
             guard !zones.isEmpty, !zoneDetails.isEmpty else {
-                print("Shit's empty")
                 return
             }
 
