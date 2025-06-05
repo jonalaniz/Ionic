@@ -15,6 +15,18 @@ class IONOSService {
 
     private init() {}
 
+    // Takes in record and zone IDs and deletes record
+    func delete(record: String, in zone: String) async throws {
+        let url = Endpoint.record(zone, record).url
+        let headers = try headers()
+        try await apiManager.request(
+            url: url,
+            httpMethod: .delete,
+            body: nil,
+            headers: headers
+        )
+    }
+
     func fetchZoneList() async throws -> [Zone] {
         let url = Endpoint.zones.url
         let headers = try headers()
@@ -22,7 +34,8 @@ class IONOSService {
             url: url,
             httpMethod: .get,
             body: nil,
-            headers: headers)
+            headers: headers
+        )
     }
 
     func fetchZoneDetail(id: String) async throws -> ZoneDetails {
@@ -32,7 +45,8 @@ class IONOSService {
             url: url,
             httpMethod: .get,
             body: nil,
-            headers: headers)
+            headers: headers
+        )
     }
 
     func postDynamicDNSRecord(_ request: DynamicDNSRequest) async throws -> DynamicDNSResponse {
@@ -43,7 +57,8 @@ class IONOSService {
             url: url,
             httpMethod: .post,
             body: data,
-            headers: headers)
+            headers: headers
+        )
     }
 
     func update(record: RecordUpdate, zoneID: String, recordID: String) async throws -> RecordResponse {
@@ -54,7 +69,8 @@ class IONOSService {
             url: url,
             httpMethod: .put,
             body: data,
-            headers: headers)
+            headers: headers
+        )
     }
 
     private func headers() throws -> [String: String] {

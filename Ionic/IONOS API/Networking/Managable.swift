@@ -13,4 +13,10 @@ protocol Managable {
                              body: Data?,
                              headers: [String: String]?
     ) async throws -> T
+
+    func request(url: URL,
+                 httpMethod: ServiceMethod,
+                 body: Data?,
+                 headers: [String: String]?
+    ) async throws
 }
