@@ -15,6 +15,18 @@ class IONOSService {
 
     private init() {}
 
+    func create(record: Record, in zone: String) async throws -> RecordResponse {
+        let url = Endpoint.newRecord(zone).url
+        let headers = try headers()
+        let data = try JSONEncoder().encode(record)
+        return try await apiManager.request(
+            url: url,
+            httpMethod: .post,
+            body: data,
+            headers: headers
+        )
+    }
+
     // Takes in record and zone IDs and deletes record
     func delete(record: String, in zone: String) async throws {
         let url = Endpoint.record(zone, record).url

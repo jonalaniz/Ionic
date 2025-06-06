@@ -20,20 +20,34 @@ class ErrorPresenter {
     /// Shared instance of the error presenter.
     static let shared = ErrorPresenter()
 
-    /// Presents a formatted error alert in the given window.
+    /// Presents a formatted error alert in the given window shown as a sheet.
     ///
     /// - Parameters:
     ///   - error: The API error to display.
     ///   - window: The window in which to present the alert.
-    func presentError(_ error: APIManagerError, in window: NSWindow) {
+    func presentErrorAsSheet(_ error: APIManagerError, in window: NSWindow) {
+        let alert = createAlert(error)
+        alert.beginSheetModal(for: window)
+    }
+
+    /// Presents a formatted error alert modally. Useful for errors when a modal sheet is already showing.
+    ///
+    /// - Parameters:
+    ///   - error: The API error to display.
+    func presentErrorAsModal(_ error: APIManagerError) {
+        let alert = createAlert(error)
+        alert.runModal()
+    }
+
+    private func createAlert(_ error: APIManagerError) -> NSAlert {
         let alert = NSAlert()
         let content = createAlertContent(for: error)
-
         alert.messageText = content.messageText
         alert.alertStyle = content.style
         alert.informativeText = content.informativeText ?? ""
         alert.addButton(withTitle: "OK")
-        alert.beginSheetModal(for: window)
+
+        return alert
     }
 
     /// Converts an `APIManagerError` into displayable `AlertContent`.

@@ -56,6 +56,15 @@ class ZoneViewController: MainWindowViewController {
         }
     }
 
+    override func recordCreated() {
+        detailTableView.reloadData()
+        guard
+            let selectedRecord = recordManager.selectedRecord,
+            let index = recordManager.records.firstIndex(where: { $0.id ==  selectedRecord.id })
+        else { return }
+        detailTableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+    }
+
     override func recordDeleted() {
         // Grab the last selected row
         let selectedRow = detailTableView.selectedRow

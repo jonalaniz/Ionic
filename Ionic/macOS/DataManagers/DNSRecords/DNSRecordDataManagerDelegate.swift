@@ -9,6 +9,7 @@ import Foundation
 
 enum DNSRecordDataManagerState {
     case zoneSelected
+    case recordCreated
     case recordDeleted
     case recordSelected
     case recordUpdated

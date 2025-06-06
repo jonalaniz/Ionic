@@ -23,6 +23,35 @@ class DNSRecordDataManager: BaseDataManager {
 
     private init() { super.init(source: .recordDataManager) }
 
+    func createRecord(name: String, type: RecordType, content: String, ttl: TTL, prio: Int?) {
+        guard let zoneID = selectedZone?.id else { return }
+        let record = Record(
+            name: name,
+            type: type,
+            content: content,
+            ttl: ttl.rawValue,
+            prio: prio,
+            disabled: false
+        )
+
+        print(record)
+
+        Task {
+            do {
+                let response = try await service.create(
+                    record: record,
+                    in: zoneID
+                )
+                add(response)
+                print(record)
+                notifyDelegate(.recordCreated)
+            } catch {
+                handleError(error)
+            }
+        }
+
+    }
+
     func deleteRecord() {
         guard
             let recordID = selectedRecord?.id,
@@ -80,10 +109,26 @@ class DNSRecordDataManager: BaseDataManager {
     }
 
     // MARK: - Helper Methods
-    private func applyUpdated(record: RecordResponse) {
-        selectedRecord = record
+    private func add(_ record: RecordResponse) {
         guard let zone = selectedZone else { return }
 
+        selectedRecord = record
+        var updatedRecords = records
+        updatedRecords.append(record)
+        updatedRecords.sort(by: { $0.name < $1.name })
+
+        // TODO: The zone array may need to be updated, if we click the zone again, it might not have
+        // the new records.
+        selectedZone = zone.withUpdatedRecords(updatedRecords)
+        notifyDelegate(.recordCreated)
+
+        // TODO: Implement CreateRecord front end in CreateRecordViewController and Handle the error
+    }
+
+    private func applyUpdated(record: RecordResponse) {
+        guard let zone = selectedZone else { return }
+
+        selectedRecord = record
         var updatedRecords = records
         if let index = updatedRecords.firstIndex(where: { $0.id == record.id }) {
             updatedRecords[index] = record

@@ -97,6 +97,11 @@ extension MainWindowController: ErrorHandling {
             return
         }
 
-        ErrorPresenter.shared.presentError(error, in: window)
+        guard window.sheets.isEmpty else {
+            ErrorPresenter.shared.presentErrorAsModal(error)
+            return
+        }
+
+        ErrorPresenter.shared.presentErrorAsSheet(error, in: window)
     }
 }

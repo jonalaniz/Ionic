@@ -33,6 +33,7 @@ class MainWindowViewController: NSViewController {
     /// Subscribes the view controller to zone and record update notifications.
     ///
     /// These include:
+    ///  = `.recordCreated`
     /// - `.selectedRecordDidChange`
     /// - `.selectedZoneDidChange`
     /// - `.selectedRecordUpdated`
@@ -40,6 +41,12 @@ class MainWindowViewController: NSViewController {
     /// - `.zonesDidChange`
     /// - `.zonesDidReload`
     private func subscribeToNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(recordCreated),
+            name: .recordCreated,
+            object: nil)
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(recordSelected),
@@ -83,6 +90,11 @@ class MainWindowViewController: NSViewController {
             name: .zonesDidReload,
             object: nil)
     }
+
+    /// Called when a record has been successfully created..
+    ///
+    /// Subclasses can override this method to respond to selection changes.
+    @objc func recordCreated() {}
 
     /// Called when a record has been selected.
     ///

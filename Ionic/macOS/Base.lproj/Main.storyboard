@@ -1482,6 +1482,9 @@ Gw
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="agT-Km-XZY"/>
                                         </constraints>
+                                        <connections>
+                                            <action selector="createRecord:" target="BSK-E5-una" id="U8K-jx-uMQ"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rsW-k9-6Ab">
                                         <rect key="frame" x="241" y="-7" width="114" height="32"/>
@@ -1596,6 +1599,7 @@ Gw
                     <connections>
                         <outlet property="contentLabel" destination="OaU-x7-Go8" id="yQT-Qh-SeF"/>
                         <outlet property="contentTextField" destination="tI7-Ql-UKt" id="c3C-S1-SGk"/>
+                        <outlet property="createRecordButton" destination="R7F-ei-TW7" id="IoY-vU-lx9"/>
                         <outlet property="nameTextField" destination="uGf-on-JwA" id="Pck-oi-voS"/>
                         <outlet property="priorityTextField" destination="H7I-cE-4zW" id="d0Z-s8-d0m"/>
                         <outlet property="priorityTextLabel" destination="miQ-Jt-Yq0" id="b0d-Q7-FEG"/>
