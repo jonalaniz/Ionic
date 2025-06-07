@@ -30,7 +30,12 @@ class DNSRecordDataManager: BaseDataManager {
         else { return }
 
         // The `name` that the API expects is the hostName + the domain (www.example.com)
-        let fqdn = "\(name).\(zone)"
+        let fqdn: String
+        if name == "@" || name == "" {
+            fqdn = zone
+        } else {
+            fqdn = "\(name).\(zone)"
+        }
 
         let record = Record(
             name: fqdn,

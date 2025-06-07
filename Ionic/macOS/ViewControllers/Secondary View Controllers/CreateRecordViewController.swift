@@ -7,8 +7,10 @@
 
 import Cocoa
 
-// TODO: Clean this class up and reorganize
+// swiftlint:disable notification_center_detachment
 class CreateRecordViewController: NSViewController {
+    // MARK: - Outlets
+
     @IBOutlet weak var nameTextField: NSTextField!
     @IBOutlet weak var recordTypeButton: NSPopUpButton!
     @IBOutlet weak var contentLabel: NSTextField!
@@ -21,29 +23,49 @@ class CreateRecordViewController: NSViewController {
     @IBOutlet weak var recordPreviewTextField: NSTextField!
     @IBOutlet weak var createRecordButton: NSButton!
 
-    let recordManager = DNSRecordDataManager.shared
+    // MARK: - Properties
+
+    private let recordManager = DNSRecordDataManager.shared
+
+    private var selectedTTL: TTL? {
+        ttlPopupButton.selectedItem?.representedObject as? TTL
+    }
+
+    private var selectedRecordType: RecordType? {
+        recordTypeButton.selectedItem?.representedObject as? RecordType
+    }
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        subscribeToNotificaton()
+        configure()
+    }
+
+    override func viewWillDisappear() {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Configuration
+
+    private func configure() {
+        setupNotifications()
         setupMenus()
         setupTextFields()
         updatePreview()
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(dismissController),
+            name: .recordCreated,
+            object: nil)
     }
 
     private func setupMenus() {
         setupRecordTypeMenu()
         setupTTLMenu()
-    }
-
-    private func setupTextFields() {
-        nameTextField.delegate = self
-        contentTextField.delegate = self
-        priorityTextField.delegate = self
     }
 
     private func setupRecordTypeMenu() {
@@ -82,17 +104,26 @@ class CreateRecordViewController: NSViewController {
         ttlPopupButton.selectItem(at: 3)
     }
 
+    private func setupTextFields() {
+        nameTextField.delegate = self
+        contentTextField.delegate = self
+        priorityTextField.delegate = self
+    }
+
+    // MARK: - Actions
+
     @IBAction func createRecord(_ sender: NSButton) {
         guard
-            let ttl = ttlPopupButton.selectedItem?.representedObject as? TTL,
-            let type = recordTypeButton.selectedItem?.representedObject as? RecordType
+            let ttl = selectedTTL,
+            let type = selectedRecordType
         else { return }
+        let prio: Int? = priorityTextField.isEnabled ? Int(priorityTextField.stringValue) : nil
         recordManager.createRecord(
             name: nameTextField.stringValue,
             type: type,
             content: contentTextField.stringValue,
             ttl: ttl,
-            prio: nil
+            prio: prio
         )
     }
 
@@ -108,6 +139,12 @@ class CreateRecordViewController: NSViewController {
         checkForValidRecord()
     }
 
+    @objc private func dismissController() {
+        self.dismiss(self)
+    }
+
+    // MARK: - UI Updates
+
     @objc private func updatePreview() {
         guard
             let domain = recordManager.selectedZone?.name,
@@ -118,7 +155,7 @@ class CreateRecordViewController: NSViewController {
             return
         }
 
-        let host = nameTextField.stringValue == "@" ? "" : nameTextField.stringValue + "."
+        let host = makeHostName(nameTextField.stringValue)
         let previewString = "\(host)\(domain) \(ttl.rawValue) IN \(recordType.rawValue) \(contentTextField.stringValue)"
         recordPreviewTextField.placeholderString = previewString
     }
@@ -134,29 +171,22 @@ class CreateRecordViewController: NSViewController {
         priorityTextLabel.textColor = priority ? .labelColor : .secondaryLabelColor
     }
 
+    // MARK: - Validation
+
     private func checkForValidRecord() {
-        guard
-            nameTextField.stringValue != "",
-            contentTextField.stringValue != ""
-        else {
-            createRecordButton.isEnabled = false
-            return
-        }
-        createRecordButton.isEnabled = true
+        let isContentValid = contentTextField.stringValue != ""
+        // TODO: When using records that need priority, check that the value isn't empty
+        createRecordButton.isEnabled = isContentValid
     }
 
-    private func subscribeToNotificaton() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(dismissController),
-            name: .recordCreated,
-            object: nil)
-    }
-
-    @objc private func dismissController() {
-        self.dismiss(self)
+    // MARK: Helper Methods
+    private func makeHostName(_ name: String) -> String {
+        guard !name.isEmpty, name != "@" else { return "" }
+        return "\(name)."
     }
 }
+
+// MARK: - NSTextFieldDelegate
 
 extension CreateRecordViewController: NSTextFieldDelegate {
     func controlTextDidChange(_ obj: Notification) {

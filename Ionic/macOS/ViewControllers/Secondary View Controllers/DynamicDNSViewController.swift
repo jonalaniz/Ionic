@@ -8,28 +8,32 @@
 import Cocoa
 
 class DynamicDNSViewController: NSViewController {
+    // MARK: - Outloets
+
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var getURLButton: NSButton!
     @IBOutlet weak var copyButton: NSButton!
     @IBOutlet weak var urlTextField: NSTextField!
 
+    // MARK: - Properties
+
     private let dataManager = DynamicDNSDataManager.shared
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        configure()
     }
 
-    private func configureUI() {
+    // MARK: - Configuration
+
+    private func configure() {
         dataManager.delegate = self
         tableView.delegate = dataManager
         tableView.dataSource = dataManager
     }
 
-    @IBAction func getURLPressed(_ sender: Any) {
-        guard !tableView.selectedRowIndexes.isEmpty else { return }
-        dataManager.fetchDynamicDNSURL(for: tableView.selectedRowIndexes)
-    }
+    // MARK: - Actions
 
     @IBAction func copyPressed (_ sender: Any) {
         let content = urlTextField.stringValue
@@ -39,7 +43,14 @@ class DynamicDNSViewController: NSViewController {
 
         urlTextField.showCopyConfirmation(for: content)
     }
+
+    @IBAction func getURLPressed(_ sender: Any) {
+        guard !tableView.selectedRowIndexes.isEmpty else { return }
+        dataManager.fetchDynamicDNSURL(for: tableView.selectedRowIndexes)
+    }
 }
+
+// MARK: - DynamicDNSDataManagerDelegate
 
 extension DynamicDNSViewController: DynamicDNSDataManagerDelegate {
     func selectionDidChange() {
