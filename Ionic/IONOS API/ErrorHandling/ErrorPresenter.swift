@@ -20,6 +20,8 @@ class ErrorPresenter {
     /// Shared instance of the error presenter.
     static let shared = ErrorPresenter()
 
+    private init() {}
+
     /// Presents a formatted error alert in the given window shown as a sheet.
     ///
     /// - Parameters:
@@ -88,21 +90,14 @@ class ErrorPresenter {
 
         // 400 - Returns `APIErrorInvalidResponse`
         case .badRequest:
-            return decodeBadRequestError(
+            return parseBadRequest(
                 from: error.responseData,
                 statusCode: error.code.rawValue
             )
 
         // 429 - Rate limit exceeded returns nothing
-        case .rateLimitExceeded:
-            return AlertContent(
-                messageText: error.localizedDescription,
-                informativeText: nil,
-                style: .critical
-            )
-
         // 500 - Internal Server Error - Returns object with no message
-        case .internalServerError:
+        case .rateLimitExceeded, .internalServerError:
             return AlertContent(
                 messageText: error.code.message,
                 informativeText: nil,
@@ -113,14 +108,14 @@ class ErrorPresenter {
         // 403 - Forbidden
         // 404 - RecordNotFound
         default:
-            return decodeGenericAPIError(
+            return parseGenericError(
                 from: error.responseData,
                 statusCode: error.code.rawValue
             )
         }
     }
 
-    private func decodeBadRequestError(from data: Data?, statusCode: Int) -> AlertContent {
+    private func parseBadRequest(from data: Data?, statusCode: Int) -> AlertContent {
         guard
             let data = data,
             let response = try? JSONDecoder().decode([APIErrorInvalidResponse].self, from: data),
@@ -143,7 +138,7 @@ class ErrorPresenter {
     ///   - data: The raw response data.
     ///   - statusCode: The HTTP status code associated with the error.
     /// - Returns: A formatted `AlertContent` or a fallback message.
-    private func decodeGenericAPIError(from data: Data?, statusCode: Int) -> AlertContent {
+    private func parseGenericError(from data: Data?, statusCode: Int) -> AlertContent {
         guard
             let data = data,
             let response = try? JSONDecoder().decode([APIErrorCodeResponse].self, from: data),
