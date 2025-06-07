@@ -25,6 +25,7 @@ class CreateRecordViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        subscribeToNotificaton()
         setupMenus()
         setupTextFields()
         updatePreview()
@@ -153,7 +154,7 @@ class CreateRecordViewController: NSViewController {
     }
 
     @objc private func dismissController() {
-        dismiss(self)
+        self.dismiss(self)
     }
 }
 

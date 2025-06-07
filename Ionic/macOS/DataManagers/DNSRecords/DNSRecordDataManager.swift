@@ -24,17 +24,22 @@ class DNSRecordDataManager: BaseDataManager {
     private init() { super.init(source: .recordDataManager) }
 
     func createRecord(name: String, type: RecordType, content: String, ttl: TTL, prio: Int?) {
-        guard let zoneID = selectedZone?.id else { return }
+        guard
+            let zoneID = selectedZone?.id,
+            let zone = selectedZone?.name
+        else { return }
+
+        // The `name` that the API expects is the hostName + the domain (www.example.com)
+        let fqdn = "\(name).\(zone)"
+
         let record = Record(
-            name: name,
+            name: fqdn,
             type: type,
             content: content,
             ttl: ttl.rawValue,
             prio: prio,
             disabled: false
         )
-
-        print(record)
 
         Task {
             do {
@@ -43,7 +48,6 @@ class DNSRecordDataManager: BaseDataManager {
                     in: zoneID
                 )
                 add(response)
-                print(record)
                 notifyDelegate(.recordCreated)
             } catch {
                 handleError(error)
@@ -109,20 +113,20 @@ class DNSRecordDataManager: BaseDataManager {
     }
 
     // MARK: - Helper Methods
-    private func add(_ record: RecordResponse) {
-        guard let zone = selectedZone else { return }
+    private func add(_ record: [RecordResponse]) {
+        guard
+            let zone = selectedZone,
+            let newRecord = record.first
+        else { return }
 
-        selectedRecord = record
+        selectedRecord = newRecord
         var updatedRecords = records
-        updatedRecords.append(record)
+        updatedRecords.append(newRecord)
         updatedRecords.sort(by: { $0.name < $1.name })
 
         // TODO: The zone array may need to be updated, if we click the zone again, it might not have
         // the new records.
         selectedZone = zone.withUpdatedRecords(updatedRecords)
-        notifyDelegate(.recordCreated)
-
-        // TODO: Implement CreateRecord front end in CreateRecordViewController and Handle the error
     }
 
     private func applyUpdated(record: RecordResponse) {
