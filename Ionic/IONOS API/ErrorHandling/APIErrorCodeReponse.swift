@@ -16,21 +16,22 @@ struct APIErrorInvalidResponse: Decodable {
     let code: String
     let message: String?
     let parameters: Parameters?
+}
 
-    struct Parameters: Decodable {
-        let errorRecord: Record
-        let inputRecord: Record?
-        let invalid: [String]?
-        let invalidFields: [String]?
-        let requiredFields: [String]?
-    }
+struct Parameters: Decodable {
+    let errorRecord: ErrorRecord
+    let inputRecord: Record?
+    let invalid: [String]?
+    let invalidFields: [String]?
+    let requiredFields: [String]?
+}
 
-    struct Record: Decodable {
-        let name: String
-        let disabled: Bool
-        let rootName: String
-        let content: String
-        let ttl: Int
-        let prio: Int
-    }
+struct ErrorRecord: Decodable {
+    let name: String
+    let rootName: String
+    let type: RecordType
+    let content: String
+    let ttl: Int
+    let disabled: Bool
+    let prio: Int?
 }
