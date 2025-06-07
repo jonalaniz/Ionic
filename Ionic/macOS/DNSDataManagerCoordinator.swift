@@ -14,26 +14,31 @@ import Foundation
 /// DNS data. It also handles broadcasting system-wide notifications for view controllers to
 /// observe data changes without tightly coupling the layers.
 class DNSDataManagerCoordinator: NSObject {
+    // MARK: - Shared Instance
 
     /// Shared singleton instance of the coordinator.
     static let shared = DNSDataManagerCoordinator()
 
-    /// Handles storing and retrieving the current API key.
-    private let apiKeyManager = APIKeyManager.shared
-
-    /// Manages fetching and storing DNS zones.
-    let zoneDataManager = ZoneDataManager.shared
-
-    /// Manages the currently selected zone's DNS records.
-    let recordDataManager = DNSRecordDataManager.shared
-
-    /// Manages domain names and update URLs used for Dynamic DNS functionality.
-    let ddnsDataManager = DynamicDNSDataManager.shared
+    // MARK: - Properties
 
     /// The currently active API key. This is the key used to authenticate all API calls.
     var apiKey: DNSAPIKey? {
         return apiKeyManager.key
     }
+
+    /// Handles storing and retrieving the current API key.
+    private let apiKeyManager = APIKeyManager.shared
+
+    /// Manages domain names and update URLs used for Dynamic DNS functionality.
+    private let ddnsDataManager = DynamicDNSDataManager.shared
+
+    /// Manages the currently selected zone's DNS records.
+    private let recordDataManager = DNSRecordDataManager.shared
+
+    /// Manages fetching and storing DNS zones.
+    private let zoneDataManager = ZoneDataManager.shared
+
+    // MARK: - Lifecycle
 
     /// Private initializer that also sets up delegate communication with other data managers.
     private override init() {
@@ -41,6 +46,8 @@ class DNSDataManagerCoordinator: NSObject {
         zoneDataManager.delegate = self
         recordDataManager.delegate = self
     }
+
+    // MARK: - Public Methods
 
     /// Establishes a connection with the API using the provided key, and optionally saves it.
     /// - Parameters:
@@ -51,6 +58,7 @@ class DNSDataManagerCoordinator: NSObject {
         loadInitialData()
     }
 
+    /// Initiates reloading of DNS zones. Errors are handled by `ZoneDataManager`.
     func reloadZones() {
         guard zoneDataManager.zonesLoaded else { return }
         post(notification: .zonesReloading)
@@ -59,6 +67,8 @@ class DNSDataManagerCoordinator: NSObject {
             try? await zoneDataManager.reloadZones()
         }
     }
+
+    // MARK: - Helper Methods
 
     /// Initiates loading of DNS zones. Errors are handled by `ZoneDataManager`.
     private func loadInitialData() {
@@ -79,6 +89,7 @@ class DNSDataManagerCoordinator: NSObject {
 }
 
 // MARK: - ZoneDataManagerDelegate
+
 extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
 
     /// Called when zone data has been loaded.
@@ -98,6 +109,7 @@ extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
 }
 
 // MARK: - DNSRecordDataManagerDelegate
+
 extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
     func stateDidChange(_ state: DNSRecordDataManagerState) {
         switch state {
