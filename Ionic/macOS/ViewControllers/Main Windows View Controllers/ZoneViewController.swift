@@ -62,7 +62,9 @@ class ZoneViewController: MainWindowViewController {
             let selectedRecord = recordManager.selectedRecord,
             let index = recordManager.records.firstIndex(where: { $0.id ==  selectedRecord.id })
         else { return }
-        detailTableView.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
+        let indexSet = IndexSet(integer: index)
+        detailTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
+        detailTableView.scrollRowToVisible(index)
     }
 
     override func recordDeleted() {
