@@ -8,15 +8,23 @@
 import Cocoa
 
 class ZonesViewController: MainWindowViewController {
+    // MARK: - Outlets
+
     @IBOutlet weak var zoneTableView: NSTableView!
 
-    let zoneManager = ZoneDataManager.shared
+    // MARK: - Properties
+
+    private let zoneManager = ZoneDataManager.shared
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         zoneTableView.dataSource = zoneManager
         zoneTableView.delegate = zoneManager
     }
+
+    // MARK: - Notification Handlers
 
     override func zonesReloaded() {
         let selectedRow = zoneTableView.selectedRow

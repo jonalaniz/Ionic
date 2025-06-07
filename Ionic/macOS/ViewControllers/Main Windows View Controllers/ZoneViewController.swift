@@ -12,17 +12,23 @@ import Cocoa
 /// It displays the records for the currently selected DNS zone in a table view.
 /// This controller updates the UI in response to zone and record changes.
 class ZoneViewController: MainWindowViewController {
+    // MARK: - Outlets
+
     @IBOutlet weak var detailTableView: NSTableView!
     @IBOutlet weak var zoneNameLabel: NSTextField!
     @IBOutlet weak var createRecordButton: NSButton!
     @IBOutlet weak var dynamicDNSButton: NSButton!
     @IBOutlet weak var loadingIndicator: NSProgressIndicator!
 
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         detailTableView.dataSource = recordManager
         detailTableView.delegate = recordManager
     }
+
+    // MARK: - Notification Handlers
 
     /// Called when zones begin reloading.
     ///

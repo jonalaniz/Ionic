@@ -11,16 +11,19 @@ import Cocoa
 /// in the main window. It listens to zone and record update notifications and
 /// provides overridable methods for responding to them.
 class MainWindowViewController: NSViewController {
+    // MARK: - Properties
 
     /// Shared DNS record manager used to access and update zone and record data.
     let recordManager = DNSRecordDataManager.shared
+
+    // MARK: - Lifecycle
 
     /// Called after the view has been loaded into memory.
     ///
     /// Subscribes the view controller to relevant DNS zone and record notifications.
     override func viewDidLoad() {
         super.viewDidLoad()
-        subscribeToNotifications()
+        setupNotifications()
     }
 
     /// Called when the view controller is deallocated.
@@ -30,66 +33,21 @@ class MainWindowViewController: NSViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
+    // MARK: - Configuration
+
     /// Subscribes the view controller to zone and record update notifications.
-    ///
-    /// These include:
-    ///  = `.recordCreated`
-    /// - `.selectedRecordDidChange`
-    /// - `.selectedZoneDidChange`
-    /// - `.selectedRecordUpdated`
-    /// - `.zonesReloading`
-    /// - `.zonesDidChange`
-    /// - `.zonesDidReload`
-    private func subscribeToNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(recordCreated),
-            name: .recordCreated,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(recordSelected),
-            name: .selectedRecordDidChange,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(zoneUpdated),
-            name: .selectedZoneDidChange,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(recordUpdated),
-            name: .selectedRecordUpdated,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(recordDeleted),
-            name: .selectedRecordWasDeleted,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(zonesReloading),
-            name: .zonesReloading,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(zonesUpdated),
-            name: .zonesDidChange,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(zonesReloaded),
-            name: .zonesDidReload,
-            object: nil)
+    private func setupNotifications() {
+        subscribeTo(.recordCreated, with: #selector(recordCreated))
+        subscribeTo(.selectedRecordDidChange, with: #selector(recordSelected))
+        subscribeTo(.selectedZoneDidChange, with: #selector(zoneUpdated))
+        subscribeTo(.selectedRecordUpdated, with: #selector(recordUpdated))
+        subscribeTo(.selectedRecordWasDeleted, with: #selector(recordDeleted))
+        subscribeTo(.zonesReloading, with: #selector(zonesReloading))
+        subscribeTo(.zonesDidChange, with: #selector(zonesUpdated))
+        subscribeTo(.zonesDidReload, with: #selector(zonesReloaded))
     }
+
+    // MARK: - Notification Handlers
 
     /// Called when a record has been successfully created..
     ///
@@ -130,4 +88,13 @@ class MainWindowViewController: NSViewController {
     ///
     /// Subclasses can override to update their views accordingly.
     @objc func zoneUpdated() {}
+
+    // MARK: - Helper Methods
+    private func subscribeTo(_ name: Notification.Name, with selector: Selector) {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: selector,
+            name: name,
+            object: nil)
+    }
 }

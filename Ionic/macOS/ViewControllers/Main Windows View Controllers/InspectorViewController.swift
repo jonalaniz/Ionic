@@ -8,6 +8,8 @@
 import Cocoa
 
 class InspectorViewController: MainWindowViewController {
+    // MARK: - Outlets
+
     @IBOutlet weak var noSelectionLabel: NSTextField!
     @IBOutlet weak var inspectorView: NSView!
     @IBOutlet weak var idTextField: NSTextField!
@@ -22,14 +24,40 @@ class InspectorViewController: MainWindowViewController {
     @IBOutlet weak var buttonView: NSView!
     @IBOutlet weak var editingView: NSView!
 
+    // MARK: - Propertiees
+
     var editingMode = false {
         didSet { toggleEditingMode() }
     }
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTTLMenu()
     }
+
+    // MARK: - Configuration
+
+    private func setupTTLMenu() {
+        guard let menu = ttlPopupButton.menu else { return }
+        menu.removeAllItems()
+
+        for ttl in TTL.allCases {
+            let item = NSMenuItem(
+                title: ttl.description,
+                action: nil,
+                keyEquivalent: ""
+            )
+
+            item.representedObject = ttl
+            item.target = self
+            item.tag = ttl.rawValue
+            menu.addItem(item)
+        }
+    }
+
+    // MARK: - Notification Handlers
 
     override func recordDeleted() {
         toggleInspector(itemIsSelected: false)
@@ -55,23 +83,7 @@ class InspectorViewController: MainWindowViewController {
         toggleInspector(itemIsSelected: false)
     }
 
-    private func setupTTLMenu() {
-        guard let menu = ttlPopupButton.menu else { return }
-        menu.removeAllItems()
-
-        for ttl in TTL.allCases {
-            let item = NSMenuItem(
-                title: ttl.description,
-                action: nil,
-                keyEquivalent: ""
-            )
-
-            item.representedObject = ttl
-            item.target = self
-            item.tag = ttl.rawValue
-            menu.addItem(item)
-        }
-    }
+    // MARK: - Actions
 
     @IBAction func toggleEditing(_ sender: NSButton) {
         editingMode.toggle()
@@ -98,6 +110,8 @@ class InspectorViewController: MainWindowViewController {
         show(alert) { self.deleteRecord() }
     }
 
+    // MARK: - Alerts
+
     private func alert(
         style: NSAlert.Style,
         buttonTitle: String,
@@ -123,12 +137,28 @@ class InspectorViewController: MainWindowViewController {
         }
     }
 
-    private func toggleDisabledStatus() {
-        recordManager.toggleDisabledStatus()
+    // MARK: - UI Updates
+
+    private func toggleEditingMode() {
+        ttlValueLabel.isHidden = editingMode
+        buttonView.isHidden = editingMode
+        ttlPopupButton.isHidden = !editingMode
+        editingView.isHidden = !editingMode
+
+        contentTextField.isEditable = editingMode
+
+        if editingMode {
+            contentTextField.stringValue = contentTextField.placeholderString ?? ""
+            view.window?.makeFirstResponder(contentTextField)
+            ttlPopupButton.selectItem(withTag: recordManager.selectedRecord!.ttl)
+        } else {
+            contentTextField.stringValue = ""
+        }
     }
 
-    private func deleteRecord() {
-        recordManager.deleteRecord()
+    private func toggleInspector(itemIsSelected: Bool) {
+        noSelectionLabel.isHidden = itemIsSelected
+        inspectorView.isHidden = !itemIsSelected
     }
 
     private func updateLabels() {
@@ -154,25 +184,13 @@ class InspectorViewController: MainWindowViewController {
         toggleInspector(itemIsSelected: true)
     }
 
-    private func toggleEditingMode() {
-        ttlValueLabel.isHidden = editingMode
-        buttonView.isHidden = editingMode
-        ttlPopupButton.isHidden = !editingMode
-        editingView.isHidden = !editingMode
+    // MARK: - Helper Methods
 
-        contentTextField.isEditable = editingMode
-
-        if editingMode {
-            contentTextField.stringValue = contentTextField.placeholderString ?? ""
-            view.window?.makeFirstResponder(contentTextField)
-            ttlPopupButton.selectItem(withTag: recordManager.selectedRecord!.ttl)
-        } else {
-            contentTextField.stringValue = ""
-        }
+    private func toggleDisabledStatus() {
+        recordManager.toggleDisabledStatus()
     }
 
-    private func toggleInspector(itemIsSelected: Bool) {
-        noSelectionLabel.isHidden = itemIsSelected
-        inspectorView.isHidden = !itemIsSelected
+    private func deleteRecord() {
+        recordManager.deleteRecord()
     }
 }
