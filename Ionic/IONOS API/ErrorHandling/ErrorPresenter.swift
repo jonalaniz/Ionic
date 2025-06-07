@@ -120,20 +120,21 @@ class ErrorPresenter {
         }
     }
 
-    // TODO: Implement bad request decoding - Create Record related
     private func decodeBadRequestError(from data: Data?, statusCode: Int) -> AlertContent {
-        guard let data = data else {
+        guard
+            let data = data,
+            let response = try? JSONDecoder().decode([APIErrorInvalidResponse].self, from: data),
+            let firstResponse = response.first
+        else {
             return apiErrorFallback(
                 statusCode: IONOSAPIErrorCode.badRequest.rawValue,
                 informativeText: "Bad request: unable to parse error"
             )
         }
-
-        // Debug print statement
-        if let string = String(data: data, encoding: .utf8) { print(string) }
+        let message = createMessageText(from: firstResponse)
 
         // For now just give it an empty object
-        return AlertContent(messageText: "", informativeText: "", style: .warning)
+        return AlertContent(messageText: firstResponse.code, informativeText: message, style: .warning)
     }
 
     /// Attempts to decode a standard API error from known 401, 403, and 404 status codes.
@@ -175,6 +176,24 @@ class ErrorPresenter {
             informativeText: informativeText,
             style: .critical
         )
+    }
+
+    private func createMessageText(from response: APIErrorInvalidResponse) -> String {
+        guard var message = response.message else {
+            return "No message provided from API"
+        }
+
+        if let invalidFields = response.parameters?.invalidFields?.joined(separator: ",") {
+            message.append("\n")
+            message.append(contentsOf: "Invalid Fields: \(invalidFields)")
+        }
+
+        if let errorRecord = response.parameters?.errorRecord {
+            message.append("\n")
+            message.append("Record: \(errorRecord)")
+        }
+
+        return message
     }
 
     private func errorTitle(for statusCode: Int) -> String {
