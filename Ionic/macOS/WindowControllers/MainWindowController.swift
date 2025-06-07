@@ -8,16 +8,26 @@
 import Cocoa
 
 class MainWindowController: NSWindowController {
+    // MARK: - Lifecycle
     override func windowDidLoad() {
         super.windowDidLoad()
-        subscribeToNotifications()
+        configure()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Configuration
+    private func configure() {
+        setupNotifications()
         ZoneDataManager.shared.errorHandler = self
         DNSRecordDataManager.shared.errorHandler = self
         DynamicDNSDataManager.shared.errorHandler = self
     }
 
     // TODO: Add a "logged out" notification to show the loginView again
-    private func subscribeToNotifications() {
+    private func setupNotifications() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(transitionToSplitView),
@@ -26,13 +36,13 @@ class MainWindowController: NSWindowController {
         )
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+    // MARK: - Actions
 
     @IBAction func reloadZones(_ sender: NSMenuItem) {
         DNSDataManagerCoordinator.shared.reloadZones()
     }
+
+    // MARK: - Navigation
 
     // TODO: Factor out transition functionality
     @objc private func transitionToSplitView() {
@@ -71,24 +81,25 @@ class MainWindowController: NSWindowController {
             }
         })
     }
+
+    // MARK: - Helper Methods
+    private func stopLoadingProgressIndicator() {
+        guard let viewController = contentViewController as? LoginViewController else { return }
+        viewController.progressIndicator.stopAnimation(nil)
+    }
 }
 
-// MainWindowController should handle errors for issues related to the three views it holds: Zones, Zone, and Inspector
+// MARK: - ErrorHandling
 extension MainWindowController: ErrorHandling {
     func handle(error: APIManagerError, from source: ErrorSource) {
         DispatchQueue.main.async { [weak self] in
             switch source {
-            case .zoneDataManager: self?.stopLoadingProgressindicator()
+            case .zoneDataManager: self?.stopLoadingProgressIndicator()
             default: break
             }
 
             self?.presentError(error)
         }
-    }
-
-    private func stopLoadingProgressindicator() {
-        guard let viewController = contentViewController as? LoginViewController else { return }
-        viewController.progressIndicator.stopAnimation(nil)
     }
 
     private func presentError(_ error: APIManagerError) {
