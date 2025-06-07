@@ -58,7 +58,6 @@ class DNSRecordDataManager: BaseDataManager {
                 handleError(error)
             }
         }
-
     }
 
     func deleteRecord() {
