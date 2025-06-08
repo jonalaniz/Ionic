@@ -681,7 +681,6 @@
 Gw
 </string>
                                         </buttonCell>
-                                        <color key="bezelColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="Qfz-u2-5d3"/>
                                             <constraint firstAttribute="width" constant="93" id="YeB-QF-Qal"/>
