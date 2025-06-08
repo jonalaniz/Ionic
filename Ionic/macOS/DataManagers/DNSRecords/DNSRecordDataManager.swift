@@ -128,9 +128,9 @@ class DNSRecordDataManager: BaseDataManager {
         updatedRecords.append(newRecord)
         updatedRecords.sort(by: { $0.name < $1.name })
 
-        // TODO: The zone array may need to be updated, if we click the zone again, it might not have
-        // the new records.
-        selectedZone = zone.withUpdatedRecords(updatedRecords)
+        let newZone =  zone.withUpdatedRecords(updatedRecords)
+        selectedZone = newZone
+        delegate?.updateZoneDetail(newZone)
     }
 
     private func applyUpdated(record: RecordResponse) {

@@ -128,4 +128,8 @@ extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
             post(notification: .selectedRecordUpdated)
         }
     }
+
+    func updateZoneDetail(_ zone: ZoneDetails) {
+        zoneDataManager.update(zone: zone)
+    }
 }

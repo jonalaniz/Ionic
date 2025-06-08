@@ -17,4 +17,6 @@ enum DNSRecordDataManagerState {
 
 protocol DNSRecordDataManagerDelegate: AnyObject {
     func stateDidChange(_ state: DNSRecordDataManagerState)
+
+    func updateZoneDetail(_ zone: ZoneDetails)
 }

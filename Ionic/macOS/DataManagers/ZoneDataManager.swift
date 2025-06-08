@@ -79,6 +79,10 @@ class ZoneDataManager: BaseDataManager {
         }
     }
 
+    func update(zone zoneDetail: ZoneDetails) {
+        zoneDetails[zoneDetail.id] = zoneDetail
+    }
+
     @MainActor
     private func zonesDidLoad() {
         delegate?.zonesLoaded()
