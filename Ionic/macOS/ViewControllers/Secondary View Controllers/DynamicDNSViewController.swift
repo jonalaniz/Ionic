@@ -14,6 +14,7 @@ class DynamicDNSViewController: NSViewController {
     @IBOutlet weak var getURLButton: NSButton!
     @IBOutlet weak var copyButton: NSButton!
     @IBOutlet weak var urlTextField: NSTextField!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
     // MARK: - Properties
 
@@ -47,6 +48,7 @@ class DynamicDNSViewController: NSViewController {
     @IBAction func getURLPressed(_ sender: Any) {
         guard !tableView.selectedRowIndexes.isEmpty else { return }
         dataManager.fetchDynamicDNSURL(for: tableView.selectedRowIndexes)
+        progressIndicator.startAnimation(nil)
     }
 }
 
@@ -61,5 +63,6 @@ extension DynamicDNSViewController: DynamicDNSDataManagerDelegate {
         urlTextField.stringValue = urlString
         urlTextField.isEnabled = true
         copyButton.isEnabled = true
+        progressIndicator.stopAnimation(self)
     }
 }

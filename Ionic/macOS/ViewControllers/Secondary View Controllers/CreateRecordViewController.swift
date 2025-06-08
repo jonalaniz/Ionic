@@ -22,6 +22,7 @@ class CreateRecordViewController: NSViewController {
     @IBOutlet weak var recordTypeDescriptionTextField: NSTextField!
     @IBOutlet weak var recordPreviewTextField: NSTextField!
     @IBOutlet weak var createRecordButton: NSButton!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
     // MARK: - Properties
 
@@ -125,6 +126,7 @@ class CreateRecordViewController: NSViewController {
             ttl: ttl,
             prio: prio
         )
+        progressIndicator.startAnimation(nil)
     }
 
     @objc private func didSelectRecordType(_ sender: NSMenuItem) {
