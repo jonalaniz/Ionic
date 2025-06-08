@@ -176,9 +176,18 @@ class CreateRecordViewController: NSViewController {
     // MARK: - Validation
 
     private func checkForValidRecord() {
+        guard let type = recordTypeButton.selectedItem?.representedObject as? RecordType else {
+            assertionFailure("Record Type was not set in CreateRecordController")
+            return
+        }
+
         let isContentValid = contentTextField.stringValue != ""
-        // TODO: When using records that need priority, check that the value isn't empty
-        createRecordButton.isEnabled = isContentValid
+
+        if type.requiresPriority() {
+            createRecordButton.isEnabled = isContentValid && priorityTextField.stringValue != ""
+        } else {
+            createRecordButton.isEnabled = isContentValid
+        }
     }
 
     // MARK: Helper Methods
