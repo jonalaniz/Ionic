@@ -22,13 +22,19 @@ class DynamicDNSDataManager: BaseDataManager {
         super.init(source: .ddnsDataManager)
     }
 
-    func parse(records: [RecordResponse]) {
+    func parse(records: [RecordResponse], in domain: String) {
         var names = [String]()
         records.forEach {
             if $0.type == .A {
                 names.append($0.name)
             }
         }
+
+        // if there are no A records, but the empty domain.
+        if records.isEmpty {
+            names.append(domain)
+        }
+
         domainNames = names
     }
 

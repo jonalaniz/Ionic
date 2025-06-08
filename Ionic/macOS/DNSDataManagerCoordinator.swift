@@ -112,12 +112,14 @@ extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
 
 extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
     func stateDidChange(_ state: DNSRecordDataManagerState) {
+        guard let zone = recordDataManager.selectedZone?.name else { return }
         switch state {
         case .zoneSelected:
             post(notification: .selectedZoneDidChange)
-            ddnsDataManager.parse(records: recordDataManager.records)
+            ddnsDataManager.parse(records: recordDataManager.records, in: zone)
         case .recordCreated:
             post(notification: .recordCreated)
+            ddnsDataManager.parse(records: recordDataManager.records, in: zone)
         case .recordDeleted:
             post(notification: .selectedRecordWasDeleted)
         case .recordSelected:

@@ -56,12 +56,12 @@ class ZoneViewController: MainWindowViewController {
         detailTableView.scrollRowToVisible(0)
         createRecordButton.isEnabled = true
 
-        // Enable the dynamic DNS button only if the zone contains A or AAAA records.
-        if zoneDetails.records.contains(where: { $0.type == .A || $0.type == .AAAA }) {
-            dynamicDNSButton.isEnabled = true
-        }
+        checkForARecords()
     }
 
+    /// Called when a new record is created.
+    ///
+    /// Updates the UI with the new record and checks for A records for Dynamic DNS Button.
     override func recordCreated() {
         detailTableView.reloadData()
         guard
@@ -71,15 +71,19 @@ class ZoneViewController: MainWindowViewController {
         let indexSet = IndexSet(integer: index)
         detailTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
         detailTableView.scrollRowToVisible(index)
+        checkForARecords()
     }
 
+    /// Called when a new record is created.
+    ///
+    /// Reselects row in `detailTableView` and updates UI
     override func recordDeleted() {
         // Grab the last selected row
         let selectedRow = detailTableView.selectedRow
         detailTableView.reloadData()
         guard selectedRow <= detailTableView.numberOfRows else { return }
         detailTableView.selectRowIndexes(IndexSet(integer: selectedRow), byExtendingSelection: false)
-
+        checkForARecords()
     }
 
     /// Called when a specific record has been updated.
@@ -96,5 +100,15 @@ class ZoneViewController: MainWindowViewController {
             forRowIndexes: IndexSet(integer: row),
             columnIndexes: IndexSet(integer: 0)
         )
+    }
+
+    // MARK: - Helper Functions
+    private func checkForARecords() {
+        guard let zoneDetails = recordManager.selectedZone else { return }
+
+        // Enable the dynamic DNS button only if the zone contains A or AAAA records.
+        if zoneDetails.records.contains(where: { $0.type == .A || $0.type == .AAAA }) {
+            dynamicDNSButton.isEnabled = true
+        }
     }
 }
