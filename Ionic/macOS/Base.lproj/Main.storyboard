@@ -1670,7 +1670,7 @@ Gw
                             </customView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gvq-Hx-bcN">
                                 <rect key="frame" x="109" y="13" width="129" height="32"/>
-                                <buttonCell key="cell" type="push" title="Dynamic DNS..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
+                                <buttonCell key="cell" type="push" title="Dynamic DNS..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="adt-II-J2c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1680,7 +1680,7 @@ Gw
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="olg-un-fMk">
                                 <rect key="frame" x="236" y="13" width="133" height="32"/>
-                                <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
+                                <buttonCell key="cell" type="push" title="Create Record..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SfX-Fu-WgC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

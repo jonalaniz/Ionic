@@ -16,8 +16,6 @@ class ZoneViewController: MainWindowViewController {
 
     @IBOutlet weak var detailTableView: NSTableView!
     @IBOutlet weak var zoneNameLabel: NSTextField!
-    @IBOutlet weak var createRecordButton: NSButton!
-    @IBOutlet weak var dynamicDNSButton: NSButton!
     @IBOutlet weak var loadingIndicator: NSProgressIndicator!
 
     // MARK: - Lifecycle
@@ -54,9 +52,6 @@ class ZoneViewController: MainWindowViewController {
         zoneNameLabel.stringValue = zoneDetails.name
         detailTableView.reloadData()
         detailTableView.scrollRowToVisible(0)
-        createRecordButton.isEnabled = true
-
-        checkForARecords()
     }
 
     /// Called when a new record is created.
@@ -71,7 +66,6 @@ class ZoneViewController: MainWindowViewController {
         let indexSet = IndexSet(integer: index)
         detailTableView.selectRowIndexes(indexSet, byExtendingSelection: false)
         detailTableView.scrollRowToVisible(index)
-        checkForARecords()
     }
 
     /// Called when a new record is created.
@@ -83,7 +77,6 @@ class ZoneViewController: MainWindowViewController {
         detailTableView.reloadData()
         guard selectedRow <= detailTableView.numberOfRows else { return }
         detailTableView.selectRowIndexes(IndexSet(integer: selectedRow), byExtendingSelection: false)
-        checkForARecords()
     }
 
     /// Called when a specific record has been updated.
@@ -100,15 +93,5 @@ class ZoneViewController: MainWindowViewController {
             forRowIndexes: IndexSet(integer: row),
             columnIndexes: IndexSet(integer: 0)
         )
-    }
-
-    // MARK: - Helper Functions
-    private func checkForARecords() {
-        guard let zoneDetails = recordManager.selectedZone else { return }
-
-        // Enable the dynamic DNS button only if the zone contains A or AAAA records.
-        if zoneDetails.records.contains(where: { $0.type == .A || $0.type == .AAAA }) {
-            dynamicDNSButton.isEnabled = true
-        }
     }
 }
