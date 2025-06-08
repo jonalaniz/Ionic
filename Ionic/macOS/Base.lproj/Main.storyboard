@@ -1860,9 +1860,7 @@ Gw
                         <viewLayoutGuide key="layoutMargins" id="p0e-M1-ugC"/>
                     </view>
                     <connections>
-                        <outlet property="createRecordButton" destination="olg-un-fMk" id="tt1-1R-9jn"/>
                         <outlet property="detailTableView" destination="wcc-60-9Eh" id="xTM-Pd-tTn"/>
-                        <outlet property="dynamicDNSButton" destination="gvq-Hx-bcN" id="BJK-KU-PG5"/>
                         <outlet property="loadingIndicator" destination="DaW-Lt-Hak" id="Ztk-Gv-QLP"/>
                         <outlet property="zoneNameLabel" destination="gca-hn-Edl" id="wZu-ls-7Bb"/>
                     </connections>
