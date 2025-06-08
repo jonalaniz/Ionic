@@ -31,7 +31,7 @@ class DynamicDNSDataManager: BaseDataManager {
         }
 
         // if there are no A records, but the empty domain.
-        if records.isEmpty {
+        if names.isEmpty {
             names.append(domain)
         }
 
