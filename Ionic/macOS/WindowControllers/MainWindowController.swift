@@ -21,6 +21,7 @@ class MainWindowController: NSWindowController {
     // MARK: - Configuration
     private func configure() {
         setupNotifications()
+        window?.titleVisibility = .hidden
         ZoneDataManager.shared.errorHandler = self
         DNSRecordDataManager.shared.errorHandler = self
         DynamicDNSDataManager.shared.errorHandler = self
@@ -78,6 +79,7 @@ class MainWindowController: NSWindowController {
             NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.3
                 splitVC.view.animator().alphaValue = 1
+                window.titleVisibility = .visible
             }
         })
     }
