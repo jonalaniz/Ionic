@@ -14,7 +14,7 @@ class MainWindowViewController: NSViewController {
     // MARK: - Properties
 
     /// Shared DNS record manager used to access and update zone and record data.
-    let recordManager = DNSRecordDataManager.shared
+    let recordManager = RecordDataManager.shared
 
     // MARK: - Lifecycle
 

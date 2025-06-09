@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DNSRecordDataManagerState {
+enum RecordDataManagerState {
     case zoneSelected
     case recordCreated
     case recordDeleted
@@ -15,8 +15,8 @@ enum DNSRecordDataManagerState {
     case recordUpdated
 }
 
-protocol DNSRecordDataManagerDelegate: AnyObject {
-    func stateDidChange(_ state: DNSRecordDataManagerState)
+protocol RecordDataManagerDelegate: AnyObject {
+    func stateDidChange(_ state: RecordDataManagerState)
 
     func updateZoneDetail(_ zone: ZoneDetails)
 }

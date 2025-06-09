@@ -7,15 +7,6 @@
 
 import Cocoa
 
-protocol ZoneDataManagerDelegate: AnyObject {
-    /// Called when Zones were fetched and parsed successfully
-    func zonesLoaded()
-
-    func zonesReloaded()
-
-    func selected(_ zone: ZoneDetails)
-}
-
 class ZoneDataManager: BaseDataManager {
     static let shared = ZoneDataManager()
     weak var delegate: ZoneDataManagerDelegate?

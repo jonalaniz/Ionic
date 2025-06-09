@@ -23,7 +23,7 @@ class MainWindowController: NSWindowController {
         setupNotifications()
         window?.titleVisibility = .hidden
         ZoneDataManager.shared.errorHandler = self
-        DNSRecordDataManager.shared.errorHandler = self
+        RecordDataManager.shared.errorHandler = self
         DynamicDNSDataManager.shared.errorHandler = self
     }
 

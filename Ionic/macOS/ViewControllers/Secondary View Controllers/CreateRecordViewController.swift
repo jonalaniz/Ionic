@@ -26,7 +26,7 @@ class CreateRecordViewController: NSViewController {
 
     // MARK: - Properties
 
-    private let recordManager = DNSRecordDataManager.shared
+    private let recordManager = RecordDataManager.shared
 
     private var selectedTTL: TTL? {
         ttlPopupButton.selectedItem?.representedObject as? TTL

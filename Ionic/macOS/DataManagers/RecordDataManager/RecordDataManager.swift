@@ -7,15 +7,15 @@
 
 import Cocoa
 
-class DNSRecordDataManager: BaseDataManager {
+class RecordDataManager: BaseDataManager {
     // MARK: - Singleton
 
-    static let shared = DNSRecordDataManager()
+    static let shared = RecordDataManager()
     private init() { super.init(source: .recordDataManager) }
 
     // MARK: - Properties
 
-    weak var delegate: DNSRecordDataManagerDelegate?
+    weak var delegate: RecordDataManagerDelegate?
 
     var selectedRecord: RecordResponse?
     private(set) var selectedZone: ZoneDetails?
@@ -184,7 +184,7 @@ class DNSRecordDataManager: BaseDataManager {
 
     // MARK: - Helper Methods
 
-    private func notifyDelegate(_ state: DNSRecordDataManagerState) {
+    private func notifyDelegate(_ state: RecordDataManagerState) {
         DispatchQueue.main.async {
             self.delegate?.stateDidChange(state)
         }
@@ -193,7 +193,7 @@ class DNSRecordDataManager: BaseDataManager {
 
 // MARK: - NSTableViewDataSource & Delegate
 
-extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
+extension RecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return records.count
     }

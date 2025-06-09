@@ -33,7 +33,7 @@ class DNSDataManagerCoordinator: NSObject {
     private let ddnsDataManager = DynamicDNSDataManager.shared
 
     /// Manages the currently selected zone's DNS records.
-    private let recordDataManager = DNSRecordDataManager.shared
+    private let recordDataManager = RecordDataManager.shared
 
     /// Manages fetching and storing DNS zones.
     private let zoneDataManager = ZoneDataManager.shared
@@ -110,8 +110,8 @@ extension DNSDataManagerCoordinator: ZoneDataManagerDelegate {
 
 // MARK: - DNSRecordDataManagerDelegate
 
-extension DNSDataManagerCoordinator: DNSRecordDataManagerDelegate {
-    func stateDidChange(_ state: DNSRecordDataManagerState) {
+extension DNSDataManagerCoordinator: RecordDataManagerDelegate {
+    func stateDidChange(_ state: RecordDataManagerState) {
         guard let zone = recordDataManager.selectedZone?.name else { return }
         switch state {
         case .zoneSelected:
