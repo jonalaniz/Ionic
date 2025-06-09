@@ -137,7 +137,7 @@ class DNSRecordDataManager: BaseDataManager {
 
     func updateRecord(content: String, disabled: Bool, ttl: Int, prio: Int?) {
         guard
-            let recordID = selectedRecord?.id,
+            let record = selectedRecord,
             let zoneID = selectedZone?.id
         else {
             handleError(APIManagerError.configurationMissing)
@@ -151,7 +151,7 @@ class DNSRecordDataManager: BaseDataManager {
             prio: prio ?? 0
         )
 
-        postUpdate(update, for: recordID, in: zoneID)
+        postUpdate(update, for: record.id, in: zoneID)
     }
 
     private func postUpdate(_ update: RecordUpdate, for recordID: String, in zoneID: String) {

@@ -73,6 +73,8 @@ class InspectorViewController: MainWindowViewController {
         let selected = recordManager.selectedRecord != nil
         toggleInspector(itemIsSelected: selected)
         updateLabels()
+
+        editingMode = false
     }
 
     override func zonesReloaded() {
@@ -85,8 +87,26 @@ class InspectorViewController: MainWindowViewController {
 
     // MARK: - Actions
 
+    @IBAction func deleteRecordPressed(_ sender: NSButton) {
+        let alert = alert(style: .critical,
+                          buttonTitle: "Delete",
+                          message: "Are you sure you want to delete this record?",
+                          informativeText: "This action cannot be undone.")
+
+        show(alert) { self.deleteRecord() }
+    }
+
+    @IBAction func updateButtonPressed(_ sender: NSButton) {
+        let alert = alert(style: .warning,
+        buttonTitle: "Update",
+        message: "Are you sure you want to update this record?")
+
+        show(alert) { self.updateRecord() }
+    }
+
     @IBAction func toggleEditing(_ sender: NSButton) {
         editingMode.toggle()
+        print(editingMode)
     }
 
     @IBAction func toggleEnabledStatus(_ sender: NSButton) {
@@ -99,15 +119,6 @@ class InspectorViewController: MainWindowViewController {
                           message: "Are you sure you want to \(action) this record?")
 
         show(alert) { self.toggleDisabledStatus() }
-    }
-
-    @IBAction func deleteRecord(_ sender: NSButton) {
-        let alert = alert(style: .critical,
-                          buttonTitle: "Delete",
-                          message: "Are you sure you want to delete this record?",
-                          informativeText: "This action cannot be undone.")
-
-        show(alert) { self.deleteRecord() }
     }
 
     // MARK: - Alerts
@@ -186,11 +197,23 @@ class InspectorViewController: MainWindowViewController {
 
     // MARK: - Helper Methods
 
+    private func deleteRecord() {
+        recordManager.deleteRecord()
+    }
+
     private func toggleDisabledStatus() {
         recordManager.toggleDisabledStatus()
     }
 
-    private func deleteRecord() {
-        recordManager.deleteRecord()
+    private func updateRecord() {
+        guard
+            let disabled = recordManager.selectedRecord?.disabled,
+            let ttl = ttlPopupButton.selectedItem?.tag
+        else { return }
+        recordManager.updateRecord(
+            content: contentTextField.stringValue,
+            disabled: disabled,
+            ttl: ttl,
+            prio: Int(priorityValueLabel.stringValue))
     }
 }

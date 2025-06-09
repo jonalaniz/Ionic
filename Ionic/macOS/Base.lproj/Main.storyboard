@@ -1148,7 +1148,7 @@ Gw
                                                     <constraint firstAttribute="width" constant="109" id="btF-y7-mBV"/>
                                                 </constraints>
                                                 <connections>
-                                                    <action selector="toggleEditing:" target="0kJ-IW-lHY" id="KiR-M1-cJp"/>
+                                                    <action selector="toggleEditing:" target="0kJ-IW-lHY" id="kgK-lP-JXg"/>
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xck-u6-1Hh">
@@ -1163,7 +1163,7 @@ Gw
                                                     <constraint firstAttribute="width" constant="109" id="Xzl-em-Xlq"/>
                                                 </constraints>
                                                 <connections>
-                                                    <action selector="deleteRecord:" target="0kJ-IW-lHY" id="YUf-gS-uao"/>
+                                                    <action selector="deleteRecordPressed:" target="0kJ-IW-lHY" id="YUf-gS-uao"/>
                                                 </connections>
                                             </button>
                                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="arb-9X-2zc">
@@ -1219,12 +1219,12 @@ Gw
                                                     <constraint firstAttribute="height" constant="20" id="SZn-Ro-Wbl"/>
                                                 </constraints>
                                                 <connections>
-                                                    <action selector="toggleEditing:" target="0kJ-IW-lHY" id="8i3-CR-cHq"/>
+                                                    <action selector="editPressed:" target="0kJ-IW-lHY" id="8i3-CR-cHq"/>
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Bo-7J-qJc">
                                                 <rect key="frame" x="134" y="13" width="123" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Z41-h9-Thd">
+                                                <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Z41-h9-Thd">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -1233,6 +1233,9 @@ Gw
                                                     <constraint firstAttribute="height" constant="20" id="WwS-NB-XSN"/>
                                                     <constraint firstAttribute="width" constant="109" id="xMK-0x-VE1"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="updateButtonPressed:" target="0kJ-IW-lHY" id="Dqd-JO-zRp"/>
+                                                </connections>
                                             </button>
                                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ZM9-la-2Om">
                                                 <rect key="frame" x="20" y="57" width="230" height="5"/>
