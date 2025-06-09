@@ -92,7 +92,7 @@ class CreateRecordViewController: NSViewController {
 
         for ttl in TTL.allCases {
             let item = NSMenuItem(
-                title: ttl.description,
+                title: "\(ttl.rawValue) (\(ttl.description))",
                 action: #selector(didSelectTTL),
                 keyEquivalent: ""
             )

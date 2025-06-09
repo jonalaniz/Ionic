@@ -45,7 +45,7 @@ class InspectorViewController: MainWindowViewController {
 
         for ttl in TTL.allCases {
             let item = NSMenuItem(
-                title: ttl.description,
+                title: "\(ttl.rawValue) (\(ttl.description))",
                 action: nil,
                 keyEquivalent: ""
             )
@@ -106,7 +106,6 @@ class InspectorViewController: MainWindowViewController {
 
     @IBAction func toggleEditing(_ sender: NSButton) {
         editingMode.toggle()
-        print(editingMode)
     }
 
     @IBAction func toggleEnabledStatus(_ sender: NSButton) {
@@ -173,12 +172,15 @@ class InspectorViewController: MainWindowViewController {
     }
 
     private func updateLabels() {
-        guard let record = recordManager.selectedRecord else { return }
+        guard
+            let record = recordManager.selectedRecord,
+            let ttl = TTL(rawValue: record.ttl)
+        else { return }
         idTextField.placeholderString = record.id
         contentTextField.placeholderString = record.content
         rootTextField.placeholderString = record.rootName
         typeValueLabel.stringValue = record.type.rawValue
-        ttlValueLabel.stringValue = String(record.ttl)
+        ttlValueLabel.stringValue = "\(ttl.rawValue) (\(ttl.description))"
 
         if let prio = record.prio {
             priorityValueLabel.stringValue = String(prio)
