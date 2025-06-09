@@ -8,11 +8,16 @@
 import Cocoa
 
 class DNSRecordDataManager: BaseDataManager {
+    // MARK: - Singleton
+
     static let shared = DNSRecordDataManager()
+    private init() { super.init(source: .recordDataManager) }
+
+    // MARK: - Properties
+
     weak var delegate: DNSRecordDataManagerDelegate?
 
     var selectedRecord: RecordResponse?
-
     private(set) var selectedZone: ZoneDetails?
 
     var records: [RecordResponse] {
@@ -21,7 +26,15 @@ class DNSRecordDataManager: BaseDataManager {
         } ?? []
     }
 
-    private init() { super.init(source: .recordDataManager) }
+    // MARK: - Zone Management
+
+    func select(zone: ZoneDetails) {
+        selectedZone = zone
+        selectedRecord = nil
+        notifyDelegate(.zoneSelected)
+    }
+
+    // MARK: - Record Creation
 
     func createRecord(name: String, type: RecordType, content: String, ttl: TTL, prio: Int?) {
         guard
@@ -29,7 +42,7 @@ class DNSRecordDataManager: BaseDataManager {
             let zone = selectedZone?.name
         else { return }
 
-        // The `name` that the API expects is the hostName + the domain (www.example.com)
+        // Construct the fully qualified domain name (fqdn).
         let fqdn: String
         if name == "@" || name == "" {
             fqdn = zone
@@ -60,6 +73,24 @@ class DNSRecordDataManager: BaseDataManager {
         }
     }
 
+    private func add(_ response: [RecordResponse]) {
+        guard
+            let zone = selectedZone,
+            let newRecord = response.first
+        else { return }
+
+        selectedRecord = newRecord
+        var updatedRecords = records
+        updatedRecords.append(newRecord)
+        updatedRecords.sort(by: { $0.name < $1.name })
+
+        let newZone =  zone.withUpdatedRecords(updatedRecords)
+        selectedZone = newZone
+        delegate?.updateZoneDetail(newZone)
+    }
+
+    // MARK: - Record Deletion
+
     func deleteRecord() {
         guard
             let recordID = selectedRecord?.id,
@@ -80,57 +111,62 @@ class DNSRecordDataManager: BaseDataManager {
         }
     }
 
+    private func removeRecordFromSelectedZone(recordID: String) {
+        guard let zone = selectedZone else { return }
+        var updatedRecords = zone.records
+        updatedRecords.removeAll(where: { $0.id == recordID })
+
+        selectedZone = zone.withUpdatedRecords(updatedRecords)
+    }
+
+    // MARK: - Record Updates
+
     func toggleDisabledStatus() {
+        guard let record = selectedRecord else {
+            handleError(APIManagerError.configurationMissing)
+            return
+        }
+
+        updateRecord(
+            content: record.content,
+            disabled: !record.disabled,
+            ttl: record.ttl,
+            prio: record.prio ?? 0
+        )
+    }
+
+    func updateRecord(content: String, disabled: Bool, ttl: Int, prio: Int?) {
         guard
-            let record = selectedRecord,
+            let recordID = selectedRecord?.id,
             let zoneID = selectedZone?.id
         else {
             handleError(APIManagerError.configurationMissing)
             return
         }
 
-        // Create the record update object
-        let object = RecordUpdate(
-            disabled: !record.disabled,
-            content: record.content,
-            ttl: record.ttl,
-            prio: record.prio ?? 0)
+        let update = RecordUpdate(
+            content: content,
+            disabled: disabled,
+            ttl: ttl,
+            prio: prio ?? 0
+        )
 
+        postUpdate(update, for: recordID, in: zoneID)
+    }
+
+    private func postUpdate(_ update: RecordUpdate, for recordID: String, in zoneID: String) {
         Task {
             do {
                 let response = try await service.update(
-                    record: object,
+                    record: update,
                     zoneID: zoneID,
-                    recordID: record.id
+                    recordID: recordID
                 )
                 applyUpdated(record: response)
             } catch {
                 handleError(error)
             }
         }
-    }
-
-    func select(zone: ZoneDetails) {
-        selectedZone = zone
-        selectedRecord = nil
-        notifyDelegate(.zoneSelected)
-    }
-
-    // MARK: - Helper Methods
-    private func add(_ record: [RecordResponse]) {
-        guard
-            let zone = selectedZone,
-            let newRecord = record.first
-        else { return }
-
-        selectedRecord = newRecord
-        var updatedRecords = records
-        updatedRecords.append(newRecord)
-        updatedRecords.sort(by: { $0.name < $1.name })
-
-        let newZone =  zone.withUpdatedRecords(updatedRecords)
-        selectedZone = newZone
-        delegate?.updateZoneDetail(newZone)
     }
 
     private func applyUpdated(record: RecordResponse) {
@@ -145,13 +181,8 @@ class DNSRecordDataManager: BaseDataManager {
 
         notifyDelegate(.recordUpdated)
     }
-    private func removeRecordFromSelectedZone(recordID: String) {
-        guard let zone = selectedZone else { return }
-        var updatedRecords = zone.records
-        updatedRecords.removeAll(where: { $0.id == recordID })
 
-        selectedZone = zone.withUpdatedRecords(updatedRecords)
-    }
+    // MARK: - Helper Methods
 
     private func notifyDelegate(_ state: DNSRecordDataManagerState) {
         DispatchQueue.main.async {
@@ -160,9 +191,11 @@ class DNSRecordDataManager: BaseDataManager {
     }
 }
 
+// MARK: - NSTableViewDataSource & Delegate
+
 extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return selectedZone?.records.count ?? 0
+        return records.count
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -177,9 +210,10 @@ extension DNSRecordDataManager: NSTableViewDelegate, NSTableViewDataSource {
 
     func tableViewSelectionDidChange(_ notification: Notification) {
         guard let tableView = notification.object as? NSTableView else { return }
-        let index = tableView.selectedRow
-        guard records.indices.contains(index) else { return }
-        selectedRecord = records[index]
+        let row = tableView.selectedRow
+
+        guard records.indices.contains(row) else { return }
+        selectedRecord = records[row]
         notifyDelegate(.recordSelected)
     }
 }
