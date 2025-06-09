@@ -13,8 +13,8 @@ import Foundation
 /// content value, TTL (time to live), and priority. This struct is typically encoded as JSON in API calls
 /// to update a specific DNS record.
 struct RecordUpdate: Codable {
-    let disabled: Bool
     let content: String
+    let disabled: Bool
     let ttl: Int
     let prio: Int
 }
