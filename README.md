@@ -19,9 +19,8 @@
 - ~~**Save**: Save IONOS API Keys to disk.~~
 - ~~**Delete**: Delete a record.**~~
 - ~~**Implement graceful Error handling**~~
-- **Create Record**: Create a new record in a Zone.
-- **Edit**: Edit a record.
-
+- ~~**Create Record**: Create a new record in a Zone.~~
+- ~~**Edit**: Edit a record.~~
 - **Auto Updating:** Implement Sparkle updating.
 
 ## Requirements
