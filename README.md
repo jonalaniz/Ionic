@@ -17,7 +17,7 @@
 
 - ~~**Quick Enable/Disable**: Enable/disable a record with one click.~~
 - ~~**Save**: Save IONOS API Keys to disk.~~
-- ~~**Delete**: Delete a record.**~~
+- ~~**Delete**: Delete a record.~~
 - ~~**Implement graceful Error handling**~~
 - ~~**Create Record**: Create a new record in a Zone.~~
 - ~~**Edit**: Edit a record.~~
