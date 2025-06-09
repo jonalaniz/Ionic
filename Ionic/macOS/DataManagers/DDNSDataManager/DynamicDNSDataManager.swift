@@ -7,11 +7,6 @@
 
 import Cocoa
 
-protocol DynamicDNSDataManagerDelegate: AnyObject {
-    func selectionDidChange()
-    func urlCaptured(_ urlString: String)
-}
-
 class DynamicDNSDataManager: BaseDataManager {
     static let shared = DynamicDNSDataManager()
     weak var delegate: DynamicDNSDataManagerDelegate?
