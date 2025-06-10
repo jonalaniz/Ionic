@@ -19,10 +19,12 @@ class InspectorViewController: MainWindowViewController {
     @IBOutlet weak var ttlValueLabel: NSTextField!
     @IBOutlet weak var ttlPopupButton: NSPopUpButton!
     @IBOutlet weak var priorityValueLabel: NSTextField!
+    @IBOutlet weak var priorityTextField: NSTextField!
     @IBOutlet weak var lastChangedValueLabel: NSTextField!
     @IBOutlet weak var disableButton: NSButton!
     @IBOutlet weak var buttonView: NSView!
     @IBOutlet weak var editingView: NSView!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
     // MARK: - Propertiees
 
@@ -60,6 +62,7 @@ class InspectorViewController: MainWindowViewController {
     // MARK: - Notification Handlers
 
     override func recordDeleted() {
+        progressIndicator.stopAnimation(self)
         toggleInspector(itemIsSelected: false)
     }
 
@@ -70,6 +73,7 @@ class InspectorViewController: MainWindowViewController {
     }
 
     override func recordUpdated() {
+        progressIndicator.stopAnimation(self)
         let selected = recordManager.selectedRecord != nil
         toggleInspector(itemIsSelected: selected)
         updateLabels()
@@ -150,19 +154,30 @@ class InspectorViewController: MainWindowViewController {
     // MARK: - UI Updates
 
     private func toggleEditingMode() {
-        ttlValueLabel.isHidden = editingMode
-        buttonView.isHidden = editingMode
-        ttlPopupButton.isHidden = !editingMode
-        editingView.isHidden = !editingMode
+        guard let record = recordManager.selectedRecord else {
+            assertionFailure("Inspector should not be editable when no record is selected")
+            return
+        }
 
+        ttlValueLabel.isHidden = editingMode
+        ttlPopupButton.isHidden = !editingMode
+        buttonView.isHidden = editingMode
+        editingView.isHidden = !editingMode
         contentTextField.isEditable = editingMode
 
         if editingMode {
             contentTextField.stringValue = contentTextField.placeholderString ?? ""
-            view.window?.makeFirstResponder(contentTextField)
+            priorityTextField.stringValue = priorityValueLabel.stringValue
             ttlPopupButton.selectItem(withTag: recordManager.selectedRecord!.ttl)
+            view.window?.makeFirstResponder(contentTextField)
         } else {
             contentTextField.stringValue = ""
+            priorityTextField.stringValue = ""
+        }
+
+        if record.type.requiresPriority() {
+            priorityValueLabel.isHidden = editingMode
+            priorityTextField.isHidden = !editingMode
         }
     }
 
@@ -201,10 +216,12 @@ class InspectorViewController: MainWindowViewController {
 
     private func deleteRecord() {
         recordManager.deleteRecord()
+        progressIndicator.startAnimation(self)
     }
 
     private func toggleDisabledStatus() {
         recordManager.toggleDisabledStatus()
+        progressIndicator.startAnimation(self)
     }
 
     private func updateRecord() {
@@ -216,6 +233,7 @@ class InspectorViewController: MainWindowViewController {
             content: contentTextField.stringValue,
             disabled: disabled,
             ttl: ttl,
-            prio: Int(priorityValueLabel.stringValue))
+            prio: Int(priorityTextField.stringValue))
+        progressIndicator.startAnimation(self)
     }
 }

@@ -935,7 +935,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="nlJ-DR-RvY">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="nlJ-DR-RvY" userLabel="Title View">
                                 <rect key="frame" x="0.0" y="488" width="270" height="52"/>
                                 <subviews>
                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w4W-Eu-2w9">
@@ -949,10 +949,19 @@ Gw
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
+                                    <progressIndicator maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="xf9-mD-2ma">
+                                        <rect key="frame" x="234" y="18" width="16" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="16" id="IqM-IT-ELg"/>
+                                            <constraint firstAttribute="height" constant="16" id="joV-Mk-YG6"/>
+                                        </constraints>
+                                    </progressIndicator>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="xf9-mD-2ma" secondAttribute="trailing" constant="20" symbolic="YES" id="785-n3-eF6"/>
                                     <constraint firstItem="w4W-Eu-2w9" firstAttribute="centerY" secondItem="nlJ-DR-RvY" secondAttribute="centerY" id="VSt-Mt-pXy"/>
                                     <constraint firstItem="w4W-Eu-2w9" firstAttribute="leading" secondItem="nlJ-DR-RvY" secondAttribute="leading" constant="20" symbolic="YES" id="hWC-gH-nlV"/>
+                                    <constraint firstItem="xf9-mD-2ma" firstAttribute="centerY" secondItem="nlJ-DR-RvY" secondAttribute="centerY" id="qYf-IX-pol"/>
                                     <constraint firstAttribute="trailing" secondItem="w4W-Eu-2w9" secondAttribute="trailing" constant="20" symbolic="YES" id="rk3-E0-TL6"/>
                                 </constraints>
                             </customView>
@@ -1064,7 +1073,7 @@ Gw
                                         </textFieldCell>
                                     </textField>
                                     <popUpButton hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6B1-94-fGs">
-                                        <rect key="frame" x="107" y="193" width="147" height="25"/>
+                                        <rect key="frame" x="103" y="193" width="151" height="25"/>
                                         <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="QGp-D1-n6u" id="Gn8-7e-vP9">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="message"/>
@@ -1097,6 +1106,14 @@ Gw
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Priority" id="fbQ-Lv-LrH">
                                             <font key="font" textStyle="body" name=".SFNS-Regular"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField hidden="YES" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eal-Vy-ecW">
+                                        <rect key="frame" x="110" y="170" width="140" height="21"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="tAj-S8-ENm">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
@@ -1259,7 +1276,7 @@ Gw
                                 <constraints>
                                     <constraint firstItem="oZm-DA-dwO" firstAttribute="top" secondItem="sWf-79-kEW" secondAttribute="bottom" constant="12" id="0e4-sy-KMq"/>
                                     <constraint firstItem="ZTA-FO-Qo7" firstAttribute="top" secondItem="Lif-f7-Z8R" secondAttribute="bottom" constant="12" id="387-Mo-KBL"/>
-                                    <constraint firstItem="6B1-94-fGs" firstAttribute="leading" secondItem="sWf-79-kEW" secondAttribute="trailing" constant="8" symbolic="YES" id="5wg-Bs-9Ie"/>
+                                    <constraint firstItem="6B1-94-fGs" firstAttribute="leading" secondItem="sWf-79-kEW" secondAttribute="trailing" constant="4" id="5wg-Bs-9Ie"/>
                                     <constraint firstItem="5Dw-bY-FDF" firstAttribute="leading" secondItem="ZTA-FO-Qo7" secondAttribute="trailing" constant="12" id="6pJ-Zq-xqy"/>
                                     <constraint firstItem="a7f-1M-0TD" firstAttribute="top" secondItem="Ovg-cA-wLb" secondAttribute="bottom" constant="12" id="6qq-h7-eea"/>
                                     <constraint firstAttribute="trailing" secondItem="Ovg-cA-wLb" secondAttribute="trailing" constant="20" symbolic="YES" id="73a-eu-jvh"/>
@@ -1278,11 +1295,13 @@ Gw
                                     <constraint firstItem="ZTA-FO-Qo7" firstAttribute="leading" secondItem="FDL-68-5hO" secondAttribute="leading" constant="20" symbolic="YES" id="Tsr-0w-iPl"/>
                                     <constraint firstItem="FbF-6J-D38" firstAttribute="leading" secondItem="FDL-68-5hO" secondAttribute="leading" id="U3X-cr-nMO"/>
                                     <constraint firstAttribute="trailing" secondItem="Bww-kA-wou" secondAttribute="trailing" id="ZSb-tm-tyg"/>
+                                    <constraint firstItem="eal-Vy-ecW" firstAttribute="leading" secondItem="oZm-DA-dwO" secondAttribute="trailing" constant="8" id="a6d-2v-yQq"/>
                                     <constraint firstItem="1XI-Ld-iWY" firstAttribute="leading" secondItem="HbU-j6-XCy" secondAttribute="trailing" constant="12" id="a9a-Rj-lyy"/>
                                     <constraint firstAttribute="trailing" secondItem="Lif-f7-Z8R" secondAttribute="trailing" constant="20" symbolic="YES" id="cQ7-cw-QcC"/>
                                     <constraint firstAttribute="trailing" secondItem="5Dw-bY-FDF" secondAttribute="trailing" constant="20" symbolic="YES" id="cs9-Vd-fys"/>
                                     <constraint firstItem="sWf-79-kEW" firstAttribute="top" secondItem="ZTA-FO-Qo7" secondAttribute="bottom" constant="12" id="deA-0Q-77x"/>
                                     <constraint firstItem="SiX-63-iCv" firstAttribute="top" secondItem="FDL-68-5hO" secondAttribute="top" id="fCd-fM-ayi"/>
+                                    <constraint firstAttribute="trailing" secondItem="eal-Vy-ecW" secondAttribute="trailing" constant="20" symbolic="YES" id="fEo-lV-NSY"/>
                                     <constraint firstItem="Ovg-cA-wLb" firstAttribute="top" secondItem="SiX-63-iCv" secondAttribute="bottom" constant="8" symbolic="YES" id="gen-4f-6wV"/>
                                     <constraint firstAttribute="trailing" secondItem="1XI-Ld-iWY" secondAttribute="trailing" constant="20" symbolic="YES" id="hRS-YZ-K8g"/>
                                     <constraint firstItem="sWf-79-kEW" firstAttribute="leading" secondItem="FDL-68-5hO" secondAttribute="leading" constant="20" symbolic="YES" id="i61-PY-chg"/>
@@ -1292,6 +1311,7 @@ Gw
                                     <constraint firstAttribute="trailing" secondItem="FbF-6J-D38" secondAttribute="trailing" id="kDn-mp-VqQ"/>
                                     <constraint firstAttribute="trailing" secondItem="6B1-94-fGs" secondAttribute="trailing" constant="20" symbolic="YES" id="nCf-rX-uaf"/>
                                     <constraint firstItem="HbU-j6-XCy" firstAttribute="leading" secondItem="FDL-68-5hO" secondAttribute="leading" constant="20" symbolic="YES" id="nF8-8T-Stx"/>
+                                    <constraint firstItem="eal-Vy-ecW" firstAttribute="centerY" secondItem="E6s-2K-Ot2" secondAttribute="centerY" id="nZA-su-Eva"/>
                                     <constraint firstItem="5Dw-bY-FDF" firstAttribute="top" secondItem="Lif-f7-Z8R" secondAttribute="bottom" constant="12" id="ocu-Jl-QZN"/>
                                     <constraint firstItem="Bww-kA-wou" firstAttribute="leading" secondItem="FDL-68-5hO" secondAttribute="leading" id="r6G-9w-wzo"/>
                                     <constraint firstItem="E6s-2K-Ot2" firstAttribute="top" secondItem="rLe-Hn-apS" secondAttribute="bottom" constant="12" id="rID-l5-jPE"/>
@@ -1329,7 +1349,9 @@ Gw
                         <outlet property="inspectorView" destination="FDL-68-5hO" id="SrQ-4U-xB9"/>
                         <outlet property="lastChangedValueLabel" destination="1XI-Ld-iWY" id="63r-0S-mdk"/>
                         <outlet property="noSelectionLabel" destination="B0a-Xb-X9S" id="Qyo-SD-yXQ"/>
+                        <outlet property="priorityTextField" destination="eal-Vy-ecW" id="tRa-WE-HVi"/>
                         <outlet property="priorityValueLabel" destination="E6s-2K-Ot2" id="UXQ-k3-rdD"/>
+                        <outlet property="progressIndicator" destination="xf9-mD-2ma" id="N80-sw-94o"/>
                         <outlet property="rootTextField" destination="Lif-f7-Z8R" id="XQZ-XX-8De"/>
                         <outlet property="ttlPopupButton" destination="6B1-94-fGs" id="xA8-D1-0vM"/>
                         <outlet property="ttlValueLabel" destination="rLe-Hn-apS" id="L89-Ug-9w5"/>
