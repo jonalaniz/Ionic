@@ -8,7 +8,13 @@
 import Cocoa
 
 class ZoneDataManager: BaseDataManager {
+    // MARK: - Singleton
+
     static let shared = ZoneDataManager()
+    private init() { super.init(source: .zoneDataManager) }
+
+    // MARK: - Properties
+
     weak var delegate: ZoneDataManagerDelegate?
 
     private var zones = [Zone]()
@@ -16,10 +22,6 @@ class ZoneDataManager: BaseDataManager {
 
     var zonesLoaded: Bool {
         return zones.isEmpty == false
-    }
-
-    private init() {
-        super.init(source: .zoneDataManager)
     }
 
     @MainActor func loadData() throws {
@@ -89,13 +91,13 @@ class ZoneDataManager: BaseDataManager {
     }
 }
 
-extension ZoneDataManager: NSTableViewDataSource {
+// MARK: - NSTableViewDataSource & Delegate
+
+extension ZoneDataManager: NSTableViewDelegate, NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return zones.count
     }
-}
 
-extension ZoneDataManager: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let identifier = NSUserInterfaceItemIdentifier("ZoneCell")
         guard let cell = tableView.makeView(
