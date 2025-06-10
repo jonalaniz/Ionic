@@ -53,5 +53,6 @@ class RecordCell: NSTableCellView {
         changeDateLabel.stringValue = "Change Date: \(record.changeDate.readableDate())"
         ttlLabel.stringValue = "TTL: \(record.ttl)"
         statusLabel.stringValue = record.disabled ? "🔴" : "🟢"
+        statusLabel.toolTip = record.disabled ? "Disabld" : "Enabled"
     }
 }
