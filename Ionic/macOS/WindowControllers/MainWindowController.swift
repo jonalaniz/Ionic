@@ -8,6 +8,9 @@
 import Cocoa
 
 class MainWindowController: NSWindowController {
+    // MARK: - Properties
+    private let zoneDataManager = ZoneDataManager.shared
+
     // MARK: - Lifecycle
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -33,6 +36,13 @@ class MainWindowController: NSWindowController {
             self,
             selector: #selector(transitionToSplitView),
             name: .zonesDidChange,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(zoneSelected),
+            name: .selectedZoneDidChange,
             object: nil
         )
     }
@@ -82,6 +92,12 @@ class MainWindowController: NSWindowController {
                 window.titleVisibility = .visible
             }
         })
+    }
+
+    // MARK: - UI Updates
+    @objc private func zoneSelected() {
+        guard let zoneName = zoneDataManager.selectedZone else { return }
+        window?.subtitle = zoneName
     }
 
     // MARK: - Helper Methods

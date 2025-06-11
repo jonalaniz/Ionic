@@ -47,9 +47,6 @@ class ZoneViewController: MainWindowViewController {
     /// Updates the UI with the new zone's name, records, and relevant button states.
     override func zoneUpdated() {
         loadingIndicator.stopAnimation(nil)
-        guard let zoneDetails = recordManager.selectedZone else { return }
-
-        zoneNameLabel.stringValue = zoneDetails.name
         detailTableView.reloadData()
         detailTableView.scrollRowToVisible(0)
     }

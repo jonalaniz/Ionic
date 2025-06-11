@@ -20,6 +20,7 @@ class ZoneDataManager: BaseDataManager {
     private var zones = [Zone]()
     private var zoneDetails = [String: ZoneDetails]()
 
+    var selectedZone: String?
     var zonesLoaded: Bool {
         return zones.isEmpty == false
     }
@@ -87,6 +88,7 @@ class ZoneDataManager: BaseDataManager {
     }
 
     private func select(_ zone: ZoneDetails) {
+        selectedZone = zone.name
         delegate?.selected(zone)
     }
 }
