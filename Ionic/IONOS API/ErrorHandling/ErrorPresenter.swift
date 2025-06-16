@@ -41,6 +41,10 @@ class ErrorPresenter {
         alert.runModal()
     }
 
+    /// Builds and returns an `NSAlert` based on the given error.
+    ///
+    /// - Parameter error: The error to format into an alert.
+    /// - Returns: A configured `NSAlert` instance.
     private func createAlert(_ error: APIManagerError) -> NSAlert {
         let alert = NSAlert()
         let content = createAlertContent(for: error)
@@ -115,6 +119,12 @@ class ErrorPresenter {
         }
     }
 
+    /// Parses an API response for a 400 Bad Request into a readable alert.
+    ///
+    /// - Parameters:
+    ///   - data: Raw response data.
+    ///   - statusCode: HTTP status code.
+    /// - Returns: An `AlertContent` with parsed information or fallback content.
     private func parseBadRequest(from data: Data?, statusCode: Int) -> AlertContent {
         guard
             let data = data,
@@ -173,6 +183,10 @@ class ErrorPresenter {
         )
     }
 
+    /// Composes a user-readable message from a structured invalid response.
+    ///
+    /// - Parameter response: The parsed `APIErrorInvalidResponse`.
+    /// - Returns: A combined error message string.
     private func createMessageText(from response: APIErrorInvalidResponse) -> String {
         guard var message = response.message else {
             return "No message provided from API"
@@ -191,6 +205,10 @@ class ErrorPresenter {
         return message
     }
 
+    /// Creates a default error title for a given HTTP status code.
+    ///
+    /// - Parameter statusCode: The HTTP status code.
+    /// - Returns: A formatted error title string.
     private func errorTitle(for statusCode: Int) -> String {
         return "An API error occurred, status code: \(statusCode)"
     }

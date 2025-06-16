@@ -18,14 +18,21 @@ struct DNSAPIKey: Codable {
 }
 
 class APIKeyManager {
+    // MARK: - Singleton
+
+    /// Shared singleton instance of the service.
     static let shared = APIKeyManager()
+
+    /// Private initializer to enforce singleton usage.
+    private init() { loadKey() }
+
+    // MARK: - Properties
+
     private let keychainHelper = KeychainHelper(service: "com.jonalaniz.ionic")
     private let account = "apiKeys"
     private(set) var key: DNSAPIKey?
 
-    private init() {
-        loadKey()
-    }
+    // MARK: - Keychain Methods
 
     func addKey(_ key: DNSAPIKey, save: Bool) {
         self.key = key
@@ -56,6 +63,8 @@ class APIKeyManager {
             print(error.localizedDescription)
         }
     }
+
+    // MARK: - Error Handling
 
     private func handleKeychainError(_ error: KeychainError) {
         switch error {
