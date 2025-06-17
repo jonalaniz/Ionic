@@ -21,16 +21,11 @@
 - **Record Editing**: Modify existing Record content and TTL values.
 - **Record Deleting**: Delete a record in a Zone.
 - **Dynamic DNS**: Easily select one or multiple A/AAAA records in a Zone and generate a Dynamic DNS update URL.
+- - **Auto Updating:** Implement Sparkle updating.
 
 ## To Do
 
-- ~~**Quick Enable/Disable**: Enable/disable a record with one click.~~
-- ~~**Save**: Save IONOS API Keys to disk.~~
-- ~~**Delete**: Delete a record.~~
-- ~~**Implement graceful Error handling**~~
-- ~~**Create Record**: Create a new record in a Zone.~~
-- ~~**Edit**: Edit a record.~~
-- **Auto Updating:** Implement Sparkle updating.
+- **Key Manager:** Implement API Key managment for multiple accounts.
 
 ## Requirements
 - macOS 11 (Big Sur)
