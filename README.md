@@ -6,12 +6,21 @@
 **Ionic DNS** is an open-source macOS utility that implements the IONIS DNS [API](https://developer.hosting.ionos.com/docs/dns). Frustrated with manually using curl to generate Dynamic DNS URLs for clients, I developed Ionic DNS to simplify this workflow. Written entirely in Swift, Ionic DNS provides an easier way to manage your DNS settings than using the web interface or calling the API commands manually.
 
 <p align="center">
-    <img alt="Ionic DNS Screen Shot" src="https://static.jonalaniz.com/ionic/ss_ionic.png" width="640">
-
+    <img alt="Login View" src="https://static.jonalaniz.com/ionic/login.png" width="400">
+    <img alt="Main View" src="https://static.jonalaniz.com/ionic/main.png" width="400">
+</p>
+<p align="center">
+    <img alt="Record Creation" src="https://static.jonalaniz.com/ionic/record.png" width="400">
+  	<img alt="Dynamic DNS" src="https://static.jonalaniz.com/ionic/ddns.png" width="400">
+</p>
 
 ## Features
 - **Overview**: View all your DNS Zones, Records, and Values.
-- **Dynamic DNS**: Easily select one or multiple A records in a Zone and generate a Dynamic DNS update URL.
+- **Keychain Support**: Ionic DNS saves your API Key securely using keychain for quick login.
+- **Record Create**: Create A, AAAA, CNAME, MX, NS, SRV, and TXT records.
+- **Record Editing**: Modify existing Record content and TTL values.
+- **Record Deleting**: Delete a record in a Zone.
+- **Dynamic DNS**: Easily select one or multiple A/AAAA records in a Zone and generate a Dynamic DNS update URL.
 
 ## To Do
 
