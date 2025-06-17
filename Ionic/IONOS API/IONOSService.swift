@@ -64,7 +64,6 @@ class IONOSService {
         )
     }
 
-
     /// Fetches the list of all available DNS zones.
     ///
     /// - Returns: An array of `Zone` objects.
