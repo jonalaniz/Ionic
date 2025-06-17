@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56D31B7B2E012BB100843A6F /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 56D31B7A2E012BB100843A6F /* Sparkle */; };
 		56FE7E182D9C5FF300AA94FA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56FE7E172D9C5FF300AA94FA /* Security.framework */; };
 /* End PBXBuildFile section */
 
@@ -15,9 +16,22 @@
 		56FE7E172D9C5FF300AA94FA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		56D31BF12E012D9200843A6F /* Exceptions for "Ionic" folder in "Ionic" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 56E745262D7C2A6C009AA048 /* Ionic */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		56E745292D7C2A6C009AA048 /* Ionic */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				56D31BF12E012D9200843A6F /* Exceptions for "Ionic" folder in "Ionic" target */,
+			);
 			path = Ionic;
 			sourceTree = "<group>";
 		};
@@ -29,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56FE7E182D9C5FF300AA94FA /* Security.framework in Frameworks */,
+				56D31B7B2E012BB100843A6F /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +96,7 @@
 			);
 			name = Ionic;
 			packageProductDependencies = (
+				56D31B7A2E012BB100843A6F /* Sparkle */,
 			);
 			productName = Ionic;
 			productReference = 56E745272D7C2A6C009AA048 /* Ionic.app */;
@@ -110,6 +126,9 @@
 			);
 			mainGroup = 56E7451E2D7C2A6C009AA048;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				56D31B792E012BB100843A6F /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 56E745282D7C2A6C009AA048 /* Products */;
 			projectDirPath = "";
@@ -297,6 +316,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ionic/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Ionic DNS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -328,6 +348,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ionic/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Ionic DNS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -368,6 +389,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		56D31B792E012BB100843A6F /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		56D31B7A2E012BB100843A6F /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 56D31B792E012BB100843A6F /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 56E7451F2D7C2A6C009AA048 /* Project object */;
 }
